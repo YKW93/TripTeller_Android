@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">yunal</string>
+    <string name="search_key_hint"><font size="15">장소명 또는 지역명을 입력해주세요.</font></string>
+    <string name="nav_tab1">홈</string>
+    <string name="nav_tab2">여행지</string>
+    <string name="nav_tab3">내주변</string>
+    <string name="nav_tab4">더보기</string>
+
+</resources>

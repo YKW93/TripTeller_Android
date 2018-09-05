@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SelectAreaMainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent">
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_gravity="center"
+                android:textColor="#262525"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="지역명"
+                android:textSize="19dp"
+                android:textStyle="bold"
+                android:padding="8dp"/>
+    </android.support.v7.widget.Toolbar>
+    <!--
+    Toolbar 안에 textview 클릭 시 ripple effect 효과를 넣을려면 AppbarLayout 없애야된다.
+    하지만 AppbarLayout을 없애게 되면 Toolbar 하단의 그림자 효과가 사라져 따로 커스템해서
+    생성 해줘야된다.
+    -->
+    <View
+        android:id="@+id/toolbar_shadow"
+        android:layout_width="match_parent"
+        android:background="@drawable/toolbar_dropshadow"
+        android:layout_height="1.5dp"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="지역 인기 Teller"
+                    android:textColor="#262525"
+                    android:textSize="20dp"/>
+            </LinearLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="130dp">
+            </android.support.v4.view.ViewPager>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:id="@+id/layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/totalTrableTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="여행지"
+                        android:paddingLeft="10dp"
+                        android:layout_centerVertical="true"
+                        android:textColor="#262525"
+                        android:textSize="20dp"/>
+
+                    <ImageButton
+                        android:id="@+id/filter_btn"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="11dp"
+                        android:layout_centerVertical="true"
+                        android:background="?attr/actionBarItemBackground"
+                        android:src="@drawable/ic_filter_btn" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/layout">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerview"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"/>
+            </RelativeLayout>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>
+

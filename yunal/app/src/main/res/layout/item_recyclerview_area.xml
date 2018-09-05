@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:id="@+id/background_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:paddingLeft="10dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/localName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="지역명"
+        android:textSize="16dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="13dp"
+        android:textColor="#c5c5c7"/>
+</RelativeLayout>

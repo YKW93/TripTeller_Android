@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#3F51B5</color> // 툴바 색상-->
+    <color name="colorPrimary">#ffffff</color>
+
+    <!--<color name="colorPrimaryDark">#303F9F</color> // 위도우 상태바-->
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#3F51B5</color>
+    <color name="color_alizarin">#e74c3c</color>
+    <color name="text_default">#262525</color>
+    <color name="colorTextPrimary">#72000000</color>
+    <color name="dark">#000000</color>
+</resources>

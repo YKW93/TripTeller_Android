@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_layout"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:foreground="?android:attr/selectableItemBackground"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_margin="6dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/thumb"
+                    android:scaleType="fitXY"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"/>
+                <!--<com.sackcentury.shinebuttonlib.ShineButton-->
+                <!--android:id="@+id/like_btn"-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:src="@android:color/darker_gray"-->
+                <!--app:btn_color="@android:color/darker_gray"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_margin="8dp"-->
+                <!--app:btn_fill_color="#f26d7d"-->
+                <!--app:siShape="@raw/heart" />-->
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:textSize="13sp"
+                android:textColor="#000" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:background="#515151"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/ratingbar"
+                    android:layout_width="11dp"
+                    android:layout_height="12dp"
+                    android:rating="1"
+                    android:numStars="1"
+                    android:isIndicator="true"/>
+                <TextView
+                    android:id="@+id/ratingbarTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/ratingbar"
+                    android:layout_toEndOf="@+id/ratingbar"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="3dp"
+                    android:text="0.0"
+                    android:textSize="9sp"
+                    android:layout_marginStart="2dp" />
+                <TextView
+                    android:id="@+id/reviewTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(후기 126)"
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@+id/ratingbarTV"
+                    android:textSize="9sp"/>
+                <com.sackcentury.shinebuttonlib.ShineButton
+                    android:id="@+id/shineBtn"
+                    android:layout_width="10dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginLeft="5dp"
+                    app:btn_color="@color/colorAccent"
+                    android:layout_toRightOf="@+id/reviewTV"
+                    android:clickable="false"
+                    app:siShape="@raw/heart" />
+                <TextView
+                    android:id="@+id/storeTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="300"
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@+id/shineBtn"
+                    android:textSize="9sp"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
+
+
+

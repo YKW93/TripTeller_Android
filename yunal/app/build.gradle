@@ -1,0 +1,65 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.example.rhkdd.yunal"
+        minSdkVersion 16
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.bottomsheet_searchresult.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation 'com.android.support:design:27.1.1'
+    // 디자인
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.sackcentury:shinebutton:0.2.0'
+    // 좋아요 버튼
+    implementation 'info.hoang8f:android-segmented:1.0.6'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    // retrofit
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    //gson
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
+    // 글라이드
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
+    // 글라이드
+    implementation 'me.zhanghai.android.materialratingbar:library:1.2.0'
+    // 별점 라이브러리
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    // okhttp 통신 로깅을 위한 라이브러리
+    implementation 'com.github.chrisbanes.photoview:library:1.2.3'
+    // 핀치줌(photoview) 라이브러리
+    implementation files('libs/libDaumMapAndroid.jar')
+    // 카카오 지도
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    //구글 지도
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    //구글 현재위치(FusedLocation api 사용하기위한)
+    implementation group: 'com.kakao.sdk', name: 'kakaonavi', version: project.KAKAO_SDK_VERSION
+    //카카오 내비
+    implementation 'gun0912.ted:tedpermission:2.1.1'
+    //Tedpermission
+    implementation 'me.relex:circleindicator:1.2.2@aar'
+    //뷰페이저 인디케이터
+    implementation 'com.sangcomz:FishBun:0.8.6'
+    //fishbun 갤러리 다중선택
+    implementation 'com.github.GrenderG:Toasty:1.2.8'
+    // 다양한 toast 메세지
+}

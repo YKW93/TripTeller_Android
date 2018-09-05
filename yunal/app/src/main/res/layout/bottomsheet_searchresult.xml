@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="정렬 및 필터"
+                android:textSize="17sp"
+                android:textColor="@color/text_default"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/completeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="선택 완료"
+                android:textColor="@color/text_default"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:layout_marginRight="5dp"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#BDBDBD"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="정렬"
+            android:textSize="16sp"
+            android:textColor="@color/text_default"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"/>
+
+        <info.hoang8f.android.segmented.SegmentedGroup
+            xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/segmented"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            segmentedgroup:sc_border_width="1dp"
+            segmentedgroup:sc_corner_radius="1dp">
+            <RadioButton
+                android:id="@+id/titleRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="제목 순"
+                android:layout_weight="1"
+                style="@style/RadioButton" />
+
+            <RadioButton
+                android:id="@+id/popularityRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="인기순"
+                android:layout_weight="1"
+                style="@style/RadioButton" />
+
+            <RadioButton
+                android:id="@+id/recentModifyRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="최근 수정 순"
+                android:layout_weight="1"
+                style="@style/RadioButton" />
+
+            <RadioButton
+                android:id="@+id/registerRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="등록 순"
+                android:layout_weight="1"
+                style="@style/RadioButton" />
+
+        </info.hoang8f.android.segmented.SegmentedGroup>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp">
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

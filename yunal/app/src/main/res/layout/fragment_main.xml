@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/main_fragment_yunalImage"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/main_icon"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/blackballoon"
+            android:layout_toRightOf="@+id/main_fragment_yunalImage"
+            android:id="@+id/main_fragment_blackballoon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/main_fragment_blackballoon"
+            android:layout_alignBottom="@+id/main_fragment_blackballoon"
+            android:layout_alignRight="@+id/main_fragment_blackballoon"
+            android:layout_alignLeft="@+id/main_fragment_blackballoon"
+            android:gravity="center|left"
+            android:layout_marginLeft="30dp"
+            android:text="안녕하세요.\n\n여행하는날에 오신걸 환영합니다. \n어디에서 여행하고 싶으신가요?"
+            android:textSize="15dp"
+            android:textColor="#ffffff"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right">
+
+        <ImageView
+            android:id="@+id/main_fragment_touristRecommend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/redeballoon" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/arrow" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="관광지 추천"
+            android:textColor="#ffffff"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="15dp"
+            android:gravity="center"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/goodbtn"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right">
+        <ImageView
+            android:id="@+id/main_fragment_locationchoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/blueballoon" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/arrow" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="지역 선택"
+            android:textColor="#ffffff"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="15dp"
+            android:gravity="center"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/location"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right">
+        <ImageView
+            android:id="@+id/main_fragment_currentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/yellowballoon" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/arrow" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="현재 위치"
+            android:textColor="#ffffff"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="15dp"
+            android:gravity="center"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/currentlocation"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            />
+    </RelativeLayout>
+</LinearLayout>

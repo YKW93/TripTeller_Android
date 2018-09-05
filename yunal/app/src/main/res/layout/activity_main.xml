@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.example.rhkdd.yunal.MainActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/customToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trip teller"
+                android:textColor="#000"
+                android:layout_marginLeft="25dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:textSize="20sp"/>
+
+            <ImageButton
+                android:id="@+id/search"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?attr/actionBarItemBackground"
+                android:layout_margin="10dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_search"/>
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/toolbar_shadow"
+            android:layout_width="match_parent"
+            android:background="@drawable/bottomnavigation_shadow"
+            android:layout_below="@id/customToolbarLayout"
+            android:layout_height="1.5dp"/>
+        <!--
+          Toolbar 안에 textview 클릭 시 ripple effect 효과를 넣을려면 AppbarLayout 없애야된다.
+          하지만 AppbarLayout을 없애게 되면 Toolbar 하단의 그림자 효과가 사라져 따로 커스템해서
+          생성 해줘야된다.
+          -->
+
+        <View
+            android:id="@+id/bottomNVShadow"
+            android:layout_width="match_parent"
+            android:background="@drawable/bottomnavigation_shadow"
+            android:layout_above="@id/bottomNV"
+            android:layout_height="1.5dp"/>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottomNV"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@android:color/white"
+            app:itemIconTint="@drawable/bottom_navigation_color_selector"
+            app:itemTextColor="@drawable/bottom_navigation_color_selector"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/menu_bottom_navigation">
+        </android.support.design.widget.BottomNavigationView>
+
+        <com.example.rhkdd.yunal.common.NonSwipeableViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_above="@+id/bottomNV"
+            android:layout_below="@+id/customToolbarLayout"
+            android:layout_height="match_parent">
+        </com.example.rhkdd.yunal.common.NonSwipeableViewPager>
+    </RelativeLayout>
+</LinearLayout>

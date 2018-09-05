@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="정렬 및 필터"
+                android:textSize="17sp"
+                android:textColor="@color/text_default"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/completeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="선택 완료"
+                android:textColor="@color/text_default"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:layout_marginRight="5dp"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#BDBDBD"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="정렬"
+            android:textSize="16sp"
+            android:textColor="@color/text_default"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="10dp"/>
+
+        <info.hoang8f.android.segmented.SegmentedGroup
+            xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/segmented"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            segmentedgroup:sc_border_width="1dp"
+            segmentedgroup:sc_corner_radius="1dp">
+            <RadioButton
+                android:id="@+id/titleRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="제목 순"
+                android:layout_weight="1"
+                style="@style/RadioButton" />
+
+            <RadioButton
+                android:id="@+id/popularityRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="인기순"
+                android:layout_weight="1"
+                style="@style/RadioButton" />
+
+            <RadioButton
+                android:id="@+id/recentModifyRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="최근 수정 순"
+                android:layout_weight="1"
+                style="@style/RadioButton" />
+
+            <RadioButton
+                android:id="@+id/registerRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="등록 순"
+                android:layout_weight="1"
+                style="@style/RadioButton" />
+
+        </info.hoang8f.android.segmented.SegmentedGroup>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp">
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="관광 타입"
+                android:textSize="16sp"
+                android:textColor="@color/text_default"
+                android:layout_marginLeft="13dp"
+                android:layout_marginTop="10dp"/>
+        </RelativeLayout>
+        <RadioGroup
+            android:id="@+id/radioGroup1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/travelRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="관광지"/>
+            <RadioButton
+                android:id="@+id/cultureRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="문화시설"/>
+            <RadioButton
+                android:id="@+id/leisureRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="레포츠"/>
+        </RadioGroup>
+        <RadioGroup
+            android:id="@+id/radioGroup2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/lodgmentRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="숙박"/>
+            <RadioButton
+                android:id="@+id/shoppingRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="쇼핑"/>
+            <RadioButton
+                android:id="@+id/foodRbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="음식점"/>
+        </RadioGroup>
+        <RadioGroup
+            android:id="@+id/radioGroup3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/totalRbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전체 보기"/>
+        </RadioGroup>
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

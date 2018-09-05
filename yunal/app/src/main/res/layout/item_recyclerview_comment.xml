@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+        <ImageView
+            android:id="@+id/user_IMAGE"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_userimage"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@+id/user_IMAGE">
+            <TextView
+                android:id="@+id/user_Nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="회원 아이디"
+                android:textColor="#000"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/divisionline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/user_Nickname"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="|"/>
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                android:id="@+id/ratingbar"
+                android:layout_width="57dp"
+                android:layout_height="15dp"
+                android:layout_toRightOf="@+id/divisionline"
+                android:stepSize="0.5"
+                android:isIndicator="true"
+                android:layout_marginTop="2dp"/>
+            <TextView
+                android:id="@+id/ratingbarTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.5"
+                android:layout_toRightOf="@id/ratingbar"
+                android:layout_marginLeft="3dp"
+                android:textColor="#000"/>
+            <TextView
+                android:id="@+id/commentDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="날짜"
+                android:layout_below="@+id/user_Nickname"/>
+
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="true"
+                android:src="@android:color/darker_gray"
+                android:id="@+id/like_btn"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="#FF6666"
+                app:allow_random_color="false"
+                app:enable_flashing="false"
+                app:big_shine_color="#FF6666"
+                app:click_animation_duration="200"
+                app:shine_animation_duration="1500"
+                app:shine_turn_angle="10"
+                app:small_shine_offset_angle="20"
+                app:small_shine_color="#CC9999"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                app:siShape="@raw/like"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#515151">
+        </View>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/commentVP"
+            android:layout_width="match_parent"
+            android:clipToPadding="false"
+            android:layout_height="150dp" />
+        <TextView
+            android:id="@+id/commentTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:textColor="#000"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textSize="15sp"
+            android:text="댓글"/>
+    </LinearLayout>
+
+
+</LinearLayout>
