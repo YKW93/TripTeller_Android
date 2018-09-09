@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+
         // BottomNavigation icon animation 제거
         // https://www.youtube.com/watch?v=xyGrdOqseuw 참고
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);

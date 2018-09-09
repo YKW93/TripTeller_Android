@@ -1,5 +1,7 @@
 package com.example.rhkdd.yunal.common;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import retrofit2.Retrofit;
@@ -10,10 +12,14 @@ import static com.example.rhkdd.yunal.SearchActivity.API_BASE_URL;
 public class RetrofitClient { // 싱글톤
 
     private Retrofit retrofit;
-    private static RetrofitClient retrofitClient = new RetrofitClient();
+    private static RetrofitClient instance = null;
 
     public static RetrofitClient getInstance() {
-        return retrofitClient;
+        if (instance == null) {
+            instance = new RetrofitClient();
+        }
+        
+        return instance;
     }
 
     private RetrofitClient() {

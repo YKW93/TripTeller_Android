@@ -101,6 +101,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     public static final String TOUR_NAME = "TOUR_NAME";
     private static final int ACTIVITY_REVIEW = 1000;
 
+
+
     private DetailCommonItem detailCommonItem;
     private ArrayList<DetailImageItem> detailImageItems;
     private ArrayList<LocationBasedItem> locationBasedItems;
