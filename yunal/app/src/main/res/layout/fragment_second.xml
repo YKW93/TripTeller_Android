@@ -24,7 +24,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="여행 기사"/>
+                    android:text="현재 위치 여행"/>
                 <Button
                     android:id="@+id/areaBtn"
                     android:layout_width="0dp"

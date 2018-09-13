@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
@@ -43,8 +45,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
-    private BottomNavigationView bottomNavigationView;
-    private MenuItem prevMenuItem;
+    private TabLayout tabLayout;
     private static GoogleApiClient mGoogleApiClient;
     private static final int REQUEST_CHECK_SETTINGS = 0x1;
 
@@ -55,82 +56,46 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Initialize();
+
         checkPermission(); // 위치정보 권한 설정
         initGoogleAPIClient();
 
-        bottomNavigationView = findViewById(R.id.bottomNV);
+    }
+    private void Initialize() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
 
-        // BottomNavigationView Item 사이즈 조절
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        for (int i = 0; i < menuView.getChildCount(); i++) {
-            final View iconView = menuView.getChildAt(i).findViewById(android.support.design.R.id.icon);
-            final ViewGroup.LayoutParams layoutParams = iconView.getLayoutParams();
-            final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-            layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, displayMetrics);
-            layoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, displayMetrics);
-            iconView.setLayoutParams(layoutParams);
-        }
+        tabLayout = findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("메인화면"));
+        tabLayout.addTab(tabLayout.newTab().setText("정보화면"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL); // ?
 
         viewPager = findViewById(R.id.viewPager);
-        // 뷰페이저 초기화면에서 미리 3개까지 로드시키는 함수
-        viewPager.setOffscreenPageLimit(3);
+        // 뷰페이저 초기화면에서 미리 2개까지 로드시키는 함수
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
-
-        // bottomnavigation 아이템 클릭시 해당 프레그먼트로 전환해주는 역할
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.tab1:
-                        viewPager.setCurrentItem(0);
-                        return true;
-                    case R.id.tab2:
-                        viewPager.setCurrentItem(1);
-                        return true;
-                    case R.id.tab3:
-                        viewPager.setCurrentItem(2);
-                        return true;
-                    case R.id.tab4:
-                        viewPager.setCurrentItem(3);
-                        return true;
-                }
-                return false;
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
 
-        // 화면 슬라이드 시(뷰페이저 사용) bottom item도 화면에 맞게 같이 이동하는 역할
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//            @Override
-//            public void onPageSelected(int position) {
-//                if (prevMenuItem != null) {
-//                    prevMenuItem.setChecked(false);
-//                }
-//                else
-//                {
-//                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
-//                }
-//
-//                bottomNavigationView.getMenu().getItem(position).setChecked(true);
-//                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
-
-
-        // BottomNavigation icon animation 제거
-        // https://www.youtube.com/watch?v=xyGrdOqseuw 참고
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-
-
         findViewById(R.id.search).setOnClickListener(onClickListener);
+
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -244,8 +209,6 @@ public class MainActivity extends AppCompatActivity {
             fragmentSparseArray = new SparseArray<>();
             fragmentSparseArray.put(0, new MainTabFragment());
             fragmentSparseArray.put(1, new SecondTabFragment());
-            fragmentSparseArray.put(2, new ThirdTabFragment());
-            fragmentSparseArray.put(3, new FourTabFragment());
         }
 
         @Override
@@ -255,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return 2;
         }
 
 //        @Override
