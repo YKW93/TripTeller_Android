@@ -2,28 +2,20 @@ package com.example.rhkdd.yunal.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.R;
-import com.example.rhkdd.yunal.SearchResultActivity;
-import com.example.rhkdd.yunal.common.LoadingVH;
+import com.example.rhkdd.yunal.data.locationBased.LocationBasedItem;
 import com.example.rhkdd.yunal.data.searchKeyword.SearchKeywordItem;
 
 import java.util.ArrayList;
-
-import static com.example.rhkdd.yunal.common.Constant.VIEW_TYPE_ITEM;
-import static com.example.rhkdd.yunal.common.Constant.VIEW_TYPE_LOADING;
 
 public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
@@ -45,6 +37,7 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         searchResultLists.addAll(data);
         notifyDataSetChanged();
     }
+
 
     private class ResultVH extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -87,23 +80,7 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_LOADING) {
-            return new LoadingVH(LayoutInflater.from(context).inflate(R.layout.progress_loading, parent, false));
-        } else if (viewType == VIEW_TYPE_ITEM) {
-            return new ResultVH(LayoutInflater.from(context).inflate(R.layout.item_recyclerview_datatype1, parent,false));
-        }
-        return null;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (searchResultLists.get(position) != null) {
-            Log.d("test123", "아이템");
-            return VIEW_TYPE_ITEM;
-        } else {
-            Log.d("test123", "로딩");
-            return VIEW_TYPE_LOADING;
-        }
+        return new ResultVH(LayoutInflater.from(context).inflate(R.layout.item_recyclerview_datatype1, parent,false));
     }
 
 
@@ -114,21 +91,17 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             isLoading = true;
             loadMoreListener.onLoadMore();
         }
-
-        if (getItemViewType(position) == VIEW_TYPE_ITEM) {
-            ResultVH resultVH = (ResultVH) holder;
-            if (searchResultLists.get(position).firstimage != null) {
-                Glide.with(context).load(searchResultLists.get(position).firstimage).into(resultVH.thumbIV);
-            } else {
-                Glide.with(context).load(R.drawable.no_image).into(resultVH.thumbIV);
-            }
-            resultVH.nameTV.setText(searchResultLists.get(position).title);
+        ResultVH resultVH = (ResultVH) holder;
+        if (searchResultLists.get(position).firstimage != null) {
+            Glide.with(context).load(searchResultLists.get(position).firstimage).into(resultVH.thumbIV);
+        } else {
+            Glide.with(context).load(R.drawable.no_image).into(resultVH.thumbIV);
+        }
+        resultVH.nameTV.setText(searchResultLists.get(position).title);
 //            resultVH.ratingTV.setText(String.valueOf(searchResultLists.get(position).rating));
 //            resultVH.reviewTV.setText(String.valueOf(searchResultLists.get(position).rating + "리뷰"));
 //            resultVH.likeTV.setText(String.valueOf(searchResultLists.get(position).rating));
-        } else {
 
-        }
 
     }
 

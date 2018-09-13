@@ -49,7 +49,7 @@ public class ReviewActivity extends AppCompatActivity {
     public static final String REVIEW_DATE = "REVIEW_DATE";
 
     private RecyclerView picturesRV;
-    private PicturesRVAdapter picturesRVAdapter;
+    private ReviewImageRVAdapter picturesRVAdapter;
     private ArrayList<Uri> urilist;
     private int imageCount = 10;
 
@@ -114,7 +114,7 @@ public class ReviewActivity extends AppCompatActivity {
         // 리사이클러뷰 셋팅
         picturesRV = findViewById(R.id.image_Recyclerview);
         picturesRV.setLayoutManager(new LinearLayoutManager(ReviewActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        picturesRVAdapter = new PicturesRVAdapter(ReviewActivity.this);
+        picturesRVAdapter = new ReviewImageRVAdapter(ReviewActivity.this);
         picturesRV.setAdapter(picturesRVAdapter);
 
     }
@@ -226,12 +226,12 @@ public class ReviewActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private class PicturesRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class ReviewImageRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         Context mcontext;
         ArrayList<Uri> imagesList;
 
-        private PicturesRVAdapter(Context context) {
+        private ReviewImageRVAdapter(Context context) {
             mcontext = context;
             imagesList = new ArrayList<>();
         }

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rhkdd.yunal.adapter.TotalDetailImageRVAdapter;
 import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.data.detailImage.DetailImageItem;
 
@@ -31,7 +32,7 @@ import static com.example.rhkdd.yunal.DetailActivity.DETAIL_IMAGES;
 public class DetailImageActivity extends AppCompatActivity {
 
     RecyclerView DetailImageRV;
-    DetailImageAdapter detailImageAdapter;
+    TotalDetailImageRVAdapter detailImageAdapter;
 
     public static Intent newIntent(Context context, ArrayList<DetailImageItem> detailImageItems) {
         Intent intent = new Intent(context, DetailImageActivity.class);
@@ -63,7 +64,7 @@ public class DetailImageActivity extends AppCompatActivity {
             Log.d("test14", detailImageItems.get(0).originimgurl);
             DetailImageRV = findViewById(R.id.imageRV);
             DetailImageRV.setLayoutManager(new GridLayoutManager(DetailImageActivity.this, 3));
-            DetailImageAdapter detailImageAdapter = new DetailImageAdapter(DetailImageActivity.this);
+            TotalDetailImageRVAdapter detailImageAdapter = new TotalDetailImageRVAdapter(DetailImageActivity.this);
             detailImageAdapter.setDatas(detailImageItems);
             DetailImageRV.setAdapter(detailImageAdapter);
 
@@ -93,50 +94,4 @@ public class DetailImageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class DetailImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private Context mContext;
-        private ArrayList<DetailImageItem> detailImageItems;
-
-        public DetailImageAdapter(Context context) {
-            mContext = context;
-            detailImageItems = new ArrayList<>();
-        }
-
-        public void setDatas(ArrayList<DetailImageItem> lists) {
-            detailImageItems.addAll(lists);
-        }
-
-        private class DetailImagesVH extends RecyclerView.ViewHolder implements View.OnClickListener{
-
-            private ImageView detailImage;
-
-            public DetailImagesVH(View itemView) {
-                super(itemView);
-                detailImage = itemView.findViewById(R.id.detailImage);
-                detailImage.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = DetailImageSliderActivity.newIntent(DetailImageActivity.this, detailImageItems, getAdapterPosition(), 1);
-                startActivity(intent);
-            }
-        }
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new DetailImagesVH(LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_detailimage, parent, false));
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            DetailImagesVH detailImagesVH = (DetailImagesVH) holder;
-            GlideApp.with(mContext).load(detailImageItems.get(position).originimgurl).into(detailImagesVH.detailImage);
-        }
-
-        @Override
-        public int getItemCount() {
-            return detailImageItems.size();
-        }
-    }
 }

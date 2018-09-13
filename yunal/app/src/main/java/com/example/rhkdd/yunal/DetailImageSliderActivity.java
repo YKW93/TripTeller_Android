@@ -4,23 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.rhkdd.yunal.common.GlideApp;
+import com.example.rhkdd.yunal.adapter.DetailImageSliderVPAdapter;
+import com.example.rhkdd.yunal.adapter.DetailImageSliderVPAdapterVer2;
 import com.example.rhkdd.yunal.common.TouchInterceptViewPager;
 import com.example.rhkdd.yunal.data.detailImage.DetailImageItem;
 
 import java.util.ArrayList;
-
-import uk.co.senab.photoview.PhotoView;
 
 import static com.example.rhkdd.yunal.DetailActivity.COMMENT_IMAGE;
 import static com.example.rhkdd.yunal.DetailActivity.DETAIL_IMAGES;
@@ -81,7 +75,7 @@ public class DetailImageSliderActivity extends AppCompatActivity {
 
             // viewpage 셋팅
             viewPager = (TouchInterceptViewPager)findViewById(R.id.viewPager);
-            DetailImageVPAdapter viewpageAdapter = new DetailImageVPAdapter(DetailImageSliderActivity.this);
+            DetailImageSliderVPAdapter viewpageAdapter = new DetailImageSliderVPAdapter(DetailImageSliderActivity.this);
             viewpageAdapter.setData(detailImageItems);
             viewPager.setAdapter(viewpageAdapter);
             viewPager.setCurrentItem(clickPosition);
@@ -115,7 +109,7 @@ public class DetailImageSliderActivity extends AppCompatActivity {
 
             // viewpage 셋팅
             viewPager = (TouchInterceptViewPager)findViewById(R.id.viewPager);
-            CommentImageVPAdapter viewpageAdapter = new CommentImageVPAdapter(DetailImageSliderActivity.this);
+            DetailImageSliderVPAdapterVer2 viewpageAdapter = new DetailImageSliderVPAdapterVer2(DetailImageSliderActivity.this);
             viewpageAdapter.setData(uriLists);
             viewPager.setAdapter(viewpageAdapter);
             viewPager.setCurrentItem(clickPosition);
@@ -139,98 +133,4 @@ public class DetailImageSliderActivity extends AppCompatActivity {
         }
 
     }
-
-
-    private class DetailImageVPAdapter extends PagerAdapter {
-
-        private ArrayList<DetailImageItem> detailImageItems;
-        private Context mContext;
-
-        DetailImageVPAdapter(Context context) {
-            mContext = context;
-            detailImageItems = new ArrayList<>();
-        }
-
-        public void setData(ArrayList<DetailImageItem> lists) {
-            detailImageItems.addAll(lists);
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getCount() {
-            return detailImageItems.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view == object;
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            View v = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_detailimageslider, container, false);
-//            ImageView imageView = v.findViewById(R.id.detailImage);
-//            photoViewAttacher = new PhotoViewAttacher(imageView);
-//            photoViewAttacher.update();
-            PhotoView photoView = v.findViewById(R.id.detailImage);
-
-            GlideApp.with(mContext).load(detailImageItems.get(position).originimgurl).into(photoView);
-            container.addView(v);
-
-            return v;
-        }
-
-        @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            container.removeView((View)object);
-        }
-    }
-
-    private class CommentImageVPAdapter extends PagerAdapter {
-
-        private ArrayList<Uri> uriLists;
-        private Context mContext;
-
-        CommentImageVPAdapter(Context context) {
-            mContext = context;
-            uriLists = new ArrayList<>();
-        }
-
-        public void setData(ArrayList<Uri> lists) {
-            uriLists.addAll(lists);
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getCount() {
-            return uriLists.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view == object;
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            View v = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_detailimageslider, container, false);
-//            ImageView imageView = v.findViewById(R.id.detailImage);
-//            photoViewAttacher = new PhotoViewAttacher(imageView);
-//            photoViewAttacher.update();
-            PhotoView photoView = v.findViewById(R.id.detailImage);
-
-            GlideApp.with(mContext).load(uriLists.get(position)).into(photoView);
-            container.addView(v);
-
-            return v;
-        }
-
-        @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            container.removeView((View)object);
-        }
-    }
-
 }

@@ -32,9 +32,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rhkdd.yunal.adapter.DetailMainImageVPAdapter;
+import com.example.rhkdd.yunal.adapter.ReviewImageVPAdapter;
 import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.common.RetrofitClient;
-import com.example.rhkdd.yunal.common.TourApiService;
 import com.example.rhkdd.yunal.data.detailCommon.DetailCommon;
 import com.example.rhkdd.yunal.data.detailCommon.DetailCommonItem;
 import com.example.rhkdd.yunal.data.detailImage.DetailImage;
@@ -72,18 +73,14 @@ import java.util.regex.Pattern;
 
 import me.relex.circleindicator.CircleIndicator;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.rhkdd.yunal.ReviewActivity.RATING_NUM;
 import static com.example.rhkdd.yunal.ReviewActivity.REVIEW_DATE;
 import static com.example.rhkdd.yunal.ReviewActivity.REVIEW_EDIT;
 import static com.example.rhkdd.yunal.ReviewActivity.REVIEW_IMAGES;
-import static com.example.rhkdd.yunal.SearchActivity.API_BASE_URL;
 import static com.example.rhkdd.yunal.SearchActivity.API_key;
 
 /**
@@ -109,7 +106,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private DetailImageItem detailFirstImage;
     private ArrayList<DetailImageItem> totalDetailImageItem;
 
-    private MainImageVP viewPagerAdapter;
+    private DetailMainImageVPAdapter viewPagerAdapter;
     private int contentTyId;
 
     private TextView toolbarTitle;
@@ -155,7 +152,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         // viewapger 셋팅 및 indicator 셋팅 뿌려주기
         ViewPager viewPager = findViewById(R.id.viewPager);
         CircleIndicator indicator = findViewById(R.id.indicator);
-        viewPagerAdapter = new MainImageVP(DetailActivity.this);
+        viewPagerAdapter = new DetailMainImageVPAdapter(DetailActivity.this);
         viewPager.setAdapter(viewPagerAdapter);
         indicator.setViewPager(viewPager);
         viewPagerAdapter.registerDataSetObserver(indicator.getDataSetObserver()); // 뷰페이저 인디케이터 적용
@@ -349,8 +346,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     // 해당 여행지 주변장소 데이터 요청
     private void loadLocationBasedData() {
 
-
-
         Call<LocationBased> call = RetrofitClient.getInstance().getService(null).locationBased(API_key, "yunal",
                 "AND", "json", detailCommonItem.mapx, detailCommonItem.mapy, 2000, "S",1, 1000);
         Log.d("rhkddn1657", "호출 url:"+ call.request().url());
@@ -450,7 +445,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             viewPager.setPadding(35,0,35,0);
             viewPager.setPageMargin(17);
 
-            CommentImageVP commentImageVP = new CommentImageVP(DetailActivity.this);
+            ReviewImageVPAdapter commentImageVP = new ReviewImageVPAdapter(DetailActivity.this);
             commentImageVP.setData(reviewImages);
             viewPager.setAdapter(commentImageVP);
 
@@ -845,122 +840,4 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-    private class MainImageVP extends PagerAdapter implements View.OnClickListener{
-
-        private Context mcontext;
-        private ArrayList<DetailImageItem> lists;
-
-        MainImageVP(Context context) {
-            mcontext = context;
-            lists = new ArrayList<>();
-        }
-
-        public void setData(ArrayList<DetailImageItem> list) {
-            lists.addAll(list);
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getCount() {
-            return lists.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view == object;
-
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position)  {
-            View v = LayoutInflater.from(mcontext).inflate(R.layout.item_viewpager_image, container,false);
-            ImageView imageView = v.findViewById(R.id.representativeImage);
-            if (lists.get(position).originimgurl.equals(String.valueOf(R.drawable.no_image))) { // 메인이미지가 없을 경우 no_image를 string 값으로 넣어놔서 확인후 imageview에 no_image를 뿌려줌
-                GlideApp.with(mcontext).load(R.drawable.no_image).into(imageView);
-            } else {
-                GlideApp.with(mcontext).load(lists.get(position).originimgurl).into(imageView);
-            }
-            imageView.setOnClickListener(this);
-            container.addView(v);
-            return v;
-        }
-
-        @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            container.removeView((View)object);
-        }
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.representativeImage :
-                    Intent intent = DetailImageActivity.newIntent(DetailActivity.this, totalDetailImageItem);
-                    startActivity(intent);
-                    break;
-            }
-        }
-    }
-
-    private class CommentImageVP extends PagerAdapter {
-
-        private Context mcontext;
-        private ArrayList<Uri> lists;
-
-
-        CommentImageVP(Context context) {
-            mcontext = context;
-            lists = new ArrayList<>();
-        }
-
-        public void setData(ArrayList<Uri> list) {
-            lists.addAll(list);
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getCount() {
-            return lists.size();
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, final int position) {
-            View v = LayoutInflater.from(mcontext).inflate(R.layout.item_viewpager_commentimage, container, false);
-
-            ImageView imageView = v.findViewById(R.id.commentImageView);
-
-            imageView.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-                    Intent intent = DetailImageSliderActivity.newIntent(DetailActivity.this, lists, position, 2);
-                    startActivity(intent);
-                }
-            });
-
-            GlideApp.with(mcontext).load(lists.get(position)).into(imageView);
-            container.addView(v);
-
-            return v;
-        }
-
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view == object;
-        }
-
-        @Override
-        public float getPageWidth(int position) {
-            return (0.48f);
-        }
-
-        @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            container.removeView((View)object);
-        }
-    }
-
 }

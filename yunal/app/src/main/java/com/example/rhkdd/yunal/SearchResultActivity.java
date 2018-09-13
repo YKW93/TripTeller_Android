@@ -55,11 +55,10 @@ public class SearchResultActivity extends AppCompatActivity {
     private String search_Name;
     private String arrange;
     private int currentPage = 1;
+    private int currentItems;
     private ProgressBar progressBar;
     ArrayList<SearchKeywordItem> searchResultLists;
 
-    private Boolean isScrolling = false;
-    private int currentItems, totalItems, scrollOutItems;
 
     public static Intent newIntent(Context context, String search_key) {
         Intent intent = new Intent(context, SearchResultActivity.class);
@@ -123,9 +122,6 @@ public class SearchResultActivity extends AppCompatActivity {
 
 
     private void loadData(int page, String keyWord, String arrange) {
-        // 로딩중인걸 처리하기 위한 뒤에 null 데이터 입력
-        searchResultLists.add(null);
-        resultRVAdapter.notifyItemInserted(searchResultLists.size() -1);
 
 //        progressBar.setVisibility(View.VISIBLE);
         //서버에 보내기 작업
@@ -147,17 +143,6 @@ public class SearchResultActivity extends AppCompatActivity {
         // 그리고 나서 레트로핏이 서버랑 통신을해서 데이터를 가져오게됨!
         SearchResultActivity.ItemDeserializer itemDeserializer = new SearchResultActivity.ItemDeserializer();
         Gson gson = new GsonBuilder().registerTypeAdapter(SearchKeyword.Item.class, itemDeserializer).create();
-
-        //새로운 클래스 도입으로 생략
-//        Retrofit.Builder builder =
-//                new Retrofit.Builder()
-//                        .baseUrl(API_BASE_URL)
-////                        .client(loggingclient)
-//                        .addConverterFactory(
-//                                GsonConverterFactory.create(gson) // 서버에서의 응답(json,xml) 응답을 간단하게 변환할 수 있도록 Converter 추가
-//
-//                        );
-
 
 
         // 데이터셋팅을 하고 서버를 보내준다.
@@ -184,7 +169,7 @@ public class SearchResultActivity extends AppCompatActivity {
                         }
                     } else { // 관광지 데이터 없음
                         resultRVAdapter.setMoreDataAvailable(false);
-                        Toasty.error(SearchResultActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();
+                        Toasty.error(SearchResultActivity.this, "데이터 없음", Toast.LENGTH_LONG).show();
                         // 데이터 없다는 다이얼로그 뿌려주기~!
                     }
                     resultRVAdapter.notifyDataChanged();

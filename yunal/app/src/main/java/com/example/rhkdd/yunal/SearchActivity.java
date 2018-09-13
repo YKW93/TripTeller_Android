@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.rhkdd.yunal.adapter.RecentSearchRVAdapter;
+
 import java.util.ArrayList;
 
 /**
@@ -29,8 +31,6 @@ public class SearchActivity extends AppCompatActivity {
     public static final String API_key = "pjUTyt2nvkg4O9pu5PyjjblvqVC3JHFvTn0cqEKWVE7O0a%2BMTP68wcnQW0dEEZ6hA%2BHSYV03I1%2BRl0Wl6YhfTw%3D%3D";
     public static final String API_BASE_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/";
 
-    private boolean checkRun = true;
-
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
         return intent;
@@ -43,12 +43,20 @@ public class SearchActivity extends AppCompatActivity {
 
 
         searchEdit = findViewById(R.id.search_key);
-        findViewById(R.id.searchBtn).setOnClickListener(onClickListener);
+        findViewById(R.id.searchBtn).setOnClickListener(listener);
 
         recentRV = findViewById(R.id.recent);
         recentRV.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
         recentRV.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL)); // 리사이클러뷰 구분선
-        RecentSearchRVAdapter recentSearchRVAdapter = new RecentSearchRVAdapter(SearchActivity.this);
+        final RecentSearchRVAdapter recentSearchRVAdapter = new RecentSearchRVAdapter(SearchActivity.this);
+
+        recentSearchRVAdapter.setOnDataReturnListener(new RecentSearchRVAdapter.onDataReturnListener() {
+            @Override
+            public void onClick() {
+                recentSearchRVAdapter.setEditText(searchEdit);
+            }
+        });
+
         recentRV.setAdapter(recentSearchRVAdapter);
         recentSearchRVAdapter.setData("서울");
         recentSearchRVAdapter.setData("경기도");
@@ -56,10 +64,10 @@ public class SearchActivity extends AppCompatActivity {
         recentSearchRVAdapter.setData("광주");
         recentSearchRVAdapter.setData("포천");
         recentSearchRVAdapter.setData("영동");
+
     }
 
-
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
+    private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
@@ -75,56 +83,5 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
     };
-
-    private class RecentSearchRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-        private ArrayList<String> recentSearchesValues;
-        private Context mContext;
-
-        private RecentSearchRVAdapter(Context context) {
-            this.mContext = context;
-            recentSearchesValues = new ArrayList<>();
-        }
-
-        public void setData(String value) {
-            recentSearchesValues.add(value);
-            notifyDataSetChanged();
-        }
-
-        private class RecentSearchVH extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            private TextView recentSearch;
-            private TextView searchTime;
-            public RecentSearchVH(View itemView) {
-                super(itemView);
-                recentSearch = itemView.findViewById(R.id.recentSearches);
-                searchTime = itemView.findViewById(R.id.recnetTime);
-                itemView.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View view) {
-                searchEdit.setText(recentSearchesValues.get(getAdapterPosition()));
-                searchEdit.setSelection(searchEdit.getText().length());
-            }
-        }
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new RecentSearchVH(LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_recentsearches, parent, false));
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            RecentSearchVH  recentSearchVH = (RecentSearchVH) holder;
-            recentSearchVH.recentSearch.setText(recentSearchesValues.get(position));
-            recentSearchVH.searchTime.setText("01-25");
-        }
-
-        @Override
-        public int getItemCount() {
-            return recentSearchesValues.size();
-        }
-    }
 
 }

@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.rhkdd.yunal.adapter.LocationBasedRVAdapter;
+import com.example.rhkdd.yunal.adapter.SearchResultsRVAdapter;
 import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.data.locationBased.LocationBasedItem;
 
@@ -34,8 +36,6 @@ public class LocationBasedListActivity extends AppCompatActivity {
     private ArrayList<LocationBasedItem> locationBasedItems;
     private String tourName;
     private ProgressBar progressBar;
-
-    private Boolean checkRun = true;
 
     public static Intent newIntent(Context context, ArrayList<LocationBasedItem> lists, String tourName) {
         Intent intent = new Intent(context, LocationBasedListActivity.class);
@@ -78,77 +78,4 @@ public class LocationBasedListActivity extends AppCompatActivity {
             }
         }
     };
-
-    private class LocationBasedRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-        Context mcontext;
-        private ArrayList<LocationBasedItem> locationBasedItems;
-
-        LocationBasedRVAdapter(Context context) {
-            mcontext = context;
-            locationBasedItems = new ArrayList<>();
-        }
-
-        public void setData(ArrayList<LocationBasedItem> lists) {
-            locationBasedItems.clear();
-            locationBasedItems.addAll(lists);
-            notifyDataSetChanged();
-        }
-
-        private class LocationBasedVH extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            private ImageView thumbIV;
-            private TextView nameTV;
-            private TextView distTV;
-            public LocationBasedVH(View itemView) {
-                super(itemView);
-                thumbIV = itemView.findViewById(R.id.thumb);
-                nameTV = itemView.findViewById(R.id.name);
-                distTV = itemView.findViewById(R.id.dist);
-
-                itemView.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View view) {
-                switch (view.getId()) {
-
-                    default: // 리스트 아이템 클릭했을 경우
-                        if (checkRun) {
-
-                            checkRun = false;
-
-                            int contentid = locationBasedItems.get(getAdapterPosition()).contentid;
-                            Intent intent = DetailActivity.newIntent(LocationBasedListActivity.this, contentid);
-                            startActivity(intent);
-                            checkRun = true;
-                        }
-                }
-            }
-        }
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new LocationBasedVH(LayoutInflater.from(mcontext).inflate(R.layout.item_recyclerview_locationbased, parent, false));
-        }
-
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            LocationBasedVH locationBasedVH = (LocationBasedVH) holder;
-
-            if (locationBasedItems.get(position).firstimage != null) {
-                GlideApp.with(mcontext).load(locationBasedItems.get(position).firstimage).into(locationBasedVH.thumbIV);
-            } else {
-                GlideApp.with(mcontext).load(R.drawable.no_image).into(locationBasedVH.thumbIV);
-            }
-            locationBasedVH.nameTV.setText(locationBasedItems.get(position).title);
-            locationBasedVH.distTV.setText(String.valueOf(locationBasedItems.get(position).dist) + "m");
-        }
-
-        @Override
-        public int getItemCount() {
-            return locationBasedItems.size();
-        }
-    }
 }
