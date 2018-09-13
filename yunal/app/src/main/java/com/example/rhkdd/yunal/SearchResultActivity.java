@@ -9,18 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.example.rhkdd.yunal.adapter.SearchResultsRVAdapter;
 import com.example.rhkdd.yunal.common.RetrofitClient;
-import com.example.rhkdd.yunal.common.TourApiService;
 import com.example.rhkdd.yunal.data.searchKeyword.SearchKeyword;
 import com.example.rhkdd.yunal.data.searchKeyword.SearchKeywordItem;
 import com.example.rhkdd.yunal.dialog.SearchResultBottomSheet;
@@ -39,11 +35,10 @@ import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.rhkdd.yunal.SearchActivity.API_BASE_URL;
 import static com.example.rhkdd.yunal.SearchActivity.API_key;
+import static com.example.rhkdd.yunal.common.Constant.VIEW_TYPE_ITEM;
+import static com.example.rhkdd.yunal.common.Constant.VIEW_TYPE_LOADING;
 
 
 /**
@@ -54,10 +49,9 @@ public class SearchResultActivity extends AppCompatActivity {
 
     public static final String SEARCH_NAME = "SEARCH_NAME";
     private RecyclerView resultRV;
-    private ResultRVAdapter resultRVAdapter;
+    private SearchResultsRVAdapter resultRVAdapter;
     private GridLayoutManager gridLayoutManager;
     private TextView searchNameTV;
-    private boolean checkRun = true;
     private String search_Name;
     private String arrange;
     private int currentPage = 1;
@@ -91,36 +85,24 @@ public class SearchResultActivity extends AppCompatActivity {
 
         resultRV = findViewById(R.id.result_recycler);
         gridLayoutManager = new GridLayoutManager(SearchResultActivity.this, 2);
+        resultRVAdapter = new SearchResultsRVAdapter(SearchResultActivity.this);
         resultRV.setLayoutManager(gridLayoutManager);
-        resultRVAdapter = new ResultRVAdapter(SearchResultActivity.this);
-        resultRV.setAdapter(resultRVAdapter);
 
-
-
-        resultRV.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        resultRVAdapter.setLoadMoreListener(new SearchResultsRVAdapter.OnLoadMoreListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) { // 화면이 바닦에 닿았을때 처리
-                    isScrolling = true;
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                currentItems = gridLayoutManager.getChildCount();
-                totalItems = gridLayoutManager.getItemCount();
-                scrollOutItems = gridLayoutManager.findFirstVisibleItemPosition();
-
-                if (isScrolling && (currentItems + scrollOutItems >= totalItems)) {
-                    isScrolling = false;
-                    currentPage++;
-                    loadData(currentPage, search_Name, arrange);
-                }
+            public void onLoadMore() {
+                resultRV.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        currentItems = gridLayoutManager.getChildCount();
+                        currentPage++;
+                        loadData(currentPage, search_Name, arrange);
+                    }
+                });
             }
         });
 
+        resultRV.setAdapter(resultRVAdapter);
 
 
         findViewById(R.id.back_btn).setOnClickListener(onClickListener);
@@ -141,8 +123,11 @@ public class SearchResultActivity extends AppCompatActivity {
 
 
     private void loadData(int page, String keyWord, String arrange) {
+        // 로딩중인걸 처리하기 위한 뒤에 null 데이터 입력
+        searchResultLists.add(null);
+        resultRVAdapter.notifyItemInserted(searchResultLists.size() -1);
 
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
         //서버에 보내기 작업
         // -------------------------------------------------v------//
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -195,17 +180,16 @@ public class SearchResultActivity extends AppCompatActivity {
                                 }
                             }
                             searchResultLists.addAll(searchResult.response.body.items.item);
-
-
                             resultRVAdapter.setData(searchResultLists);
                         }
                     } else { // 관광지 데이터 없음
+                        resultRVAdapter.setMoreDataAvailable(false);
                         Toasty.error(SearchResultActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();
                         // 데이터 없다는 다이얼로그 뿌려주기~!
-
                     }
+                    resultRVAdapter.notifyDataChanged();
                 }
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -233,90 +217,6 @@ public class SearchResultActivity extends AppCompatActivity {
         }
     };
 
-    private class ResultRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-        private Context context;
-        private ArrayList<SearchKeywordItem> searchResultLists;
-
-        public ResultRVAdapter(Context context) {
-            this.context = context;
-            searchResultLists = new ArrayList<>();
-        }
-
-        public void setData(ArrayList<SearchKeywordItem> data) {
-            searchResultLists.clear();
-            searchResultLists.addAll(data);
-            notifyDataSetChanged();
-        }
-
-        private class ResultVH extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-
-            private ImageView thumbIV;
-            private TextView nameTV;
-            private TextView ratingTV;
-            private TextView reviewTV;
-            private TextView likeTV;
-
-            public ResultVH(View itemView) {
-                super(itemView);
-                thumbIV = itemView.findViewById(R.id.thumb);
-                nameTV = itemView.findViewById(R.id.name);
-//                ratingTV = itemView.findViewById(R.id.rating);
-//                reviewTV = itemView.findViewById(R.id.review);
-//                likeTV = itemView.findViewById(R.id.like);
-
-                itemView.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View view) {
-                switch (view.getId()) {
-
-                    default: // 리스트 아이템 클릭했을 경우
-                        if (checkRun) {
-
-                            checkRun = false;
-
-                            int contentid = searchResultLists.get(getAdapterPosition()).contentid;
-                            Intent intent = DetailActivity.newIntent(SearchResultActivity.this, contentid);
-                            startActivity(intent);
-                            checkRun = true;
-                        }
-                }
-
-            }
-        }
-
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-            return new ResultVH(LayoutInflater.from(context).inflate(R.layout.item_recyclerview_datatype1,parent,false));
-
-        }
-
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)  {
-            ResultVH resultVH = (ResultVH) holder;
-            if (searchResultLists.get(position).firstimage != null) {
-                Glide.with(getApplicationContext()).load(searchResultLists.get(position).firstimage).into(resultVH.thumbIV);
-            } else {
-                Glide.with(getApplicationContext()).load(R.drawable.no_image).into(resultVH.thumbIV);
-            }
-            resultVH.nameTV.setText(searchResultLists.get(position).title);
-//            resultVH.ratingTV.setText(String.valueOf(searchResultLists.get(position).rating));
-//            resultVH.reviewTV.setText(String.valueOf(searchResultLists.get(position).rating + "리뷰"));
-//            resultVH.likeTV.setText(String.valueOf(searchResultLists.get(position).rating));
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return searchResultLists.size();
-        }
-    }
 
 
     // 서버 데이터 요청후 데이터가 array가 들어오는 경우도 있고 object가 들어오는 경우가 있다.(여기서 object가 들어오는 경우는 한개의 데이터만 있을 경우!)

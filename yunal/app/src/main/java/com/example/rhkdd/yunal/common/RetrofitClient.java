@@ -18,7 +18,7 @@ public class RetrofitClient { // 싱글톤
         if (instance == null) {
             instance = new RetrofitClient();
         }
-        
+
         return instance;
     }
 
