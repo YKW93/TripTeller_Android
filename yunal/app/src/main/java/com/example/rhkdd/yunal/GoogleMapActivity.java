@@ -59,22 +59,11 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_googlemap);
 
-        info_cardview = findViewById(R.id.info_cardview);
-        map_image = findViewById(R.id.map_image);
-        map_title = findViewById(R.id.map_title);
-        map_contentType_image = findViewById(R.id.map_contentType_image);
-        map_contentType = findViewById(R.id.map_contentType);
-        map_location = findViewById(R.id.map_location);
+        Initialize();
 
+    }
 
-        //intent 정보 받아오기
-        Intent intent = getIntent();
-        detailCommonItem = (DetailCommonItem) intent.getSerializableExtra(DETAIL_COMMON);
-        firstImage = intent.getStringExtra(MAIN_IMAGE);
-
-
-        //관광지 타입 구분
-        contentTypeSetting(detailCommonItem.contenttypeid);
+    private void Initialize() {
 
         //툴바 셋팅
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -82,6 +71,22 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
+
+        info_cardview = findViewById(R.id.info_cardview);
+        map_image = findViewById(R.id.map_image);
+        map_title = findViewById(R.id.map_title);
+        map_contentType_image = findViewById(R.id.map_contentType_image);
+        map_contentType = findViewById(R.id.map_contentType);
+        map_location = findViewById(R.id.map_location);
+
+        //intent 정보 받아오기
+        Intent intent = getIntent();
+        detailCommonItem = (DetailCommonItem) intent.getSerializableExtra(DETAIL_COMMON);
+        firstImage = intent.getStringExtra(MAIN_IMAGE);
+
+
+        //관광지 타입 구분 메소드 호출
+        contentTypeSetting(detailCommonItem.contenttypeid);
 
         // 구글맵 부분
         // SupportMapFragment을 통해 레이아웃에 만든 fragment의 ID를 참조하고 구글맵을 호출한다.
@@ -101,6 +106,7 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
         map_location.setText(addr);
 
         info_cardview.setOnClickListener(onClickListener);
+
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {

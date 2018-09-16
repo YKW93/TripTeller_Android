@@ -71,6 +71,17 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
 
+        Initialize();
+    }
+
+    private void Initialize() {
+        //툴바 셋팅
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
+
         saveBtn = findViewById(R.id.saveBtn);
         picture_Layout = findViewById(R.id.picture_layout);
         reviewEdit = findViewById(R.id.reviewEdit);
@@ -80,13 +91,6 @@ public class ReviewActivity extends AppCompatActivity {
         //intent 값 가져오기
         Intent intent = getIntent();
         String placeNmae = intent.getStringExtra(DETAIL_TITLE);
-
-        //툴바 셋팅
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
 
         //장소명 셋팅
         TextView placeNameTV = findViewById(R.id.placeName);

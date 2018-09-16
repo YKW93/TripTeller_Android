@@ -68,6 +68,17 @@ public class SelectAreaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selectarea);
 
+        Initialize();
+    }
+
+    private void Initialize() {
+        // 툴바 초기화 셋팅
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
+
         // 시군구 로딩
         sigunguLoading = findViewById(R.id.sigungu_loading);
         sigunguLoading.setVisibility(View.GONE);
@@ -76,12 +87,6 @@ public class SelectAreaActivity extends AppCompatActivity {
         areaCodeLists = new ArrayList<>();
         sigunguCodeLists = new ArrayList<>();
 
-        // 툴바 초기화 셋팅
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
 
         // recyclerview 초기화 셋팅
         areaRV = findViewById(R.id.areaRV);

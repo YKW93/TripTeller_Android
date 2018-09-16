@@ -134,20 +134,23 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        // intent 받은 데이터 가져오기
+        Intent intent = getIntent();
+        contentTyId = intent.getIntExtra(CONTENT_TYPE_ID, 0);
 
+        Initialize();
+        loadDetailData(contentTyId); // 여행 정보 파싱 하는 함수 호출
+
+    }
+
+    private void Initialize() {
         // 툴바 셋팅
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 툴바 왼쪽 이전버튼 생기게 하는 구문
 
-        // intent 받은 데이터 가져오기
-        Intent intent = getIntent();
-
-        contentTyId = intent.getIntExtra(CONTENT_TYPE_ID, 0);
         detailFirstImage = new DetailImageItem(); // 메인이미지 객체화시켜서 저장
-
-        loadDetailData(contentTyId); // 여행 정보 파싱 하는 함수 호출
 
         // viewapger 셋팅 및 indicator 셋팅 뿌려주기
         ViewPager viewPager = findViewById(R.id.viewPager);
@@ -352,15 +355,14 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         call.enqueue(new Callback<LocationBased>() {
             @Override
             public void onResponse(Call<LocationBased> call, Response<LocationBased> response) {
-                Log.d("rhkddn1657", "성공");
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d("rhkddn1657", "성공1");
                     LocationBased locationBased = response.body();
                     if (locationBased != null) {
-                        Log.d("rhkddn1657", "성공2");
                         locationBasedItems = new ArrayList<>();
                         locationBasedItems.addAll(locationBased.response.body.items.item);
                         locationBasedItems.remove(0); // 첫번째 값은 해당 여행지이기때문에 삭제 해줘야됨.
+                        Log.d("rhkddn1657", "토탈 카운트 :  " +  locationBased.response.body.totalCount);
+
                         for (int i = 0; i < locationBasedItems.size(); i++) {
                             if (i > 3) { // 아이템을 4개까지만 출력하기 위한 조건문.
                                 break;

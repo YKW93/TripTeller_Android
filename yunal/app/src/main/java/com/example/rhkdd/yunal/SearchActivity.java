@@ -41,7 +41,11 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        Initialize();
 
+    }
+
+    private void Initialize() {
         searchEdit = findViewById(R.id.search_key);
         findViewById(R.id.searchBtn).setOnClickListener(listener);
 
@@ -64,7 +68,6 @@ public class SearchActivity extends AppCompatActivity {
         recentSearchRVAdapter.setData("광주");
         recentSearchRVAdapter.setData("포천");
         recentSearchRVAdapter.setData("영동");
-
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {

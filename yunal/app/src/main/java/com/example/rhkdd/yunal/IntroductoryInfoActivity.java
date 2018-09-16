@@ -53,14 +53,20 @@ public class IntroductoryInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introductoryinfo);
 
+        InfoTVSetting(); // Textview 셋팅
+        Initialize();
+
+
+    }
+
+    private void Initialize() {
+
         //Toolbar 셋팅
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
-
-        InfoTVSetting(); // Textview 셋팅
 
         // 인텐트 데이터 받아오기
         Intent intent = getIntent();
@@ -98,26 +104,13 @@ public class IntroductoryInfoActivity extends AppCompatActivity {
             FoodDisplay(foodData);
         }
 
-//         toolbar 제목 셋팅
+        //toolbar 제목 셋팅
         TextView titleTV = findViewById(R.id.toolbar_title);
         titleTV.setText(title);
 
         // 개요 셋팅
         TextView overviewTV = findViewById(R.id.introductoryinfo_overview);
         overviewTV.setText(Html.fromHtml(overview));
-
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home : {
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void InfoTVSetting() {
@@ -148,6 +141,19 @@ public class IntroductoryInfoActivity extends AppCompatActivity {
         infoData11 = findViewById(R.id.infoData11);
         infoData12 = findViewById(R.id.infoData12);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home : {
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     public void TouristDisplay(TouristData Data) { // 관광 소개정보 뿌려주기
 

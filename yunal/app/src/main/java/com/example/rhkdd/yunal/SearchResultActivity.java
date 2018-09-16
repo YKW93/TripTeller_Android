@@ -73,9 +73,14 @@ public class SearchResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchresult);
 
+        Initialize();
+
+    }
+
+    private void Initialize() {
         searchNameTV = findViewById(R.id.searchname);
         searchResultLists = new ArrayList<>();
-        arrange = "O";
+        arrange = "O"; // 기본 정렬값 제목순으로 지정
 
         progressBar = findViewById(R.id.progressBar);
 
@@ -109,6 +114,7 @@ public class SearchResultActivity extends AppCompatActivity {
         searchNameTV.setText(Html.fromHtml("<font color='#14b9d6'>" + search_Name + "</font>" + "에 대한 검색 결과"));
 
         loadData(currentPage, search_Name, arrange);
+
     }
 
     public void resetData(String arrange) {

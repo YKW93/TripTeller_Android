@@ -21,10 +21,11 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
                 <Button
+                    android:id="@+id/currentLocationBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="현재 위치 여행"/>
+                    android:text="내 주변 장소"/>
                 <Button
                     android:id="@+id/areaBtn"
                     android:layout_width="0dp"
@@ -49,7 +50,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="지역 인기 축제"
+                        android:text="이번달 인기 축제"
                         android:textColor="#262525"
                         android:textSize="20dp"/>
                     <TextView
@@ -58,6 +59,7 @@
                         android:layout_height="wrap_content"
                         android:text="전체보기"
                         android:padding="5dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:layout_gravity="right"
                         android:layout_marginRight="10dp"
                         android:layout_alignParentRight="true"
@@ -65,11 +67,10 @@
                 </RelativeLayout>
 
                 <android.support.v4.view.ViewPager
-                    android:id="@+id/viewpage"
+                    android:id="@+id/viewPage"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:background="#974444"
-                    android:layout_height="130dp">
+                    android:layout_height="140dp">
                 </android.support.v4.view.ViewPager>
 
                 <TextView

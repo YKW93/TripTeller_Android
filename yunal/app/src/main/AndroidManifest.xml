@@ -23,7 +23,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAwLH3gtDBW90Y2_A_JqVoUH17PC6tcnyk" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,32 +31,24 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".SearchActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
         <activity android:name=".SearchResultActivity" />
-
         <activity android:name=".DetailActivity" />
-
         <activity android:name=".IntroductoryInfoActivity" />
-
         <activity android:name=".DetailImageActivity" />
-
         <activity android:name=".DetailImageSliderActivity" />
-
         <activity android:name=".GoogleMapActivity" />
-
         <activity
             android:name=".ReviewActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity android:name=".LocationBasedListActivity" />
-
         <activity android:name=".SelectAreaActivity" />
-
-        <activity android:name=".SelectAreaMainActivity"/>
-
+        <activity android:name=".SelectAreaMainActivity" />
+        <activity android:name=".CurrentLocationActivity" />
+        <activity android:name=".TotalFestivalActivity" />
     </application>
 
 </manifest>

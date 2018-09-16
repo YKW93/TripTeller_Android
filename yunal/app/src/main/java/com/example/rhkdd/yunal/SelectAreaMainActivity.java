@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -14,19 +12,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.rhkdd.yunal.adapter.LocalPopularityTellerVP;
+import com.example.rhkdd.yunal.adapter.LocalPopularityTellerVPAdapter;
 import com.example.rhkdd.yunal.adapter.TourResultRVAdapter;
-import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.common.RetrofitClient;
 import com.example.rhkdd.yunal.data.areaBase.AreaBase;
 import com.example.rhkdd.yunal.data.areaBase.AreaBaseItem;
@@ -71,7 +65,7 @@ public class SelectAreaMainActivity extends AppCompatActivity {
     private TourResultRVAdapter tourResultRVAdapter;
     private GridLayoutManager gridLayoutManager;
 
-    private LocalPopularityTellerVP localTellerWritingVP;
+    private LocalPopularityTellerVPAdapter localTellerWritingVP;
 
     private String arrange;
     private String contentTypeId;
@@ -94,6 +88,12 @@ public class SelectAreaMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selectareamain);
+
+        Initialize();
+
+    }
+
+    private void Initialize() {
 
         areaBaseItems = new ArrayList<>();
 
@@ -154,7 +154,7 @@ public class SelectAreaMainActivity extends AppCompatActivity {
         viewPager.setClipToPadding(false);
         viewPager.setPadding(6,0,6,0);
         viewPager.setPageMargin(-5);
-        localTellerWritingVP = new LocalPopularityTellerVP(SelectAreaMainActivity.this);
+        localTellerWritingVP = new LocalPopularityTellerVPAdapter(SelectAreaMainActivity.this);
         viewPager.setAdapter(localTellerWritingVP);
 
         // 여행정보 가져오기

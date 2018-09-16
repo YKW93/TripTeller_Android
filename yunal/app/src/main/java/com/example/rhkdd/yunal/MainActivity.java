@@ -4,9 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationMenuView;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,19 +11,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
-import android.util.TypedValue;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.example.rhkdd.yunal.common.BottomNavigationViewHelper;
-import com.example.rhkdd.yunal.fragment.FourTabFragment;
 import com.example.rhkdd.yunal.fragment.MainTabFragment;
-import com.example.rhkdd.yunal.fragment.SecondTabFragment;
-import com.example.rhkdd.yunal.fragment.ThirdTabFragment;
+import com.example.rhkdd.yunal.fragment.MypageTabFragment;
+import com.example.rhkdd.yunal.fragment.InfoTabFragment;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -70,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("메인화면"));
         tabLayout.addTab(tabLayout.newTab().setText("정보화면"));
+        tabLayout.addTab(tabLayout.newTab().setText("마이페이지"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL); // ?
 
         viewPager = findViewById(R.id.viewPager);
@@ -208,7 +200,8 @@ public class MainActivity extends AppCompatActivity {
             super(fm);
             fragmentSparseArray = new SparseArray<>();
             fragmentSparseArray.put(0, new MainTabFragment());
-            fragmentSparseArray.put(1, new SecondTabFragment());
+            fragmentSparseArray.put(1, new InfoTabFragment());
+            fragmentSparseArray.put(2, new MypageTabFragment());
         }
 
         @Override
@@ -218,24 +211,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            String title = "";
-//            switch (position) {
-//                case 0:
-//                    title = "Home";
-//                    break;
-//                case 1:
-//                    title = "Detail Info";
-//                    break;
-//                case 2:
-//                    title = "My page";
-//                    break;
-//            }
-//            return title;
-//        }
     }
 }

@@ -9,9 +9,12 @@ import java.io.Serializable;
 public class LocationBasedItem implements Serializable {
 
     public int contentid;
+    public int contenttypeid;
     public String title; // 제목
     public String addr1; // 주소
     public String addr2; // 상세 주소
     public int dist; // 거리(단위:m)
     public String firstimage; // 대표 이미지
+    public double mapx;
+    public double mapy;
 }

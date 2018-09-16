@@ -35,7 +35,6 @@ public class LocationBasedListActivity extends AppCompatActivity {
 
     private ArrayList<LocationBasedItem> locationBasedItems;
     private String tourName;
-    private ProgressBar progressBar;
 
     public static Intent newIntent(Context context, ArrayList<LocationBasedItem> lists, String tourName) {
         Intent intent = new Intent(context, LocationBasedListActivity.class);
@@ -49,7 +48,10 @@ public class LocationBasedListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locationbasedlist);
 
-        progressBar = findViewById(R.id.progressBar);
+        Initialize();
+    }
+
+    private void Initialize() {
 
         Intent intent = getIntent();
         locationBasedItems = (ArrayList<LocationBasedItem>) intent.getSerializableExtra(LOCATIONBASED_LIST_DATA);

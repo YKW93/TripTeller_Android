@@ -12,11 +12,11 @@ import android.widget.ImageView;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
 
-public class LocalPopularityTellerVP extends PagerAdapter {
+public class LocalPopularityTellerVPAdapter extends PagerAdapter {
 
     private Context context;
 
-    public LocalPopularityTellerVP(Context context) {
+    public LocalPopularityTellerVPAdapter(Context context) {
         this.context = context;
     }
 

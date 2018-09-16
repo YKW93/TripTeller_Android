@@ -45,6 +45,14 @@ public class DetailImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailimage);
 
+        Initialize();
+    }
+
+    private void Initialize() {
+
+        // intent 값 가져오기
+        ArrayList<DetailImageItem> detailImageItems = (ArrayList<DetailImageItem>) getIntent().getSerializableExtra(DETAIL_IMAGES);
+
         TextView textView = findViewById(R.id.noImageTV);
         TextView totalImageCount = findViewById(R.id.image_total_count);
 
@@ -56,8 +64,6 @@ public class DetailImageActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
 
-        // intent 값 가져오기
-        ArrayList<DetailImageItem> detailImageItems = (ArrayList<DetailImageItem>) getIntent().getSerializableExtra(DETAIL_IMAGES);
 
         // recycler 셋팅 및 초기화
         if (detailImageItems != null && !detailImageItems.get(0).originimgurl.equals(String.valueOf(2131165339))) { // 2131165339 => R.drawable.no_image 값
@@ -79,7 +85,6 @@ public class DetailImageActivity extends AppCompatActivity {
             textView.setVisibility(View.VISIBLE);
             textView.setText("이미지가 없습니다.");
         }
-
 
     }
 
