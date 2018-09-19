@@ -23,9 +23,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.rhkdd.yunal.adapter.CurrentLocationVPAdapter;
-import com.example.rhkdd.yunal.common.RetrofitClient;
-import com.example.rhkdd.yunal.data.locationBased.LocationBased;
-import com.example.rhkdd.yunal.data.locationBased.LocationBasedItem;
+import com.example.rhkdd.yunal.common.RetrofitTourClient;
+import com.example.rhkdd.yunal.model.locationBased.LocationBased;
+import com.example.rhkdd.yunal.model.locationBased.LocationBasedItem;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
@@ -36,7 +36,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -52,19 +54,21 @@ import static com.example.rhkdd.yunal.SearchActivity.API_key;
 
 public class CurrentLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    LinearLayout warningMsg;
+    private LinearLayout warningMsg;
 
-    SupportMapFragment mapFragment;
-    GoogleMap mMap;
-    LocationManager locationManager;
+    private SupportMapFragment mapFragment;
+    private GoogleMap mMap;
+    private LocationManager locationManager;
 
-    FusedLocationProviderClient fusedLocationProviderClient;
-    LocationRequest locationRequest;
-    LocationCallback locationCallback;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
 
-    ArrayList<LocationBasedItem> locationBasedItems;
+    private ArrayList<LocationBasedItem> locationBasedItems;
+    private ArrayList<MarkerOptions> markerOptions; // 저장된 마커들 좌표값
 
-    CurrentLocationVPAdapter currentLocationVPAdapter;
+    private ViewPager viewPager;
+    private CurrentLocationVPAdapter currentLocationVPAdapter;
 
     private double latitude;
     private double longitude;
@@ -85,12 +89,30 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
 
-        ViewPager viewPager = findViewById(R.id.viewPager);
+        // viewpager 셋팅
+        viewPager = findViewById(R.id.viewPager);
         viewPager.setClipToPadding(false);
         viewPager.setPadding(6,0,6,0);
         viewPager.setPageMargin(-5);
         currentLocationVPAdapter = new CurrentLocationVPAdapter(CurrentLocationActivity.this);
         viewPager.setAdapter(currentLocationVPAdapter);
+        viewPager.setVisibility(View.GONE);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                moveCamera(markerOptions.get(position)); // 마커 위치로 카메라 이동
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         warningMsg = findViewById(R.id.locationWarnnigMsg);
 
@@ -128,7 +150,7 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
         @Override
         public void onPermissionGranted() { // 위치 permission 허용
             buildLocationRequest(); // locationrequest 설정
-            buildLocationCallBack(); // 위치 찾는 콜백 등록
+            buildLocationCallBack(); // 위치 관련 콜백 등록
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(CurrentLocationActivity.this);
 
             GpsOnOffCheck(); // gps on off 체크
@@ -152,7 +174,9 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
                 loadData(longitude, latitude);
 
                 LatLng dataLocation = new LatLng( latitude ,  longitude);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dataLocation,13)); // 카메라 현재 위치로 이동
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(dataLocation).zoom(15).build(); // 카메라 현재 위치로 셋팅
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition)); // 애니메이션 적용, 위치 이동
+
             }
 
             @Override
@@ -169,19 +193,23 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
 
     private void setMarker(ArrayList<LocationBasedItem> lists) {
 
-        Log.d("test12341234", "사이즈 : " + String.valueOf(lists.size()));
+        markerOptions = new ArrayList<>();
+
         for (int i = 0; i < lists.size(); i++) {
             LatLng dataLocation = new LatLng(lists.get(i).mapy, lists.get(i).mapx);
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(dataLocation).title(lists.get(i).title);
-            mMap.addMarker((markerOptions));
+            MarkerOptions markers = new MarkerOptions();
+            markers.position(dataLocation).title(lists.get(i).title);
+            markerOptions.add(i, markers);
+            mMap.addMarker((markers));
         }
 
     }
 
     private void loadData(final double longitude, final double latitude) {
-        Call<LocationBased> call = RetrofitClient.getInstance().getService(null).locationBased(API_key, "yunal", "AND", "json",
-                longitude, latitude, 3000, "O", 1, 10);
+        locationBasedItems = new ArrayList<>();
+
+        Call<LocationBased> call = RetrofitTourClient.getInstance().getService(null).locationBased(API_key, "yunal", "AND", "json",
+                longitude, latitude, 3000, "O", 1, 500);
         Log.d("test15", String.valueOf(call.request().url()));
         call.enqueue(new Callback<LocationBased>() {
             @Override
@@ -189,11 +217,10 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
                 if (response.isSuccessful() && response.body() != null) {
                     LocationBased locationBased = response.body();
                     if (locationBased != null) {
-                        locationBasedItems = new ArrayList<>();
-                        int totalCount = locationBased.response.body.totalCount;
-                        loadMoreData(totalCount, longitude, latitude);
+                        locationBasedItems.addAll(locationBased.response.body.items.item);
+                        setMarker(locationBasedItems);
+                        currentLocationVPAdapter.setData(locationBasedItems);
                     }
-
                 }
             }
 
@@ -202,42 +229,6 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
 //                Toasty.error(CurrentLocationActivity.this, "잠시 후 다시 시도해주세요.", Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private void loadMoreData(final int totalCount, double longitude, double latitude) {
-
-        int count = totalCount / 10;
-
-        for (int page = 1; page <= count + 1; page++) {
-
-            Call<LocationBased> call = RetrofitClient.getInstance().getService(null).locationBased(API_key, "yunal", "AND", "json",
-                    longitude, latitude, 3000, "O", page, 10);
-            Log.d("test15", String.valueOf(call.request().url()));
-            call.enqueue(new Callback<LocationBased>() {
-                @Override
-                public void onResponse(Call<LocationBased> call, Response<LocationBased> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        LocationBased locationBased = response.body();
-                        if (locationBased != null) {
-//                            locationBasedItems.clear();
-                            locationBasedItems.addAll(locationBased.response.body.items.item);
-                            Log.d("test15", locationBasedItems.get(0).title);
-                            currentLocationVPAdapter.setData(locationBasedItems);
-                            setMarker(locationBasedItems);
-
-                            if (totalCount == locationBasedItems.size()) {
-                                setMarker(locationBasedItems);
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<LocationBased> call, Throwable t) {
-                }
-            });
-        }
-
     }
 
     private void buildLocationRequest() {
@@ -292,7 +283,7 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
                     Toasty.error(CurrentLocationActivity.this, "위치 서비스를 켜주세요.", Toast.LENGTH_LONG).show();
                 } else { // gps 켜짐
                     if (longitude != 0 && latitude != 0) {
-                        loadData(longitude, latitude);
+                        loadData(longitude, latitude); // 위치에 대한 관광 정보 로드
 
                     } else {
                         Toasty.warning(CurrentLocationActivity.this, "잠시 후 다시 시도해주세요.", Toast.LENGTH_LONG).show();
@@ -302,14 +293,32 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
             }
         });
 
+        // 마커 클릭 이벤트
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                for (int i = 0; i < markerOptions.size(); i++) {
+                    if (marker.getTitle().equals(markerOptions.get(i).getTitle())) {
+                        viewPager.setVisibility(View.VISIBLE);
+                        viewPager.setCurrentItem(i); // 해당 마커와 동일한 viewpager 이동
+                        break;
+                    }
 
-        // 해당 디폴트 위치설정
-        LatLng dataLocation = new LatLng(37.568477, 126.981106);
+                }
 
-        // 카메라를 해당 위치로 이동
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dataLocation,15));
+                return false;
+            }
+        });
 
-    }
+   }
+
+   private void moveCamera(MarkerOptions markerOptions) {
+
+       mMap.addMarker(markerOptions).showInfoWindow(); // 위치한 마커 클릭
+       CameraPosition cameraPosition = new CameraPosition.Builder().target(markerOptions.getPosition()).zoom(15).build(); // 카메라 셋팅
+       mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition)); // 애니메이션 적용, 위치 이동
+
+   }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
-import com.example.rhkdd.yunal.data.searchFestival.SearchFestivalItem;
+import com.example.rhkdd.yunal.model.searchFestival.SearchFestivalItem;
 
 import java.util.ArrayList;
 

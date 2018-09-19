@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.example.rhkdd.yunal.adapter.DetailImageSliderVPAdapter;
 import com.example.rhkdd.yunal.adapter.DetailImageSliderVPAdapterVer2;
 import com.example.rhkdd.yunal.common.TouchInterceptViewPager;
-import com.example.rhkdd.yunal.data.detailImage.DetailImageItem;
+import com.example.rhkdd.yunal.model.detailImage.DetailImageItem;
 
 import java.util.ArrayList;
 

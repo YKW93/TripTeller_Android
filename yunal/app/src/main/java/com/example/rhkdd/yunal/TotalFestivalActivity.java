@@ -7,10 +7,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.example.rhkdd.yunal.adapter.TotalFestivalRVAdapter;
-import com.example.rhkdd.yunal.data.searchFestival.SearchFestivalItem;
+import com.example.rhkdd.yunal.model.searchFestival.SearchFestivalItem;
 
 import java.util.ArrayList;
 

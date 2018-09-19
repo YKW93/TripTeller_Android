@@ -11,10 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rhkdd.yunal.DetailActivity;
-import com.example.rhkdd.yunal.LocationBasedListActivity;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
-import com.example.rhkdd.yunal.data.locationBased.LocationBasedItem;
+import com.example.rhkdd.yunal.model.locationBased.LocationBasedItem;
 
 import java.util.ArrayList;
 

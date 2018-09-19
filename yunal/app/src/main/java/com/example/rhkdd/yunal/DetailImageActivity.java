@@ -9,16 +9,12 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rhkdd.yunal.adapter.TotalDetailImageRVAdapter;
-import com.example.rhkdd.yunal.common.GlideApp;
-import com.example.rhkdd.yunal.data.detailImage.DetailImageItem;
+import com.example.rhkdd.yunal.model.detailImage.DetailImageItem;
 
 import java.util.ArrayList;
 

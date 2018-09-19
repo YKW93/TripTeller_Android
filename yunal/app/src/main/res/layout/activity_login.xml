@@ -49,14 +49,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="UserName"
+                        android:text="ID"
                         android:textColor="#ffffff"
                         android:textAllCaps="true"
                         android:textSize="15sp"/>
                     <EditText
+                        android:id="@+id/id_edit"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:textSize="15sp"
+                        android:singleLine="true"
+                        android:inputType="textEmailAddress"
                         android:textColor="#ffffff"
                         android:background="@drawable/edit_bg"
                         android:paddingLeft="15dp"
@@ -77,9 +80,12 @@
                         android:textAllCaps="true"
                         android:textSize="15sp"/>
                     <EditText
+                        android:id="@+id/pw_edit"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:textSize="15sp"
+                        android:singleLine="true"
+                        android:inputType="textPassword"
                         android:textColor="#ffffff"
                         android:background="@drawable/edit_bg"
                         android:paddingLeft="15dp"
@@ -116,9 +122,11 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="20dp">
         <Button
+            android:id="@+id/signup_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Signup Now"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:textColor="#ffffff"
             android:fontFamily="sans-serif"
             android:background="#00ff0000"

@@ -1,6 +1,5 @@
 package com.example.rhkdd.yunal;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,17 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.rhkdd.yunal.adapter.LocationBasedRVAdapter;
-import com.example.rhkdd.yunal.adapter.SearchResultsRVAdapter;
-import com.example.rhkdd.yunal.common.GlideApp;
-import com.example.rhkdd.yunal.data.locationBased.LocationBasedItem;
+import com.example.rhkdd.yunal.model.locationBased.LocationBasedItem;
 
 import java.util.ArrayList;
 

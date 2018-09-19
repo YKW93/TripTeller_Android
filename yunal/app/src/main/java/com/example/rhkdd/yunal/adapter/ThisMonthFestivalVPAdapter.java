@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
-import com.example.rhkdd.yunal.data.searchFestival.SearchFestivalItem;
+import com.example.rhkdd.yunal.model.searchFestival.SearchFestivalItem;
 
 import java.util.ArrayList;
 

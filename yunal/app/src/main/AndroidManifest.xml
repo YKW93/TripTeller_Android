@@ -23,6 +23,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAwLH3gtDBW90Y2_A_JqVoUH17PC6tcnyk" />
+
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".MainActivity" />
         <activity
             android:name=".SearchActivity"
@@ -49,6 +49,7 @@
         <activity android:name=".SelectAreaMainActivity" />
         <activity android:name=".CurrentLocationActivity" />
         <activity android:name=".TotalFestivalActivity" />
+        <activity android:name=".SignupActivity"></activity>
     </application>
 
 </manifest>

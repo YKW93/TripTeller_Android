@@ -1,15 +1,11 @@
 package com.example.rhkdd.yunal.dialog;
 
-import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +13,7 @@ import android.widget.Button;
 
 import com.example.rhkdd.yunal.GoogleMapActivity;
 import com.example.rhkdd.yunal.R;
-import com.example.rhkdd.yunal.data.detailCommon.DetailCommonItem;
-import com.google.android.gms.location.FusedLocationProviderClient;
+import com.example.rhkdd.yunal.model.detailCommon.DetailCommonItem;
 import com.kakao.kakaonavi.KakaoNaviParams;
 import com.kakao.kakaonavi.KakaoNaviService;
 import com.kakao.kakaonavi.NaviOptions;

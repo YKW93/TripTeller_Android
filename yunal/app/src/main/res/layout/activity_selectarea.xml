@@ -10,13 +10,13 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@null">
+            android:layout_height="?actionBarSize"
+            android:background="@null"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
             <TextView
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"

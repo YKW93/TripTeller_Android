@@ -6,9 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Looper;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -19,36 +17,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.rhkdd.yunal.CurrentLocationActivity;
-import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.SelectAreaActivity;
 import com.example.rhkdd.yunal.TotalFestivalActivity;
 import com.example.rhkdd.yunal.adapter.AreaDataRankRVAdapter;
 import com.example.rhkdd.yunal.adapter.ThisMonthFestivalVPAdapter;
-import com.example.rhkdd.yunal.common.RetrofitClient;
-import com.example.rhkdd.yunal.common.TourApiService;
-import com.example.rhkdd.yunal.data.areaBase.AreaBase;
-import com.example.rhkdd.yunal.data.areaBase.AreaBaseItem;
-import com.example.rhkdd.yunal.data.searchFestival.SearchFestival;
-import com.example.rhkdd.yunal.data.searchFestival.SearchFestivalItem;
-import com.example.rhkdd.yunal.data.searchKeyword.SearchKeyword;
+import com.example.rhkdd.yunal.common.RetrofitTourClient;
+import com.example.rhkdd.yunal.model.areaBase.AreaBase;
+import com.example.rhkdd.yunal.model.areaBase.AreaBaseItem;
+import com.example.rhkdd.yunal.model.searchFestival.SearchFestival;
+import com.example.rhkdd.yunal.model.searchFestival.SearchFestivalItem;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.rhkdd.yunal.SearchActivity.API_BASE_URL;
 import static com.example.rhkdd.yunal.SearchActivity.API_key;
 
 /**
@@ -165,7 +154,7 @@ public class InfoTabFragment extends Fragment {
 
         final ArrayList<AreaBaseItem> lists = new ArrayList<>();
 
-        Call<AreaBase> call = RetrofitClient.getInstance().getService(null).AreaBase(API_key, "yunal", "AND", "json",
+        Call<AreaBase> call = RetrofitTourClient.getInstance().getService(null).AreaBase(API_key, "yunal", "AND", "json",
                 1, 100, null, null, "P", null);
         call.enqueue(new Callback<AreaBase>() {
             @Override
@@ -196,7 +185,7 @@ public class InfoTabFragment extends Fragment {
     private void loadFestivalData() {
         lists = new ArrayList<>();
 
-        Call<SearchFestival> call = RetrofitClient.getInstance().getService(null).SearchFestival(API_key, "yunal", "AND" , "json",
+        Call<SearchFestival> call = RetrofitTourClient.getInstance().getService(null).SearchFestival(API_key, "yunal", "AND" , "json",
                 1, 500, "P", monthStartDay, monthEndDay);
         Log.d("test1414", String.valueOf(call.request().url()));
         call.enqueue(new Callback<SearchFestival>() {

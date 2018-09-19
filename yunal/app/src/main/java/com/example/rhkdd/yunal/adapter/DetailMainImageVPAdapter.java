@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import android.widget.ImageView;
 import com.example.rhkdd.yunal.DetailImageActivity;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
-import com.example.rhkdd.yunal.data.detailImage.DetailImageItem;
+import com.example.rhkdd.yunal.model.detailImage.DetailImageItem;
 
 import java.util.ArrayList;
 

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.R;
-import com.example.rhkdd.yunal.data.areaBase.AreaBaseItem;
+import com.example.rhkdd.yunal.model.areaBase.AreaBaseItem;
 
 import java.util.ArrayList;
 

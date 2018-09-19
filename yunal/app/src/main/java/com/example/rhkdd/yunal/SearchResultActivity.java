@@ -10,15 +10,14 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rhkdd.yunal.adapter.SearchResultsRVAdapter;
-import com.example.rhkdd.yunal.common.RetrofitClient;
-import com.example.rhkdd.yunal.data.searchKeyword.SearchKeyword;
-import com.example.rhkdd.yunal.data.searchKeyword.SearchKeywordItem;
+import com.example.rhkdd.yunal.common.RetrofitTourClient;
+import com.example.rhkdd.yunal.model.searchKeyword.SearchKeyword;
+import com.example.rhkdd.yunal.model.searchKeyword.SearchKeywordItem;
 import com.example.rhkdd.yunal.dialog.SearchResultBottomSheet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,8 +36,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.rhkdd.yunal.SearchActivity.API_key;
-import static com.example.rhkdd.yunal.common.Constant.VIEW_TYPE_ITEM;
-import static com.example.rhkdd.yunal.common.Constant.VIEW_TYPE_LOADING;
 
 
 /**
@@ -152,7 +149,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
 
         // 데이터셋팅을 하고 서버를 보내준다.
-        Call<SearchKeyword> call = RetrofitClient.getInstance().getService(gson).searchKeyword(API_key,"yunal",
+        Call<SearchKeyword> call = RetrofitTourClient.getInstance().getService(gson).searchKeyword(API_key,"yunal",
                 "AND","json",page,10, keyWord, arrange);
 //            Log.d("test14",call.request().url().toString()); //실제 호출하는 url을 볼수 있다
 

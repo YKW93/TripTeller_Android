@@ -3,7 +3,6 @@ package com.example.rhkdd.yunal.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
-import com.example.rhkdd.yunal.data.locationBased.LocationBasedItem;
+import com.example.rhkdd.yunal.model.locationBased.LocationBasedItem;
 
 import java.util.ArrayList;
 
@@ -105,7 +104,7 @@ public class CurrentLocationVPAdapter extends PagerAdapter {
 
     @Override
     public float getPageWidth(int position) {
-        return (0.968f);
+        return (0.945f);
     }
 
     @Override

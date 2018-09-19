@@ -11,8 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.rhkdd.yunal.R;
-import com.example.rhkdd.yunal.SelectAreaActivity;
-import com.example.rhkdd.yunal.data.areaCode.AreaCodeItem;
+import com.example.rhkdd.yunal.model.areaCode.AreaCodeItem;
 
 import java.util.ArrayList;
 

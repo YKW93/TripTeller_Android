@@ -1,17 +1,21 @@
 package com.example.rhkdd.yunal.common;
 
-import com.example.rhkdd.yunal.data.areaBase.AreaBase;
-import com.example.rhkdd.yunal.data.areaCode.AreaCode;
-import com.example.rhkdd.yunal.data.detailCommon.DetailCommon;
-import com.example.rhkdd.yunal.data.detailImage.DetailImage;
-import com.example.rhkdd.yunal.data.detailIntro.DetailIntro;
-import com.example.rhkdd.yunal.data.locationBased.LocationBased;
-import com.example.rhkdd.yunal.data.searchFestival.SearchFestival;
-import com.example.rhkdd.yunal.data.searchKeyword.SearchKeyword;
-import com.google.gson.Gson;
+import com.example.rhkdd.yunal.model.areaBase.AreaBase;
+import com.example.rhkdd.yunal.model.areaCode.AreaCode;
+import com.example.rhkdd.yunal.model.detailCommon.DetailCommon;
+import com.example.rhkdd.yunal.model.detailImage.DetailImage;
+import com.example.rhkdd.yunal.model.detailIntro.DetailIntro;
+import com.example.rhkdd.yunal.model.locationBased.LocationBased;
+import com.example.rhkdd.yunal.model.searchFestival.SearchFestival;
+import com.example.rhkdd.yunal.model.searchKeyword.SearchKeyword;
+import com.example.rhkdd.yunal.model.userResponseResult.LoginResponseResult;
+import com.example.rhkdd.yunal.model.userResponseResult.SignupResponseResult;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -73,6 +77,19 @@ public interface TourApiService {
             @Query("_type") String type, @Query("pageNo") int pageNo, @Query("numOfRows") int numOfRows, @Query("arrange") String arrange, @Query("eventStartDate") String eventStartDate,
             @Query("eventEndDate") String eventEndDate
     );
+
+    @FormUrlEncoded
+    @POST("api/users/create")
+    Call<SignupResponseResult> SignupResponseResult(
+            @Field("nickname") String nickname, @Field("email") String email, @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("api/jwt/create")
+    Call<LoginResponseResult> LoginResponseResult (
+            @Field("email") String email, @Field("password") String password
+    );
+
 
 //    @GET("SearchFestival")
 //    Call<SearchFestival> TotalFestival ( // 전체 날짜 행사 조회

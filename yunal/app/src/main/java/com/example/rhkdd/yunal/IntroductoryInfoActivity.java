@@ -11,13 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.rhkdd.yunal.data.detailIntro.CultureData;
-import com.example.rhkdd.yunal.data.detailIntro.FestivalData;
-import com.example.rhkdd.yunal.data.detailIntro.FoodData;
-import com.example.rhkdd.yunal.data.detailIntro.LeportsData;
-import com.example.rhkdd.yunal.data.detailIntro.LodgingData;
-import com.example.rhkdd.yunal.data.detailIntro.ShoppingData;
-import com.example.rhkdd.yunal.data.detailIntro.TouristData;
+import com.example.rhkdd.yunal.model.detailIntro.CultureData;
+import com.example.rhkdd.yunal.model.detailIntro.FestivalData;
+import com.example.rhkdd.yunal.model.detailIntro.FoodData;
+import com.example.rhkdd.yunal.model.detailIntro.LeportsData;
+import com.example.rhkdd.yunal.model.detailIntro.LodgingData;
+import com.example.rhkdd.yunal.model.detailIntro.ShoppingData;
+import com.example.rhkdd.yunal.model.detailIntro.TouristData;
 
 import java.io.Serializable;
 

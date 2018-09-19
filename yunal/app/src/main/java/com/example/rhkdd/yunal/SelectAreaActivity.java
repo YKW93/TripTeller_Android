@@ -2,7 +2,6 @@ package com.example.rhkdd.yunal;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,15 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rhkdd.yunal.adapter.AreaRVAdapter;
-import com.example.rhkdd.yunal.common.RetrofitClient;
-import com.example.rhkdd.yunal.common.TourApiService;
-import com.example.rhkdd.yunal.data.areaCode.AreaCode;
-import com.example.rhkdd.yunal.data.areaCode.AreaCodeItem;
+import com.example.rhkdd.yunal.common.RetrofitTourClient;
+import com.example.rhkdd.yunal.model.areaCode.AreaCode;
+import com.example.rhkdd.yunal.model.areaCode.AreaCodeItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -34,14 +31,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.rhkdd.yunal.SearchActivity.API_BASE_URL;
 import static com.example.rhkdd.yunal.SearchActivity.API_key;
 
 public class SelectAreaActivity extends AppCompatActivity {
@@ -141,7 +134,7 @@ public class SelectAreaActivity extends AppCompatActivity {
         SelectAreaActivity.ItemDeserializer itemDeserializer = new SelectAreaActivity.ItemDeserializer();
         Gson gson = new GsonBuilder().registerTypeAdapter(AreaCode.Items.class, itemDeserializer).create();
 
-        Call<AreaCode> call = RetrofitClient.getInstance().getService(gson).AreaCode(API_key, "yunal",
+        Call<AreaCode> call = RetrofitTourClient.getInstance().getService(gson).AreaCode(API_key, "yunal",
                 "AND", "json", 1, 40, areaCode);
 
         call.enqueue(new Callback<AreaCode>() {

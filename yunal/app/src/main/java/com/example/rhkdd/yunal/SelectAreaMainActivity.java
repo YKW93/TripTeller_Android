@@ -21,9 +21,9 @@ import android.widget.Toast;
 
 import com.example.rhkdd.yunal.adapter.LocalPopularityTellerVPAdapter;
 import com.example.rhkdd.yunal.adapter.TourResultRVAdapter;
-import com.example.rhkdd.yunal.common.RetrofitClient;
-import com.example.rhkdd.yunal.data.areaBase.AreaBase;
-import com.example.rhkdd.yunal.data.areaBase.AreaBaseItem;
+import com.example.rhkdd.yunal.common.RetrofitTourClient;
+import com.example.rhkdd.yunal.model.areaBase.AreaBase;
+import com.example.rhkdd.yunal.model.areaBase.AreaBaseItem;
 import com.example.rhkdd.yunal.dialog.SelectAreaMainBottomSheet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -204,7 +204,7 @@ public class SelectAreaMainActivity extends AppCompatActivity {
 
 
 
-        Call<AreaBase> call = RetrofitClient.getInstance().getService(gson).AreaBase(API_key, "yunal",
+        Call<AreaBase> call = RetrofitTourClient.getInstance().getService(gson).AreaBase(API_key, "yunal",
                 "AND", "json", page, 10, areaCode, sigunguCode, arrange, contentTypeId);
         Log.e(TAG, call.request().url().toString());
         call.enqueue(new Callback<AreaBase>() {

@@ -1,9 +1,15 @@
 package com.example.rhkdd.yunal;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -38,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private static GoogleApiClient mGoogleApiClient;
+    private LocationManager locationManager;
+
     private static final int REQUEST_CHECK_SETTINGS = 0x1;
 
 
@@ -88,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.search).setOnClickListener(onClickListener);
 
+        // 위치 관리자 객체 가져온다.
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -113,8 +124,9 @@ public class MainActivity extends AppCompatActivity {
     PermissionListener permissionListener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {
-//            Toast.makeText(MainActivity.this, "성공", Toast.LENGTH_SHORT).show();
-            showSettingDialog(); // 구글 현재위치 다이얼로그
+            if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){ // gps가 꺼져 있을 경우
+                showSettingDialog(); // 구글 현재위치 다이얼로그
+            }
         }
 
         @Override

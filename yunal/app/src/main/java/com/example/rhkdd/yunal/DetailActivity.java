@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +23,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -35,22 +33,22 @@ import android.widget.Toast;
 import com.example.rhkdd.yunal.adapter.DetailMainImageVPAdapter;
 import com.example.rhkdd.yunal.adapter.ReviewImageVPAdapter;
 import com.example.rhkdd.yunal.common.GlideApp;
-import com.example.rhkdd.yunal.common.RetrofitClient;
-import com.example.rhkdd.yunal.data.detailCommon.DetailCommon;
-import com.example.rhkdd.yunal.data.detailCommon.DetailCommonItem;
-import com.example.rhkdd.yunal.data.detailImage.DetailImage;
-import com.example.rhkdd.yunal.data.detailImage.DetailImageItem;
-import com.example.rhkdd.yunal.data.detailIntro.CultureData;
-import com.example.rhkdd.yunal.data.detailIntro.DetailIntro;
-import com.example.rhkdd.yunal.data.detailIntro.FestivalData;
-import com.example.rhkdd.yunal.data.detailIntro.FoodData;
-import com.example.rhkdd.yunal.data.detailIntro.LeportsData;
-import com.example.rhkdd.yunal.data.detailIntro.LodgingData;
-import com.example.rhkdd.yunal.data.detailIntro.ShoppingData;
-import com.example.rhkdd.yunal.data.detailIntro.TouristData;
+import com.example.rhkdd.yunal.common.RetrofitTourClient;
+import com.example.rhkdd.yunal.model.detailCommon.DetailCommon;
+import com.example.rhkdd.yunal.model.detailCommon.DetailCommonItem;
+import com.example.rhkdd.yunal.model.detailImage.DetailImage;
+import com.example.rhkdd.yunal.model.detailImage.DetailImageItem;
+import com.example.rhkdd.yunal.model.detailIntro.CultureData;
+import com.example.rhkdd.yunal.model.detailIntro.DetailIntro;
+import com.example.rhkdd.yunal.model.detailIntro.FestivalData;
+import com.example.rhkdd.yunal.model.detailIntro.FoodData;
+import com.example.rhkdd.yunal.model.detailIntro.LeportsData;
+import com.example.rhkdd.yunal.model.detailIntro.LodgingData;
+import com.example.rhkdd.yunal.model.detailIntro.ShoppingData;
+import com.example.rhkdd.yunal.model.detailIntro.TouristData;
 import com.example.rhkdd.yunal.dialog.MapOptionBottomSheet;
-import com.example.rhkdd.yunal.data.locationBased.LocationBased;
-import com.example.rhkdd.yunal.data.locationBased.LocationBasedItem;
+import com.example.rhkdd.yunal.model.locationBased.LocationBased;
+import com.example.rhkdd.yunal.model.locationBased.LocationBasedItem;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -291,7 +289,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     // 여행 정보 데이터 요청
     private void loadDetailData(final int contentTyId) {
 
-        Call<DetailImage> call = RetrofitClient.getInstance().getService(null).detailImage(API_key, "yunal",
+        Call<DetailImage> call = RetrofitTourClient.getInstance().getService(null).detailImage(API_key, "yunal",
                 "AND", "json", contentTyId);
         call.enqueue(new Callback<DetailImage>() {
             @Override
@@ -303,7 +301,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                         //   받으면 error(drawable) 설정한 이미지가 보여져서 문제없음.
                         detailImageItems = new ArrayList<>();
                         detailImageItems.addAll(detailImage.response.body.items.item);
-                        Call<DetailCommon> call2 = RetrofitClient.getInstance().getService(null).detailCommon(API_key, "yunal", "AND", "json",
+                        Call<DetailCommon> call2 = RetrofitTourClient.getInstance().getService(null).detailCommon(API_key, "yunal", "AND", "json",
                                 contentTyId, "Y", "Y", "Y", "Y", "Y");
                         call2.enqueue(new Callback<DetailCommon>() {
                             @Override
@@ -326,7 +324,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             public void onFailure(Call<DetailImage> call, Throwable t) {
                 // 1.이건 추가이미지가 없을 경우이니 인텐트를 설정할때 그냥 null 값을 보내버린뒤 DetailActivity에서 null 값이 오면 예외처리를 해주면됨
                 // 2.이때도 위와 같이 대표이미지가 있을 경우 없을 경우로 나뉠수 있다.
-                Call<DetailCommon> call2 = RetrofitClient.getInstance().getService(null).detailCommon(API_key, "yunal",
+                Call<DetailCommon> call2 = RetrofitTourClient.getInstance().getService(null).detailCommon(API_key, "yunal",
                         "AND", "json", contentTyId, "Y", "Y", "Y", "Y", "Y");
                 call2.enqueue(new Callback<DetailCommon>() {
                     @Override
@@ -349,7 +347,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     // 해당 여행지 주변장소 데이터 요청
     private void loadLocationBasedData() {
 
-        Call<LocationBased> call = RetrofitClient.getInstance().getService(null).locationBased(API_key, "yunal",
+        Call<LocationBased> call = RetrofitTourClient.getInstance().getService(null).locationBased(API_key, "yunal",
                 "AND", "json", detailCommonItem.mapx, detailCommonItem.mapy, 2000, "S",1, 1000);
         Log.d("rhkddn1657", "호출 url:"+ call.request().url());
         call.enqueue(new Callback<LocationBased>() {
@@ -506,7 +504,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
                         Gson gson = RetorfitGsonSetting();
 
-                        Call<DetailIntro> call = RetrofitClient.getInstance().getService(gson).detailIntro(API_key, "yunal",
+                        Call<DetailIntro> call = RetrofitTourClient.getInstance().getService(gson).detailIntro(API_key, "yunal",
                                 "AND", "json", detailCommonItem.contentid, detailCommonItem.contenttypeid, "Y");
 
                         call.enqueue(new Callback<DetailIntro>() {

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
-import com.example.rhkdd.yunal.data.detailImage.DetailImageItem;
+import com.example.rhkdd.yunal.model.detailImage.DetailImageItem;
 
 import java.util.ArrayList;
 

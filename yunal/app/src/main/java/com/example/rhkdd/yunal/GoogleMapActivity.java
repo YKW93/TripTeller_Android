@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rhkdd.yunal.common.GlideApp;
-import com.example.rhkdd.yunal.data.detailCommon.DetailCommonItem;
+import com.example.rhkdd.yunal.model.detailCommon.DetailCommonItem;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
