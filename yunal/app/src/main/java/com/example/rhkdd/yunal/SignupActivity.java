@@ -1,5 +1,7 @@
 package com.example.rhkdd.yunal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,7 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.rhkdd.yunal.common.RetrofitApiClient;
+import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.model.userResponseResult.SigunupResponseError;
 import com.example.rhkdd.yunal.model.userResponseResult.SignupResponseResult;
 import com.google.gson.Gson;
@@ -50,14 +52,17 @@ public class SignupActivity extends AppCompatActivity {
                     String id = id_edit.getText().toString();
                     String pw = pw_edit.getText().toString();
 
-                    Call<SignupResponseResult> call = RetrofitApiClient.getInstance().getService().SignupResponseResult(userName, id, pw);
+                    Call<SignupResponseResult> call = RetrofitServerClient.getInstance().getService().SignupResponseResult(userName, id, pw);
                     Log.d("test1010", String.valueOf(call.request().url()));
                     call.enqueue(new Callback<SignupResponseResult>() {
                         @Override
                         public void onResponse(Call<SignupResponseResult> call, Response<SignupResponseResult> response) {
                             Log.d("test1010", String.valueOf(response.code()));
-                            if (response.code() == 201) {
-                                // 로그인 성공
+                            if (response.code() == 201) { // 로그인 성공
+                                Toasty.success(SignupActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
+                                finish();
+                            } else if (response.code() == 404) {
+                                Toasty.error(SignupActivity.this, "서버와 연결할 수 없습니다,.", Toast.LENGTH_LONG).show();
                             } else {
                                 try {
                                     String re = response.errorBody().string();
