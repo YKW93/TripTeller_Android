@@ -37,79 +37,65 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="UserName"
-                        android:textColor="#ffffff"
-                        android:textAllCaps="true"
-                        android:textSize="15sp"/>
-                    <EditText
-                        android:id="@+id/userName_edit"
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:textSize="15sp"
-                        android:textColor="#ffffff"
-                        android:maxLength="10"
-                        android:singleLine="true"
-                        android:background="@drawable/edit_bg"
-                        android:paddingLeft="15dp"
-                        android:layout_marginTop="5dp"
-                        android:paddingRight="15dp"
-                        android:fontFamily="sans-serif"/>
+                        android:layout_height="wrap_content"
+                        app:errorEnabled="true">
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/userName_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="UserName"
+                            android:background="@android:color/transparent"
+                            android:textColorHint="#ffffff"
+                            android:maxLines="1" />
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ID"
-                        android:textColor="#ffffff"
-                        android:textAllCaps="true"
-                        android:textSize="15sp"/>
-                    <EditText
-                        android:id="@+id/id_edit"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/id_inputlayout"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:textSize="15sp"
-                        android:textColor="#ffffff"
-                        android:inputType="textEmailAddress"
-                        android:singleLine="true"
-                        android:background="@drawable/edit_bg"
-                        android:paddingLeft="15dp"
-                        android:layout_marginTop="5dp"
-                        android:paddingRight="15dp"
-                        android:fontFamily="sans-serif"/>
+                        android:layout_height="wrap_content"
+                        app:errorEnabled="true">
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/id_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="ID"
+                            android:inputType="textEmailAddress"
+                            android:background="@android:color/transparent"
+                            android:textColorHint="#ffffff"
+                            android:maxLines="1" />
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Password"
-                        android:textColor="#ffffff"
-                        android:textAllCaps="true"
-                        android:textSize="15sp"/>
-                    <EditText
-                        android:id="@+id/pw_edit"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/pw_inputlayout"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:textSize="15sp"
-                        android:textColor="#ffffff"
-                        android:singleLine="true"
-                        android:inputType="textPassword"
-                        android:background="@drawable/edit_bg"
-                        android:paddingLeft="15dp"
-                        android:layout_marginTop="5dp"
-                        android:paddingRight="15dp"
-                        android:fontFamily="sans-serif"/>
+                        android:layout_height="wrap_content"
+                        app:errorEnabled="true">
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/pw_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Password"
+                            android:inputType="textPassword"
+                            android:background="@android:color/transparent"
+                            android:textColorHint="#ffffff"
+                            android:maxLines="1" />
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
+
             </LinearLayout>
             <Button
                 android:id="@+id/signup_btn"
