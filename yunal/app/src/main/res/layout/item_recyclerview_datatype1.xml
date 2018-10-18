@@ -90,7 +90,7 @@
                     android:clickable="false"
                     app:siShape="@raw/heart" />
                 <TextView
-                    android:id="@+id/storeTV"
+                    android:id="@+id/markTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="300"

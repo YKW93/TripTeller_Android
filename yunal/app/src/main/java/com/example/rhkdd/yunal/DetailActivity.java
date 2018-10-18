@@ -126,7 +126,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private RecyclerView recyclerview;
 
-    private LinearLayout reviewInfoLayout;
     private TextView ratingAverageTV; // 평균 별점
     private TextView reviewSize; // 리뷰 개수
     private MaterialRatingBar ratingAverageMRB;
@@ -137,8 +136,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private ToggleButton markTBtn;
 
     private ArrayList<TourReviewItem> tourReviewItems;
+    private ArrayList<TourInfoItem> tourInfoItems;
 
     private  NestedScrollView nestedScrollView;
+
 
     public static Intent newIntent(Context context, int contentId) {
         Intent intent = new Intent(context, DetailActivity.class);
@@ -193,7 +194,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         nestedScrollView = findViewById(R.id.nestedScrollView);
 
         // 방 평균 평점 & 리뷰 개수
-        reviewInfoLayout = findViewById(R.id.reviewInfoLayout);
         ratingAverageTV = findViewById(R.id.ratingValue);
         reviewSize = findViewById(R.id.review_size);
         ratingAverageMRB = findViewById(R.id.ratingbar);
@@ -390,6 +390,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     // 해당 여행지 주변장소 데이터 요청
     private void loadLocationBasedData() {
 
+
         Call<LocationBased> call = RetrofitTourClient.getInstance().getService(null).locationBased(API_key, "yunal",
                 "AND", "json", detailCommonItem.mapx, detailCommonItem.mapy, 2000, "S",1, 1000);
         call.enqueue(new Callback<LocationBased>() {
@@ -423,9 +424,9 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         });
     }
 
+
     // 해당 여행지 주변장소 화면에 뿌려주기
     private void setLocationBasedData(final ArrayList<LocationBasedItem> lists, final int index) {
-
         // 화면 넓이 구하기
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -446,7 +447,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         /* 아이템뷰 아이템 데이터 셋팅 */
         GlideApp.with(DetailActivity.this).load(lists.get(index).firstimage).into(thumbIV);
         titleTV.setText(lists.get(index).title);
-        distTV.setText(String.valueOf(lists.get(index).dist) + "m");
+        distTV.setText(String.valueOf(lists.get(index).dist + "m"));
         gridLayout.addView(v);
 
         /*아이템뷰 클릭 리스너*/
@@ -693,6 +694,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
     }
 
+
     // 서버에서 관광지 별점/후기갯수/찜 값 가져오기
     private void loadTourInfoData() {
 
@@ -706,9 +708,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
                 if (response.isSuccessful()) {
                     ArrayList<TourInfoItem> tourInfoItems = response.body();
-                    if (tourInfoItems != null && !tourInfoItems.isEmpty()) { // 관광지 리뷰가 있을때
+                    if (tourInfoItems != null && !tourInfoItems.isEmpty() && tourInfoItems.get(0).review != 0) { // 관광지 리뷰가 있을때
 
-                        reviewInfoLayout.setVisibility(View.VISIBLE); // 관광지 리뷰 평균 정보
                         recyclerview.setVisibility(View.VISIBLE); // 관광지 리뷰
                         reviewMessage.setVisibility(View.GONE); // 리뷰 없을때 나오는 메시지 삭제
 
@@ -729,21 +730,19 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
                         ratingAverageMRB.setRating(tourInfoItems.get(0).star);
 
-                        nestedScrollView.scrollTo(0,0); // 액티비티가 열렸을때 맨위 화면으로 보이기위한 작업
-
                     } else { // 관광지 리뷰가 없을때
-                        reviewInfoLayout.setVisibility(View.GONE);
                         recyclerview.setVisibility(View.GONE);
                         reviewMessage.setVisibility(View.VISIBLE);
                         totalReview.setVisibility(View.GONE);
 
                     }
+                    nestedScrollView.scrollTo(0,0); // 액티비티가 열렸을때 맨위 화면으로 보이기위한 작업
+
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
-                reviewInfoLayout.setVisibility(View.GONE);
                 recyclerview.setVisibility(View.GONE);
 
             }

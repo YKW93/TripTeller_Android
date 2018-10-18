@@ -16,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,8 +93,11 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
         // viewpager 셋팅
         viewPager = findViewById(R.id.viewPager);
         viewPager.setClipToPadding(false);
-        viewPager.setPadding(10,0,10,0);
-        viewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -9);
+        int padding_dp = 15;
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int dp = Math.round(padding_dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        viewPager.setPadding(dp, 0, dp, 0);
+
 
         currentLocationVPAdapter = new CurrentLocationVPAdapter(CurrentLocationActivity.this);
         viewPager.setAdapter(currentLocationVPAdapter);

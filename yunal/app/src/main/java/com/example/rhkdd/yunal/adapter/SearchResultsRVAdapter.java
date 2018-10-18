@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.model.searchKeyword.SearchKeywordItem;
+import com.example.rhkdd.yunal.model.tourDetail.TourInfoItem;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private Context context;
     private ArrayList<SearchKeywordItem> searchResultLists;
-
+    private ArrayList<TourInfoItem> tourInfoItems;
 
     private boolean checkRun = true;
     private OnLoadMoreListener loadMoreListener;
@@ -29,11 +30,14 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public SearchResultsRVAdapter(Context context) {
         this.context = context;
         searchResultLists = new ArrayList<>();
+        tourInfoItems = new ArrayList<>();
     }
 
-    public void setData(ArrayList<SearchKeywordItem> data) {
+    public void setData(ArrayList<SearchKeywordItem> data, ArrayList<TourInfoItem> data1) {
         searchResultLists.clear();
+        tourInfoItems.clear();
         searchResultLists.addAll(data);
+        tourInfoItems.addAll(data1);
         notifyDataSetChanged();
     }
 
@@ -45,15 +49,15 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private TextView nameTV;
         private TextView ratingTV;
         private TextView reviewTV;
-        private TextView likeTV;
+        private TextView markTV;
 
         public ResultVH(View itemView) {
             super(itemView);
             thumbIV = itemView.findViewById(R.id.thumb);
             nameTV = itemView.findViewById(R.id.name);
-//                ratingTV = itemView.findViewById(R.id.rating);
-//                reviewTV = itemView.findViewById(R.id.review);
-//                likeTV = itemView.findViewById(R.id.like);
+            ratingTV = itemView.findViewById(R.id.ratingbarTV);
+            reviewTV = itemView.findViewById(R.id.reviewTV);
+            markTV = itemView.findViewById(R.id.markTV);
 
             itemView.setOnClickListener(this);
         }
@@ -97,11 +101,10 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             Glide.with(context).load(R.drawable.no_image).into(resultVH.thumbIV);
         }
         resultVH.nameTV.setText(searchResultLists.get(position).title);
-//            resultVH.ratingTV.setText(String.valueOf(searchResultLists.get(position).rating));
-//            resultVH.reviewTV.setText(String.valueOf(searchResultLists.get(position).rating + "리뷰"));
-//            resultVH.likeTV.setText(String.valueOf(searchResultLists.get(position).rating));
 
-
+        resultVH.ratingTV.setText(String.valueOf(tourInfoItems.get(position).star));
+        resultVH.reviewTV.setText(String.valueOf("(후기 "+ tourInfoItems.get(position).review + ")"));
+        resultVH.markTV.setText(String.valueOf(tourInfoItems.get(position).mark_cnt));
     }
 
     @Override

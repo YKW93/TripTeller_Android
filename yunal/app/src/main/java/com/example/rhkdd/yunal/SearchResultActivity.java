@@ -2,6 +2,7 @@ package com.example.rhkdd.yunal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -9,16 +10,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rhkdd.yunal.adapter.SearchResultsRVAdapter;
+import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
 import com.example.rhkdd.yunal.model.searchKeyword.SearchKeyword;
 import com.example.rhkdd.yunal.model.searchKeyword.SearchKeywordItem;
 import com.example.rhkdd.yunal.dialog.SearchResultBottomSheet;
+import com.example.rhkdd.yunal.model.tourDetail.TourInfoItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -45,6 +49,7 @@ import static com.example.rhkdd.yunal.SearchActivity.API_key;
 public class SearchResultActivity extends AppCompatActivity {
 
     public static final String SEARCH_NAME = "SEARCH_NAME";
+    private String email_id;
     private RecyclerView resultRV;
     private SearchResultsRVAdapter resultRVAdapter;
     private GridLayoutManager gridLayoutManager;
@@ -54,7 +59,8 @@ public class SearchResultActivity extends AppCompatActivity {
     private int currentPage = 1;
     private int currentItems;
     private ProgressBar progressBar;
-    ArrayList<SearchKeywordItem> searchResultLists;
+    private ArrayList<SearchKeywordItem> searchResultLists;
+    private ArrayList<Integer> contentIdList;
 
 
     public static Intent newIntent(Context context, String search_key) {
@@ -75,8 +81,16 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void Initialize() {
+
+        // 휴대폰 내에 저장된 사용자 email 값 가져오기
+        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
+        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+
         searchNameTV = findViewById(R.id.searchname);
+
         searchResultLists = new ArrayList<>();
+        contentIdList = new ArrayList<>();
+
         arrange = "O"; // 기본 정렬값 제목순으로 지정
 
         progressBar = findViewById(R.id.progressBar);
@@ -125,8 +139,6 @@ public class SearchResultActivity extends AppCompatActivity {
 
 
     private void loadData(int page, String keyWord, String arrange) {
-
-//        progressBar.setVisibility(View.VISIBLE);
         //서버에 보내기 작업
         // -------------------------------------------------v------//
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -163,12 +175,37 @@ public class SearchResultActivity extends AppCompatActivity {
                     if (searchResult != null && searchResult.response.body.items != null) {
                         if (searchResult.response.body.items.item != null) {
                             for (int i = 0; i < searchResult.response.body.items.item.size(); i++) {
-                                if (searchResult.response.body.items.item.get(i).contenttypeid == 25) { //검색 여행코스 제외시킴
+                                if (searchResult.response.body.items.item.get(i).contenttypeid == 25) { // 여행코스(관광 타입) 데이터 제외시킴
                                     searchResult.response.body.items.item.remove(i);
                                 }
                             }
+
+                            // 위에 for문이랑 합칠경우 remove(리스트에서 제거) 때문에 throwIndexOutOfBoundsException 오류가 발생
+                            for (int i = 0; i < searchResult.response.body.items.item.size(); i++) { // 검색한 관광지 contentid 값 저장
+                                contentIdList.add(searchResult.response.body.items.item.get(i).contentid);
+                            }
+
                             searchResultLists.addAll(searchResult.response.body.items.item);
-                            resultRVAdapter.setData(searchResultLists);
+
+                            Call<ArrayList<TourInfoItem>> serverCall = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
+                            Log.d("abcd1414", String.valueOf(serverCall.request().url()));
+                            serverCall.enqueue(new Callback<ArrayList<TourInfoItem>>() {
+                                @Override
+                                public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
+                                    if (response.isSuccessful()) {
+                                        ArrayList<TourInfoItem> tourInfoItems = response.body();
+                                        if (tourInfoItems != null && !tourInfoItems.isEmpty()) { // 관광지 리뷰 정보 등이 있을 때
+                                            resultRVAdapter.setData(searchResultLists, tourInfoItems);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
+                                    Log.d("abcd1414", t.getMessage());
+                                }
+                            });
+
                         }
                     } else { // 관광지 데이터 없음
                         resultRVAdapter.setMoreDataAvailable(false);
@@ -177,7 +214,6 @@ public class SearchResultActivity extends AppCompatActivity {
                     }
                     resultRVAdapter.notifyDataChanged();
                 }
-//                progressBar.setVisibility(View.GONE);
             }
 
             @Override
