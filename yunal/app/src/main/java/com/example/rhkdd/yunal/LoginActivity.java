@@ -23,10 +23,10 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    RelativeLayout Rlayout1, Rlayout2;
+    private RelativeLayout Rlayout1, Rlayout2;
 
-    EditText email_edit;
-    EditText pw_edit;
+    private EditText email_edit;
+    private EditText pw_edit;
 
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
@@ -47,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_login);
-
         Initialize();
     }
 
@@ -105,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
                                 Toasty.error(LoginActivity.this, "회원 정보가 없습니다.", Toast.LENGTH_LONG).show();
                             } else { // 로그인 실패
                                 Toasty.error(LoginActivity.this, "로그인 정보를 다시 확인해주세요.", Toast.LENGTH_LONG).show();
-                                Log.d("rr159", String.valueOf(response.code()));
                             }
                         }
 

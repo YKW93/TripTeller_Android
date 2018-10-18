@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.example.rhkdd.yunal.adapter.TotalFestivalRVAdapter;
 import com.example.rhkdd.yunal.model.searchFestival.SearchFestivalItem;
@@ -56,4 +57,17 @@ public class TotalFestivalActivity extends AppCompatActivity {
         ArrayList<SearchFestivalItem> lists = (ArrayList<SearchFestivalItem>) intent.getSerializableExtra(FESTIVAL_DATAS);
         totalFestivalRVAdapter.setData(lists);
     }
+
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home :
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

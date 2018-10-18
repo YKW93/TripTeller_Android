@@ -92,8 +92,9 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
         // viewpager 셋팅
         viewPager = findViewById(R.id.viewPager);
         viewPager.setClipToPadding(false);
-        viewPager.setPadding(6,0,6,0);
-        viewPager.setPageMargin(-5);
+        viewPager.setPadding(10,0,10,0);
+        viewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -9);
+
         currentLocationVPAdapter = new CurrentLocationVPAdapter(CurrentLocationActivity.this);
         viewPager.setAdapter(currentLocationVPAdapter);
         viewPager.setVisibility(View.GONE);

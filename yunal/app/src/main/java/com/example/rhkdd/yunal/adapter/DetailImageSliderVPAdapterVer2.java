@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
+import com.example.rhkdd.yunal.model.tourDetail.PhotoItem;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ import uk.co.senab.photoview.PhotoView;
 
 public class DetailImageSliderVPAdapterVer2 extends PagerAdapter {
 
-    private ArrayList<Uri> uriLists;
+    private ArrayList<PhotoItem> uriLists;
     private Context mContext;
 
     public DetailImageSliderVPAdapterVer2(Context context) {
@@ -25,7 +26,7 @@ public class DetailImageSliderVPAdapterVer2 extends PagerAdapter {
         uriLists = new ArrayList<>();
     }
 
-    public void setData(ArrayList<Uri> lists) {
+    public void setData(ArrayList<PhotoItem> lists) {
         uriLists.addAll(lists);
         notifyDataSetChanged();
     }
@@ -49,7 +50,7 @@ public class DetailImageSliderVPAdapterVer2 extends PagerAdapter {
 //            photoViewAttacher.update();
         PhotoView photoView = v.findViewById(R.id.detailImage);
 
-        GlideApp.with(mContext).load(uriLists.get(position)).into(photoView);
+        GlideApp.with(mContext).load(uriLists.get(position).photo).into(photoView);
         container.addView(v);
 
         return v;

@@ -21,6 +21,8 @@ public class DetailCommonItem implements Serializable {
     public int mlevel;
     public double mapx;
     public double mapy;
+    public int areacode;
+    public int sigungucode;
     public String overview; // 개요
 
 }

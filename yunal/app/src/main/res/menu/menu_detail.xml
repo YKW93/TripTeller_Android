@@ -9,11 +9,5 @@
         android:background="?attr/actionBarItemBackground"
         android:title="맵보기" />
 
-    <item
-        android:id="@+id/menu_item_share"
-        android:icon="@drawable/ic_share"
-        xmln:showAsAction="always"
-        android:background="?attr/actionBarItemBackground"
-        android:title="공유" />
 
 </menu>

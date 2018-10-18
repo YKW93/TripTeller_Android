@@ -49,7 +49,8 @@
         <activity android:name=".SelectAreaMainActivity" />
         <activity android:name=".CurrentLocationActivity" />
         <activity android:name=".TotalFestivalActivity" />
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".TotalReviewActivity"></activity>
     </application>
 
 </manifest>

@@ -11,13 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.rhkdd.yunal.model.detailIntro.CultureData;
-import com.example.rhkdd.yunal.model.detailIntro.FestivalData;
-import com.example.rhkdd.yunal.model.detailIntro.FoodData;
-import com.example.rhkdd.yunal.model.detailIntro.LeportsData;
-import com.example.rhkdd.yunal.model.detailIntro.LodgingData;
-import com.example.rhkdd.yunal.model.detailIntro.ShoppingData;
-import com.example.rhkdd.yunal.model.detailIntro.TouristData;
+import com.example.rhkdd.yunal.model.tourType.CultureItem;
+import com.example.rhkdd.yunal.model.tourType.FestivalItem;
+import com.example.rhkdd.yunal.model.tourType.FoodItem;
+import com.example.rhkdd.yunal.model.tourType.LeportsItem;
+import com.example.rhkdd.yunal.model.tourType.LodgingItem;
+import com.example.rhkdd.yunal.model.tourType.ShoppingItem;
+import com.example.rhkdd.yunal.model.tourType.TouristItem;
 
 import java.io.Serializable;
 
@@ -76,32 +76,32 @@ public class IntroductoryInfoActivity extends AppCompatActivity {
         int contentTypeId = intent.getIntExtra(TOURISM_TYPE_ID, 0);
 
         if (contentTypeId == 12) { // 관광지
-            TouristData touristData = (TouristData) intent.getSerializableExtra(INTRO_TYPE_CLASS);
-            TouristDisplay(touristData);
+            TouristItem touristItem = (TouristItem) intent.getSerializableExtra(INTRO_TYPE_CLASS);
+            TouristDisplay(touristItem);
 
         } else if (contentTypeId == 14) { // 문화시설
-            CultureData cultureData = (CultureData) intent.getSerializableExtra(INTRO_TYPE_CLASS);
-            CultureDisplay(cultureData);
+            CultureItem cultureItem = (CultureItem) intent.getSerializableExtra(INTRO_TYPE_CLASS);
+            CultureDisplay(cultureItem);
 
         } else if (contentTypeId == 15) { // 행사/공연/축제
-            FestivalData festivalData = (FestivalData) intent.getSerializableExtra(INTRO_TYPE_CLASS);
-            FesTivalDisplay(festivalData);
+            FestivalItem festivalItem = (FestivalItem) intent.getSerializableExtra(INTRO_TYPE_CLASS);
+            FesTivalDisplay(festivalItem);
 
         } else if (contentTypeId == 28) { // 레포츠
-            LeportsData leportsData = (LeportsData) intent.getSerializableExtra(INTRO_TYPE_CLASS);
-            LeportsDisplay(leportsData);
+            LeportsItem leportsItem = (LeportsItem) intent.getSerializableExtra(INTRO_TYPE_CLASS);
+            LeportsDisplay(leportsItem);
 
         } else if (contentTypeId == 32) { // 숙박
-            LodgingData lodgingData = (LodgingData) intent.getSerializableExtra(INTRO_TYPE_CLASS);
-            LodgingDisplay(lodgingData);
+            LodgingItem lodgingItem = (LodgingItem) intent.getSerializableExtra(INTRO_TYPE_CLASS);
+            LodgingDisplay(lodgingItem);
 
         } else if (contentTypeId == 38) { // 쇼핑
-            ShoppingData shoppingData = (ShoppingData) intent.getSerializableExtra(INTRO_TYPE_CLASS);
-            ShoppingDisplay(shoppingData);
+            ShoppingItem shoppingItem = (ShoppingItem) intent.getSerializableExtra(INTRO_TYPE_CLASS);
+            ShoppingDisplay(shoppingItem);
 
         } else if (contentTypeId == 39) { // 음식점
-            FoodData foodData = (FoodData) intent.getSerializableExtra(INTRO_TYPE_CLASS);
-            FoodDisplay(foodData);
+            FoodItem foodItem = (FoodItem) intent.getSerializableExtra(INTRO_TYPE_CLASS);
+            FoodDisplay(foodItem);
         }
 
         //toolbar 제목 셋팅
@@ -155,7 +155,7 @@ public class IntroductoryInfoActivity extends AppCompatActivity {
 
 
 
-    public void TouristDisplay(TouristData Data) { // 관광 소개정보 뿌려주기
+    public void TouristDisplay(TouristItem Data) { // 관광 소개정보 뿌려주기
 
         if (Data.chkbabycarriage != null) {
             infoName1.setText("유모차");
@@ -226,7 +226,7 @@ public class IntroductoryInfoActivity extends AppCompatActivity {
         infoData12.setVisibility(View.GONE);
     }
 
-    public void CultureDisplay(CultureData Data) { // 문화시설 소개정보 뿌려주기
+    public void CultureDisplay(CultureItem Data) { // 문화시설 소개정보 뿌려주기
 
         if (Data.chkbabycarriageculture != null) {
             infoName1.setText("유모차");
@@ -316,7 +316,7 @@ public class IntroductoryInfoActivity extends AppCompatActivity {
 
     }
 
-    public void FesTivalDisplay(FestivalData Data) { // 행사/축제등 소개정보 뿌려주기
+    public void FesTivalDisplay(FestivalItem Data) { // 행사/축제등 소개정보 뿌려주기
         if (Data.agelimit != null) {
             infoName1.setText("관람연령");
             infoData1.setText(Html.fromHtml(Data.agelimit));
@@ -403,7 +403,7 @@ public class IntroductoryInfoActivity extends AppCompatActivity {
         infoData12.setVisibility(View.GONE);
     }
 
-    public void LeportsDisplay(LeportsData Data) { // 레포츠 소개정보 뿌려주기
+    public void LeportsDisplay(LeportsItem Data) { // 레포츠 소개정보 뿌려주기
 
         if (Data.chkbabycarriageleports != null) {
             infoName1.setText("유모차");
@@ -487,7 +487,7 @@ public class IntroductoryInfoActivity extends AppCompatActivity {
 
     }
 
-    public void LodgingDisplay(LodgingData Data) { // 숙박 소개정보 뿌려주기
+    public void LodgingDisplay(LodgingItem Data) { // 숙박 소개정보 뿌려주기
 
         if (Data.checkintime != null) {
             infoName1.setText("체크인");
@@ -581,7 +581,7 @@ public class IntroductoryInfoActivity extends AppCompatActivity {
         infoData12.setVisibility(View.GONE);
     }
 
-    public void ShoppingDisplay(ShoppingData Data) { // 숙박 소개정보 뿌려주기
+    public void ShoppingDisplay(ShoppingItem Data) { // 숙박 소개정보 뿌려주기
 
         if (Data.chkbabycarriageshopping != null) {
             infoName1.setText("유모차");
@@ -679,7 +679,7 @@ public class IntroductoryInfoActivity extends AppCompatActivity {
             infoData12.setVisibility(View.GONE);
         }
     }
-    public void FoodDisplay(FoodData Data) { // 숙박 소개정보 뿌려주기
+    public void FoodDisplay(FoodItem Data) { // 숙박 소개정보 뿌려주기
 
         if (Data.chkcreditcardfood != null) {
             infoName1.setText("신용카드");

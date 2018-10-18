@@ -1,4 +1,4 @@
-package com.example.rhkdd.yunal.model.detailIntro;
+package com.example.rhkdd.yunal.model.tourType;
 
 /**
  * Created by rhkdd on 2018-03-18.

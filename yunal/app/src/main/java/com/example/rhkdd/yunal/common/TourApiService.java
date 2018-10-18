@@ -4,18 +4,28 @@ import com.example.rhkdd.yunal.model.areaBase.AreaBase;
 import com.example.rhkdd.yunal.model.areaCode.AreaCode;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommon;
 import com.example.rhkdd.yunal.model.detailImage.DetailImage;
-import com.example.rhkdd.yunal.model.detailIntro.DetailIntro;
+import com.example.rhkdd.yunal.model.tourType.DetailIntro;
 import com.example.rhkdd.yunal.model.locationBased.LocationBased;
 import com.example.rhkdd.yunal.model.searchFestival.SearchFestival;
 import com.example.rhkdd.yunal.model.searchKeyword.SearchKeyword;
+import com.example.rhkdd.yunal.model.tourDetail.TourInfoItem;
+import com.example.rhkdd.yunal.model.tourDetail.TourReviewItem;
 import com.example.rhkdd.yunal.model.userResponseResult.LoginResponseResult;
 import com.example.rhkdd.yunal.model.userResponseResult.SignupResponseResult;
 
+import java.util.ArrayList;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 /**
@@ -89,6 +99,36 @@ public interface TourApiService {
     Call<LoginResponseResult> LoginResponseResult (
             @Field("email") String email, @Field("password") String password
     );
+
+    @Multipart
+    @POST("api/review/")
+    Call<ResponseBody> reviewResponseBody (
+            @Header("Authorization") String token, @Part("author") RequestBody author, @Part("content_id") RequestBody content_id, @Part("content") RequestBody content,
+            @Part ArrayList<MultipartBody.Part> photo, @Part("star_score") RequestBody star_core, @Part("areacode") RequestBody areacode, @Part("sigungucode") RequestBody sigungucode
+    );
+
+    @GET("api/tourist/") // 관광지 평균 별점값, 리뷰 갯수, 찜 클릭 유무 값 리턴
+    Call<ArrayList<TourInfoItem>> TourInfoResponseBody(
+            @Query("email") String email, @Query("content_id") ArrayList<Integer> content_id
+    );
+
+    @GET("api/review") // 관광지 모든 리뷰 리턴
+    Call<ArrayList<TourReviewItem>> TourReviewResponseBody (
+            @Query("content_id") int content_id
+    );
+
+    @FormUrlEncoded
+    @POST("api/mark/")
+    Call<ResponseBody> MarkResponseBody (
+            @Field("user") String user, @Field("content_id") int content_id
+    );
+
+    @FormUrlEncoded
+    @POST("api/like/")
+    Call<ResponseBody> LikeResponseBody (
+            @Field("review") int review, @Field("user") String user
+    );
+
 
 
 //    @GET("SearchFestival")

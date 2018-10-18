@@ -27,6 +27,7 @@
                 android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:text="저장"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:layout_marginRight="10dp"
                 android:layout_gravity="right"
                 android:textColor="#3e3d3d"

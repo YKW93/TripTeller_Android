@@ -1,17 +1,22 @@
 package com.example.rhkdd.yunal;
 
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,16 +29,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rhkdd.yunal.common.GlideApp;
+import com.example.rhkdd.yunal.common.RetrofitServerClient;
+import com.example.rhkdd.yunal.model.detailCommon.DetailCommonItem;
+import com.google.gson.Gson;
 import com.sangcomz.fishbun.FishBun;
 import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter;
 import com.sangcomz.fishbun.define.Define;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import es.dmoral.toasty.Toasty;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -42,26 +59,27 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class ReviewActivity extends AppCompatActivity {
 
-    public static final String DETAIL_TITLE = "DETAIL_TITLE";
-    public static final String REVIEW_EDIT = "REVIEW_EDIT";
-    public static final String RATING_NUM = "RATING_NUM";
-    public static final String REVIEW_IMAGES = "REVIEW_IMAGES";
-    public static final String REVIEW_DATE = "REVIEW_DATE";
+    private static final String TAG = ReviewActivity.class.getSimpleName();
+
+    public static final String DETAIL_COMMON = "DETAIL_COMMON";
 
     private RecyclerView picturesRV;
     private ReviewImageRVAdapter picturesRVAdapter;
     private ArrayList<Uri> urilist;
     private int imageCount = 10;
 
+    private DetailCommonItem detailCommonItem;
+
     private TextView saveBtn;
     private RelativeLayout picture_Layout;
     private EditText reviewEdit;
     private TextView ratingBarTV;
 
+    private Boolean checkRun = true;
 
-    public static Intent newIntent(Context context, String placeName) {
+    public static Intent newIntent(Context context, DetailCommonItem detailCommonItem) {
         Intent intent = new Intent(context, ReviewActivity.class);
-        intent.putExtra(DETAIL_TITLE, placeName);
+        intent.putExtra(DETAIL_COMMON, detailCommonItem);
         return intent;
     }
 
@@ -90,11 +108,11 @@ public class ReviewActivity extends AppCompatActivity {
 
         //intent 값 가져오기
         Intent intent = getIntent();
-        String placeNmae = intent.getStringExtra(DETAIL_TITLE);
+        detailCommonItem = (DetailCommonItem) intent.getSerializableExtra(DETAIL_COMMON);
 
         //장소명 셋팅
         TextView placeNameTV = findViewById(R.id.placeName);
-        placeNameTV.setText("장소명 : " + placeNmae);
+        placeNameTV.setText("장소명 : " + detailCommonItem.title);
 
         //ratingbar 숫자 셋팅
         MaterialRatingBar ratingBar = findViewById(R.id.ratingbar);
@@ -143,20 +161,11 @@ public class ReviewActivity extends AppCompatActivity {
 
                 case R.id.saveBtn :
                     if ((reviewEdit.getText().toString().length() > 20)) {
-                        // 작성완료 날짜 구하기
-                        long now = System.currentTimeMillis();
-                        Date date = new Date(now);
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        String getTime = simpleDateFormat.format(date);
+                        if (checkRun) {
+                            checkRun = false;
+                            sendCommentsToServer();
+                        }
 
-                        // 작성한 댓글 데이터 DetailActivity로 넘겨주기
-                        Intent intent = new Intent();
-                        intent.putExtra(REVIEW_EDIT, reviewEdit.getText().toString());
-                        intent.putExtra(RATING_NUM, ratingBarTV.getText().toString());
-                        intent.putExtra(REVIEW_IMAGES, picturesRVAdapter.getDatas());
-                        intent.putExtra(REVIEW_DATE, getTime);
-                        setResult(RESULT_OK, intent);
-                        finish();
                     } else {
                         final AlertDialog.Builder builder = new AlertDialog.Builder(ReviewActivity.this);
                         builder.setTitle("리뷰 하기");
@@ -174,6 +183,52 @@ public class ReviewActivity extends AppCompatActivity {
             }
         }
     };
+
+    // 서버로 댓글 데이터 전송
+    private void sendCommentsToServer() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
+        String email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+        String token = sharedPreferences.getString("userToken", "토큰 정보 없음");
+
+        ArrayList<MultipartBody.Part> images = new ArrayList<>();
+
+        for (int i = 0; i < urilist.size(); i++) {
+            File file = new File(getRealPathFromURI(urilist.get(i)));
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+            images.add(MultipartBody.Part.createFormData("photo", file.getName(), requestBody));
+        }
+        RequestBody emailIdRequest = RequestBody.create(MediaType.parse("text/pain"), email_id);
+        RequestBody contentRequest = RequestBody.create(MediaType.parse("text/plain"), reviewEdit.getText().toString());
+        RequestBody ratingRequest = RequestBody.create(MediaType.parse("text/plain"), ratingBarTV.getText().toString());
+        RequestBody contentIdRequest = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(detailCommonItem.contentid));
+        RequestBody areaCodeRequest = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(detailCommonItem.areacode));
+        RequestBody sigunguCodeRequest = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(detailCommonItem.sigungucode));
+
+//                        MultipartBody.Part image = images.get(0);
+        Call<ResponseBody> call = RetrofitServerClient.getInstance().getService().reviewResponseBody(token, emailIdRequest, contentIdRequest, contentRequest,
+                images, ratingRequest, areaCodeRequest, sigunguCodeRequest);
+        Log.d(TAG,"서버 호출 주소: " +  String.valueOf(call.request().url()));
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d(TAG, "서버 응답 메시지: " + String.valueOf(response.message()));
+                Log.d(TAG, "서버 응답 코드 : " + String.valueOf(response.code()));
+
+                if(response.isSuccessful() && response.body() != null && response.message().equals("Created")) {
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d(TAG, t.getMessage());
+            }
+        });
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -253,9 +308,6 @@ public class ReviewActivity extends AppCompatActivity {
 
         }
 
-        private ArrayList<Uri> getDatas() {
-            return imagesList;
-        }
 
         private class PicturesVH extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -305,4 +357,15 @@ public class ReviewActivity extends AppCompatActivity {
         }
     }
 
+    // 이미지 절대 경로값
+    private String getRealPathFromURI(Uri uri) {
+        String [] proj = {MediaStore.Images.Media.DATA};
+        CursorLoader cursorLoader = new CursorLoader(this, uri, proj, null, null, null);
+
+        Cursor cursor = cursorLoader.loadInBackground();
+        int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+        cursor.moveToFirst();
+        return cursor.getString(index);
+    }
 }

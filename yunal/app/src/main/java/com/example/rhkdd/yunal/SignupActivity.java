@@ -123,9 +123,9 @@ public class SignupActivity extends AppCompatActivity {
                         call.enqueue(new Callback<SignupResponseResult>() {
                             @Override
                             public void onResponse(Call<SignupResponseResult> call, Response<SignupResponseResult> response) {
-                                Log.d("test1010", String.valueOf(response.code()));
+//                                Log.d("test1010", String.valueOf(response.code()));
                                 if (response.code() == 201) { // 로그인 성공
-                                    Toasty.success(SignupActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
+                                    Toasty.success(SignupActivity.this, "회원가입 성공", Toast.LENGTH_LONG).show();
                                     finish();
                                 } else if (response.code() == 404) {
                                     Toasty.error(SignupActivity.this, "서버와 연결할 수 없습니다,.", Toast.LENGTH_LONG).show();
@@ -136,13 +136,19 @@ public class SignupActivity extends AppCompatActivity {
                                         SigunupResponseError error = gson.fromJson(re,SigunupResponseError.class);
 
                                         if(error.nickname != null) {
-                                            Log.d("test1010", error.nickname.get(0));
+                                            for (int i = 0; i < error.nickname.size(); i++) {
+                                                Toasty.error(SignupActivity.this, error.nickname.get(i), Toast.LENGTH_LONG).show();
+                                                Log.d("test1010", error.nickname.get(0));
+                                            }
                                         } else if(error.email != null) {
-                                            Log.d("test1010", error.email.get(0));
+                                            for (int i = 0; i < error.email.size(); i++) {
+                                                Toasty.error(SignupActivity.this, error.email.get(i), Toast.LENGTH_LONG).show();
+                                                Log.d("test1010", error.email.get(0));
+                                            }
                                         } else if (error.password != null) {
                                             for (int i = 0; i < error.password.size(); i++) {
-                                                Log.d("test1010", error.password.get(i));
                                                 Toasty.error(SignupActivity.this, error.password.get(i), Toast.LENGTH_LONG).show();
+                                                Log.d("test1010", error.password.get(i));
                                             }
                                         }
                                     } catch (IOException e) {
@@ -153,7 +159,7 @@ public class SignupActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<SignupResponseResult> call, Throwable t) {
-                                Log.d("test1010", "실패");
+                                Toasty.error(SignupActivity.this, "서버 연결 실패", Toast.LENGTH_LONG).show();
                             }
                         });
                         break;

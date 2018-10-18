@@ -13,6 +13,7 @@ import com.example.rhkdd.yunal.adapter.DetailImageSliderVPAdapter;
 import com.example.rhkdd.yunal.adapter.DetailImageSliderVPAdapterVer2;
 import com.example.rhkdd.yunal.common.TouchInterceptViewPager;
 import com.example.rhkdd.yunal.model.detailImage.DetailImageItem;
+import com.example.rhkdd.yunal.model.tourDetail.PhotoItem;
 
 import java.util.ArrayList;
 
@@ -97,7 +98,7 @@ public class DetailImageSliderActivity extends AppCompatActivity {
                 }
             });
         } else if (caller == 2) {
-            final ArrayList<Uri> uriLists = (ArrayList<Uri>) intent.getSerializableExtra(COMMENT_IMAGE);
+            final ArrayList<PhotoItem> uriLists = (ArrayList<PhotoItem>) intent.getSerializableExtra(COMMENT_IMAGE);
             clickPosition = intent.getIntExtra(ClICK_POSITION, 0);
 
 

@@ -1,4 +1,4 @@
-package com.example.rhkdd.yunal.model.detailIntro;
+package com.example.rhkdd.yunal.model.tourType;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by rhkdd on 2018-03-20.
  */
 
-public class FoodData implements Serializable {
+public class FoodItem implements Serializable {
 
     public String chkcreditcardfood; // 신용카드 가능 여부
     public String opentimefood; // 영업시간

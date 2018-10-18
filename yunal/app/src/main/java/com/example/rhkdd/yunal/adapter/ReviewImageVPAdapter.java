@@ -2,7 +2,6 @@ package com.example.rhkdd.yunal.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -14,20 +13,21 @@ import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.DetailImageSliderActivity;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
+import com.example.rhkdd.yunal.model.tourDetail.PhotoItem;
 
 import java.util.ArrayList;
 
 public class ReviewImageVPAdapter extends PagerAdapter {
 
     private Context context;
-    private ArrayList<Uri> lists;
+    private ArrayList<PhotoItem> lists;
 
     public ReviewImageVPAdapter(Context context) {
         this.context = context;
         lists = new ArrayList<>();
     }
 
-    public void setData(ArrayList<Uri> list) {
+    public void setData(ArrayList<PhotoItem> list) {
         lists.addAll(list);
         notifyDataSetChanged();
     }
@@ -53,7 +53,7 @@ public class ReviewImageVPAdapter extends PagerAdapter {
             }
         });
 
-        GlideApp.with(container).load(lists.get(position)).into(imageView);
+        GlideApp.with(container).load(lists.get(position).photo).into(imageView);
         container.addView(v);
 
         return v;

@@ -108,8 +108,7 @@ public class SelectAreaMainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
+
 
         // intent 정보 받아오기
         Intent intent = getIntent();

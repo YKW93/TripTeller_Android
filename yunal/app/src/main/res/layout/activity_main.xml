@@ -16,8 +16,7 @@
             android:layout_height="?actionBarSize"
             android:background="?colorPrimary"
             app:layout_collapseMode="pin"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            app:layout_scrollFlags="scroll|enterAlways">
             <RelativeLayout
                 android:id="@+id/customToolbarLayout"
                 android:layout_width="match_parent"

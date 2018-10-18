@@ -1,4 +1,4 @@
-package com.example.rhkdd.yunal.model.detailIntro;
+package com.example.rhkdd.yunal.model.tourType;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by rhkdd on 2018-03-20.
  */
 
-public class FestivalData  implements Serializable {
+public class FestivalItem implements Serializable {
 
     public String agelimit; // 관람 가능 연령
     public String discountinfofestival; // 할인 정보 ("")

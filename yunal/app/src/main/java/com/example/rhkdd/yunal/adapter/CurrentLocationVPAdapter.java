@@ -102,11 +102,11 @@ public class CurrentLocationVPAdapter extends PagerAdapter {
         return lists.size();
     }
 
-    @Override
-    public float getPageWidth(int position) {
-        return (0.945f);
-    }
-
+//    @Override
+//    public float getPageWidth(int position) {
+//        return (0.945f);
+//    }
+//0.945f
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View)object);

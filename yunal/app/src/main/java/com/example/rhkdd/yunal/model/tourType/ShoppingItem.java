@@ -1,4 +1,4 @@
-package com.example.rhkdd.yunal.model.detailIntro;
+package com.example.rhkdd.yunal.model.tourType;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by rhkdd on 2018-03-20.
  */
 
-public class ShoppingData  implements Serializable {
+public class ShoppingItem implements Serializable {
 
     public String chkbabycarriageshopping; // 유모차 대여 여부
     public String chkcreditcardshopping; // 신용카드 가능 여부

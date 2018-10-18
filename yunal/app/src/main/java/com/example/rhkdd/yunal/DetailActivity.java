@@ -1,10 +1,11 @@
 package com.example.rhkdd.yunal;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +14,10 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
@@ -29,26 +33,31 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.rhkdd.yunal.adapter.DetailMainImageVPAdapter;
 import com.example.rhkdd.yunal.adapter.ReviewImageVPAdapter;
+import com.example.rhkdd.yunal.adapter.TotalReviewRVAdapter;
 import com.example.rhkdd.yunal.common.GlideApp;
+import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommon;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommonItem;
 import com.example.rhkdd.yunal.model.detailImage.DetailImage;
 import com.example.rhkdd.yunal.model.detailImage.DetailImageItem;
-import com.example.rhkdd.yunal.model.detailIntro.CultureData;
-import com.example.rhkdd.yunal.model.detailIntro.DetailIntro;
-import com.example.rhkdd.yunal.model.detailIntro.FestivalData;
-import com.example.rhkdd.yunal.model.detailIntro.FoodData;
-import com.example.rhkdd.yunal.model.detailIntro.LeportsData;
-import com.example.rhkdd.yunal.model.detailIntro.LodgingData;
-import com.example.rhkdd.yunal.model.detailIntro.ShoppingData;
-import com.example.rhkdd.yunal.model.detailIntro.TouristData;
+import com.example.rhkdd.yunal.model.tourType.CultureItem;
+import com.example.rhkdd.yunal.model.tourType.DetailIntro;
+import com.example.rhkdd.yunal.model.tourType.FestivalItem;
+import com.example.rhkdd.yunal.model.tourType.FoodItem;
+import com.example.rhkdd.yunal.model.tourType.LeportsItem;
+import com.example.rhkdd.yunal.model.tourType.LodgingItem;
+import com.example.rhkdd.yunal.model.tourType.ShoppingItem;
+import com.example.rhkdd.yunal.model.tourType.TouristItem;
 import com.example.rhkdd.yunal.dialog.MapOptionBottomSheet;
 import com.example.rhkdd.yunal.model.locationBased.LocationBased;
 import com.example.rhkdd.yunal.model.locationBased.LocationBasedItem;
+import com.example.rhkdd.yunal.model.tourDetail.TourInfoItem;
+import com.example.rhkdd.yunal.model.tourDetail.TourReviewItem;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -69,16 +78,14 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import es.dmoral.toasty.Toasty;
 import me.relex.circleindicator.CircleIndicator;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.rhkdd.yunal.ReviewActivity.RATING_NUM;
-import static com.example.rhkdd.yunal.ReviewActivity.REVIEW_DATE;
-import static com.example.rhkdd.yunal.ReviewActivity.REVIEW_EDIT;
-import static com.example.rhkdd.yunal.ReviewActivity.REVIEW_IMAGES;
 import static com.example.rhkdd.yunal.SearchActivity.API_key;
 
 /**
@@ -87,16 +94,17 @@ import static com.example.rhkdd.yunal.SearchActivity.API_key;
 
 public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback{
 
+    private static final String TAG = DetailActivity.class.getSimpleName();
+
     public static final String DETAIL_IMAGES = "DETAIL_IMAGES";
     public static final String MAIN_IMAGE = "MAIN_IMAGE";
     public static final String DETAIL_COMMON = "DETAIL_COMMON";
-    public static final String CONTENT_TYPE_ID = " CONTENT_TYPE_ID";
+    public static final String CONTENT_ID = " CONTENT_TYPE_ID";
     public static final String LOCATIONBASED_LIST_DATA = "LOCATIONBASED_LIST_DATA";
     public static final String COMMENT_IMAGE = "COMMENT_IMAGE";
     public static final String TOUR_NAME = "TOUR_NAME";
     private static final int ACTIVITY_REVIEW = 1000;
-
-
+    private static final int ACTIVITY_TOTAL_REVIEW = 1001;
 
     private DetailCommonItem detailCommonItem;
     private ArrayList<DetailImageItem> detailImageItems;
@@ -105,7 +113,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private ArrayList<DetailImageItem> totalDetailImageItem;
 
     private DetailMainImageVPAdapter viewPagerAdapter;
-    private int contentTyId;
+    private int contentId;
+    private String email_id;
 
     private TextView toolbarTitle;
     private Boolean checkRun = true;
@@ -115,14 +124,25 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private TextView locationBasedData_AllView;
 
-//    // 리뷰하기 화면에서 넘어온 데이터들
-//    private String reviewEdit;
-//    private String ratingNum;
-//    private ArrayList<Uri> reviewImages;
+    private RecyclerView recyclerview;
 
-    public static Intent newIntent(Context context, int contentTyId) {
+    private LinearLayout reviewInfoLayout;
+    private TextView ratingAverageTV; // 평균 별점
+    private TextView reviewSize; // 리뷰 개수
+    private MaterialRatingBar ratingAverageMRB;
+
+    private TextView reviewMessage;
+    private Button totalReview;
+
+    private ToggleButton markTBtn;
+
+    private ArrayList<TourReviewItem> tourReviewItems;
+
+    private  NestedScrollView nestedScrollView;
+
+    public static Intent newIntent(Context context, int contentId) {
         Intent intent = new Intent(context, DetailActivity.class);
-        intent.putExtra(CONTENT_TYPE_ID, contentTyId);
+        intent.putExtra(CONTENT_ID, contentId);
 
         return intent;
     }
@@ -134,10 +154,16 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
         // intent 받은 데이터 가져오기
         Intent intent = getIntent();
-        contentTyId = intent.getIntExtra(CONTENT_TYPE_ID, 0);
+        contentId = intent.getIntExtra(CONTENT_ID, 0);
+
+        // 휴대폰 내에 저장된 사용자 email 값 가져오기
+        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
+        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
 
         Initialize();
-        loadDetailData(contentTyId); // 여행 정보 파싱 하는 함수 호출
+        loadTourInfoData(); // 여행지 별점평균/ 후기 갯수/ 찜 값 리턴 함수 호출
+        loadTourReviewListData(); // 여행지 모든 리뷰 리턴 함수 호출
+        loadDetailTourData(contentId); // 여행 정보 파싱 하는 함수 호출
 
     }
 
@@ -160,11 +186,33 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
         viewPager.setOnClickListener(onClickListener);
 
+        // 리뷰 목록 recyclerview 셋팅
+        recyclerview = findViewById(R.id.recyclerview);
+
+        // 스크롤뷰 셋팅
+        nestedScrollView = findViewById(R.id.nestedScrollView);
+
+        // 방 평균 평점 & 리뷰 개수
+        reviewInfoLayout = findViewById(R.id.reviewInfoLayout);
+        ratingAverageTV = findViewById(R.id.ratingValue);
+        reviewSize = findViewById(R.id.review_size);
+        ratingAverageMRB = findViewById(R.id.ratingbar);
 
         // 길찾기 버튼
         findingwayBtn = findViewById(R.id.finding_way);
         findingwayBtn.setOnClickListener(onClickListener);
 
+
+        // 찜 버튼
+        markTBtn = findViewById(R.id.markBtn);
+        markTBtn.setOnClickListener(onClickListener);
+
+        //리뷰 전체보기 버튼
+        totalReview = findViewById(R.id.totalReview);
+        totalReview.setOnClickListener(onClickListener);
+
+        // 리뷰 없을때 나오는 메시지
+        reviewMessage = findViewById(R.id.reviewMessage);
 
         // 툴바 셋팅
         toolbarTitle = findViewById(R.id.toolbar_title);
@@ -196,11 +244,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         locationBasedData_AllView.setOnClickListener(onClickListener);
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d("rhkddn1657", "onRestart 실행");
-    }
 
     // 파싱 해온 데이터(여행관련) 화면에 적용.
     private void setDetailData() {
@@ -287,7 +330,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     // 여행 정보 데이터 요청
-    private void loadDetailData(final int contentTyId) {
+    private void loadDetailTourData(final int contentTyId) {
 
         Call<DetailImage> call = RetrofitTourClient.getInstance().getService(null).detailImage(API_key, "yunal",
                 "AND", "json", contentTyId);
@@ -349,7 +392,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
         Call<LocationBased> call = RetrofitTourClient.getInstance().getService(null).locationBased(API_key, "yunal",
                 "AND", "json", detailCommonItem.mapx, detailCommonItem.mapy, 2000, "S",1, 1000);
-        Log.d("rhkddn1657", "호출 url:"+ call.request().url());
         call.enqueue(new Callback<LocationBased>() {
             @Override
             public void onResponse(Call<LocationBased> call, Response<LocationBased> response) {
@@ -359,7 +401,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                         locationBasedItems = new ArrayList<>();
                         locationBasedItems.addAll(locationBased.response.body.items.item);
                         locationBasedItems.remove(0); // 첫번째 값은 해당 여행지이기때문에 삭제 해줘야됨.
-                        Log.d("rhkddn1657", "토탈 카운트 :  " +  locationBased.response.body.totalCount);
 
                         for (int i = 0; i < locationBasedItems.size(); i++) {
                             if (i > 3) { // 아이템을 4개까지만 출력하기 위한 조건문.
@@ -374,7 +415,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
             @Override
             public void onFailure(Call<LocationBased> call, Throwable t) {
-                Log.d("rhkddn1657", "실패");
                 // 여행지 주변 장소가 없을 경우 그냥 layout 화면에서 삭제
                 LinearLayout locationBasedParentLayout = findViewById(R.id.locationBasedParentLayout);
                 locationBasedParentLayout.setVisibility(View.GONE);
@@ -420,51 +460,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
     }
 
-    // 서버에서 사용자 댓글 데이터를 가져오는 함수
-    private void loadCommentData() {
-
-        // 서버에 있는 사용자가 올린 댓글을 전부 가져올수 있도록 작업
-    }
-
-
-    // 서버에서 가져온 사용자 댓글을 화면에 뿌려줌
-    private void setCommentData(String reviewEdit, String ratingNum, String date, ArrayList<Uri> reviewImages) {
-
-        LinearLayout reviewLayout = findViewById(R.id.reviewLayout);
-
-        // 댓글 아이템뷰 가져오기
-        View view = LayoutInflater.from(DetailActivity.this).inflate(R.layout.item_recyclerview_comment, reviewLayout, false);
-
-        // 뷰페이저 셋팅
-        ViewPager viewPager = view.findViewById(R.id.commentVP);
-
-        if (reviewImages.isEmpty()) { // 사용자가 댓글에 이미지를 추가 안했을 경우
-            viewPager.setVisibility(View.GONE);
-        } else { // 댓글에 이미지를 추가했을 경우 -> Viewpager 셋팅
-            viewPager.setClipToPadding(false);
-            viewPager.setPadding(35,0,35,0);
-            viewPager.setPageMargin(17);
-
-            ReviewImageVPAdapter commentImageVP = new ReviewImageVPAdapter(DetailActivity.this);
-            commentImageVP.setData(reviewImages);
-            viewPager.setAdapter(commentImageVP);
-
-        }
-
-        // 아이템뷰를 이용한 id값 지정
-        TextView commentTV = view.findViewById(R.id.commentTV);
-        MaterialRatingBar ratingBar = view.findViewById(R.id.ratingbar);
-        TextView ratingBarTV = view.findViewById(R.id.ratingbarTV);
-        TextView commentDate = view.findViewById(R.id.commentDate);
-
-        // 데이터 셋팅
-        commentTV.setText(reviewEdit);
-        ratingBar.setRating(Float.parseFloat(ratingNum));
-        ratingBarTV.setText(ratingNum);
-        commentDate.setText(date);
-
-        reviewLayout.addView(view);
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -487,10 +482,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         mMap.getUiSettings().setScrollGesturesEnabled(false);
 
 
-        Log.d("marker", "마커 값 : " + markerOptions.getPosition());
-        Log.d("marker", "카메라 값 : " + mMap.getCameraPosition());
-
-
+//        Log.d("marker", "마커 값 : " + markerOptions.getPosition());
+//        Log.d("marker", "카메라 값 : " + mMap.getCameraPosition());
     }
 
 
@@ -517,32 +510,32 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                                         int typeid = detailCommonItem.contenttypeid;
                                         Intent intent = null;
                                         if (typeid == 12) { // 관광지
-                                            TouristData touristData = (TouristData) detailIntro.response.body.items.item;
-                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, touristData,
+                                            TouristItem touristItem = (TouristItem) detailIntro.response.body.items.item;
+                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, touristItem,
                                                     detailCommonItem.overview, detailCommonItem.title, typeid);
                                         } else if (typeid == 14) { // 문화시설
-                                            CultureData cultureData = (CultureData) detailIntro.response.body.items.item;
-                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, cultureData,
+                                            CultureItem cultureItem = (CultureItem) detailIntro.response.body.items.item;
+                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, cultureItem,
                                                     detailCommonItem.overview, detailCommonItem.title, typeid);
                                         } else if (typeid == 15) { // 행사/공연/축제
-                                            FestivalData festivalData = (FestivalData) detailIntro.response.body.items.item;
-                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, festivalData,
+                                            FestivalItem festivalItem = (FestivalItem) detailIntro.response.body.items.item;
+                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, festivalItem,
                                                     detailCommonItem.overview, detailCommonItem.title, typeid);
                                         } else if (typeid == 28) { // 레포츠
-                                            LeportsData leportsData = (LeportsData) detailIntro.response.body.items.item;
-                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, leportsData,
+                                            LeportsItem leportsItem = (LeportsItem) detailIntro.response.body.items.item;
+                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, leportsItem,
                                                     detailCommonItem.overview, detailCommonItem.title, typeid);
                                         } else if (typeid == 32) { // 숙박
-                                            LodgingData lodgingData = (LodgingData) detailIntro.response.body.items.item;
-                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, lodgingData,
+                                            LodgingItem lodgingItem = (LodgingItem) detailIntro.response.body.items.item;
+                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, lodgingItem,
                                                     detailCommonItem.overview, detailCommonItem.title, typeid);
                                         } else if (typeid == 38) { // 쇼핑
-                                            ShoppingData shoppingData = (ShoppingData) detailIntro.response.body.items.item;
-                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, shoppingData,
+                                            ShoppingItem shoppingItem = (ShoppingItem) detailIntro.response.body.items.item;
+                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, shoppingItem,
                                                     detailCommonItem.overview, detailCommonItem.title, typeid);
                                         } else if (typeid == 39) { // 음식점
-                                            FoodData foodData = (FoodData) detailIntro.response.body.items.item;
-                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, foodData,
+                                            FoodItem foodItem = (FoodItem) detailIntro.response.body.items.item;
+                                            intent = IntroductoryInfoActivity.newIntent(DetailActivity.this, foodItem,
                                                     detailCommonItem.overview, detailCommonItem.title, typeid);
                                         }
                                         startActivity(intent);
@@ -600,7 +593,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                     PermissionListener permissionListener = new PermissionListener() {
                         @Override
                         public void onPermissionGranted() {
-                            Intent reviewIntent = ReviewActivity.newIntent(DetailActivity.this, detailCommonItem.title);
+                            Intent reviewIntent = ReviewActivity.newIntent(DetailActivity.this, detailCommonItem);
                             startActivityForResult(reviewIntent, ACTIVITY_REVIEW);
                         }
 
@@ -623,58 +616,154 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                     Intent intent1 =LocationBasedListActivity.newIntent(DetailActivity.this, locationBasedItems, detailCommonItem.title);
                     startActivity(intent1);
                     break;
+                case R.id.totalReview :
+                    //리뷰 전체보기 작업하자
+                    Intent intent = TotalReviewActivity.newIntent(DetailActivity.this, contentId);
+                    startActivityForResult(intent, ACTIVITY_TOTAL_REVIEW);
+                    break;
+                case R.id.markBtn : // 찜하기 기능
+                    setTourMark();
+                    break;
 
             }
         }
     };
 
+    // 사용자 찜 등록
+    private void setTourMark() {
+        Call<ResponseBody> call = RetrofitServerClient.getInstance().getService().MarkResponseBody(email_id, contentId);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.message().equals("Created")) {
+                    if (markTBtn.isChecked()) {
+                        Toasty.success(DetailActivity.this, "찜 등록", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toasty.success(DetailActivity.this, "찜 해제", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d(TAG,"에러: " + t.getMessage());
+            }
+        });
+    }
+
+    // 사용자 후기를 화면에 출력
+    private void setReviewData(ArrayList<TourReviewItem> list) {
+
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        TotalReviewRVAdapter totalReviewRVAdapter = new TotalReviewRVAdapter(DetailActivity.this);
+        recyclerview.setAdapter(totalReviewRVAdapter);
+
+        if (list.size() > 3) { // 리뷰 갯수가 3개 초과일 경우
+            ArrayList<TourReviewItem> mLists = new ArrayList<>(list.subList(0,3));
+            totalReviewRVAdapter.setData(mLists);
+        } else {
+            ArrayList<TourReviewItem> mLists = new ArrayList<>(list.subList(0,list.size()));
+            totalReviewRVAdapter.setData(mLists);
+        }
+
+    }
+
+    // 해당 관광지 리뷰 리스트 가져오기
+    private void loadTourReviewListData() {
+
+        Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().TourReviewResponseBody(contentId);
+        call.enqueue(new Callback<ArrayList<TourReviewItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<TourReviewItem>> call, Response<ArrayList<TourReviewItem>> response) {
+                if (response.isSuccessful()) {
+                    tourReviewItems = response.body();
+                    if (tourReviewItems != null && !tourReviewItems.isEmpty()) { // 관광지 리뷰데이터가 있을때
+                        setReviewData(tourReviewItems);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<TourReviewItem>> call, Throwable t) {
+                Log.d(TAG, "에러 값 : " + t.getMessage());
+
+            }
+        });
+
+    }
+
+    // 서버에서 관광지 별점/후기갯수/찜 값 가져오기
+    private void loadTourInfoData() {
+
+        ArrayList<Integer> contentIdList = new ArrayList<>();
+        contentIdList.add(contentId);
+
+        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
+        call.enqueue(new Callback<ArrayList<TourInfoItem>>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<TourInfoItem> tourInfoItems = response.body();
+                    if (tourInfoItems != null && !tourInfoItems.isEmpty()) { // 관광지 리뷰가 있을때
+
+                        reviewInfoLayout.setVisibility(View.VISIBLE); // 관광지 리뷰 평균 정보
+                        recyclerview.setVisibility(View.VISIBLE); // 관광지 리뷰
+                        reviewMessage.setVisibility(View.GONE); // 리뷰 없을때 나오는 메시지 삭제
+
+                        ratingAverageTV.setText(Float.toString(tourInfoItems.get(0).star));
+                        reviewSize.setText("리뷰 " + tourInfoItems.get(0).review + "개");
+
+                        if (tourInfoItems.get(0).review > 3) { // 총 리뷰수가 3개 초과일 경우에만 전체보기 버튼 활성화
+                            totalReview.setVisibility(View.VISIBLE); // 리뷰 전체 보기 버튼 표출
+                        } else {
+                            totalReview.setVisibility(View.GONE);
+                        }
+
+                        if (tourInfoItems.get(0).mark) { // 유저가 찜을 했을 경우
+                            markTBtn.setChecked(true);
+                        } else {
+                            markTBtn.setChecked(false);
+                        }
+
+                        ratingAverageMRB.setRating(tourInfoItems.get(0).star);
+
+                        nestedScrollView.scrollTo(0,0); // 액티비티가 열렸을때 맨위 화면으로 보이기위한 작업
+
+                    } else { // 관광지 리뷰가 없을때
+                        reviewInfoLayout.setVisibility(View.GONE);
+                        recyclerview.setVisibility(View.GONE);
+                        reviewMessage.setVisibility(View.VISIBLE);
+                        totalReview.setVisibility(View.GONE);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
+                reviewInfoLayout.setVisibility(View.GONE);
+                recyclerview.setVisibility(View.GONE);
+
+            }
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ACTIVITY_REVIEW) {
+
+        if (requestCode == ACTIVITY_REVIEW) { // ReviewActivity - > DetailActivity
             if (resultCode == RESULT_OK) {
-
-                TextView textView = findViewById(R.id.reviewMessage);
-                textView.setVisibility(View.GONE);
-
-
-                // 인텐트 값 가져오기
-                String reviewEdit = data.getStringExtra(REVIEW_EDIT);
-                String ratingNum = data.getStringExtra(RATING_NUM);
-                ArrayList<Uri> reviewImages = (ArrayList<Uri>) data.getSerializableExtra(REVIEW_IMAGES);
-                String date = data.getStringExtra(REVIEW_DATE);
-
-                setCommentData(reviewEdit, ratingNum, date, reviewImages);
-
-                /*
-
-                서버 완성전이여서 테스트로 임시로 이렇게 만들어놈.
-
-                * 기본 기획 작업 순서도
-                * 첫번째 DetailActivity가 처음 켜졌을 경우 , 두번째 ReviewActivity 에서 리뷰를 하고 작성하고 DetailActivity가 켜진 경우
-
-                첫번째 작업 순서도
-                - onCreate 함수에서 loadCommentData() 함수를 불러온 뒤 서버에 있는 댓글들을 가져옴.
-                - 가져온 댓글을 setCommentData() 함수를 호출해서 화면에 보여줌 이때 loadCommentData() 함수의 맨마지막 부분에서 서언해주면 문제 없을 듯.
-                 (setCommentData 매개변수 값은 댓글들이 여러개 일수가 있으므로 리스트가 되어야함.)
-
-
-                두번째 작업 순서도
-                - ReviewActivity 에서 사용자가 댓글을 쓰고 작성 버튼을 누르면 서버에 데이터 전송.
-                - onRestart() 함수에서 loadCommentData() 함수를 불러온 뒤 서버에 있는 댓글들을 가져옴.
-                - 이렇게 하면 첫번째 작업 순서도와 거의 비슷한 진행 방향으로 흘러 갈 듯.
-
-                * 현재는 테스트를 위해서 onActivityResult를 사용해서 ReviewActivity에서 넘어온 값을 받아줬지만 서버가 있다면
-                굳이 이런 작업 필요없이 서버에 데이터를 보내고 서버에서 가져오면 되기때문에 onActivityResult는 필요가 없어짐.
-
-                 */
-
-            }
-            if (requestCode == RESULT_CANCELED) {
+                loadTourInfoData(); // 방 평균평점, 후기갯수값 셋팅
+                loadTourReviewListData(); // 방 리뷰 리스트 셋팅
+            } else if (requestCode == RESULT_CANCELED) {
                 // ReviewActivity 에서 아무 값도 넘어 오지 않을 경우.
             }
+        } else if (requestCode == ACTIVITY_TOTAL_REVIEW) { // TotalReviewActivity - > DetailActivity
+            loadTourReviewListData(); // TotalReviewActivity에서 좋아요를 클릭 했을 경우 해당 리뷰들 갱신
         }
-
     }
 
     // 해당 데이터가 어떤 타입인지 판별하고 데이터 받기 전에 Gson 셋팅 하는 메소드
@@ -684,25 +773,25 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         Gson gson = null;
 
         if (contentTypeId == 12) { // 관광지
-            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(TouristData.class)).create();
+            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(TouristItem.class)).create();
 
         } else if (contentTypeId == 14) { // 문화시설
-            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(CultureData.class)).create();
+            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(CultureItem.class)).create();
 
         } else if (contentTypeId == 15) { // 행사/공연/축제
-            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(FestivalData.class)).create();
+            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(FestivalItem.class)).create();
 
         } else if (contentTypeId == 28) { // 레포츠
-            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(LeportsData.class)).create();
+            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(LeportsItem.class)).create();
 
         } else if (contentTypeId == 32) { // 숙박
-            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(LodgingData.class)).create();
+            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(LodgingItem.class)).create();
 
         } else if (contentTypeId == 38) { // 쇼핑
-            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(ShoppingData.class)).create();
+            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(ShoppingItem.class)).create();
 
         } else if (contentTypeId == 39) { // 음식점
-            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(FoodData.class)).create();
+            gson = new GsonBuilder().registerTypeAdapter(DetailIntro.Items.class, new ItemDeserializer(FoodItem.class)).create();
 
         }
 
@@ -793,7 +882,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             String createtime = String.valueOf(detailCommonItem.createdtime);
             StringBuilder stringBuilder = new StringBuilder(createtime);
             stringBuilder.delete(8, createtime.length());
-            Log.d("test11", "등록날짜:"+stringBuilder);
             stringBuilder.insert(4, "-");
             stringBuilder.insert(7, "-");
 

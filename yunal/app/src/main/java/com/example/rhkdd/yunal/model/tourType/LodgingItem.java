@@ -1,4 +1,4 @@
-package com.example.rhkdd.yunal.model.detailIntro;
+package com.example.rhkdd.yunal.model.tourType;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by rhkdd on 2018-03-20.
  */
 
-public class LodgingData  implements Serializable {
+public class LodgingItem implements Serializable {
 
     public String checkintime; // 체크인
     public String checkouttime; // 체크아웃
