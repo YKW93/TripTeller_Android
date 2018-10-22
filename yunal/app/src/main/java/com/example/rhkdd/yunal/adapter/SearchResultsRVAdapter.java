@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.R;
+import com.example.rhkdd.yunal.SearchResultActivity;
 import com.example.rhkdd.yunal.model.searchKeyword.SearchKeywordItem;
 import com.example.rhkdd.yunal.model.tourDetail.TourInfoItem;
 
@@ -41,6 +42,10 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         notifyDataSetChanged();
     }
 
+    public void changeData(int position, TourInfoItem tourInfoItem) {
+        tourInfoItems.set(position, tourInfoItem);
+        notifyItemChanged(position);
+    }
 
     private class ResultVH extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -74,6 +79,7 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         int contentid = searchResultLists.get(getAdapterPosition()).contentid;
                         Intent intent = DetailActivity.newIntent(context, contentid);
                         context.startActivity(intent);
+                        ((SearchResultActivity)context).setPositionData(getAdapterPosition(), contentid);
                         checkRun = true;
                     }
             }
@@ -94,6 +100,7 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             isLoading = true;
             loadMoreListener.onLoadMore();
         }
+
         ResultVH resultVH = (ResultVH) holder;
         if (searchResultLists.get(position).firstimage != null) {
             Glide.with(context).load(searchResultLists.get(position).firstimage).into(resultVH.thumbIV);

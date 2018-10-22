@@ -75,7 +75,7 @@
                     android:id="@+id/reviewTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="(후기 126)"
+                    android:text="(후기 test)"
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@+id/ratingbarTV"
                     android:textSize="9sp"/>
@@ -93,7 +93,7 @@
                     android:id="@+id/markTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="300"
+                    android:text="test"
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@+id/shineBtn"
                     android:textSize="9sp"/>

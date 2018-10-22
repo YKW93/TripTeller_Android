@@ -111,7 +111,7 @@ public class SelectAreaActivity extends AppCompatActivity {
                 String areaCode = areaRVAdapter.getAreaCode();
                 String areaName = areaRVAdapter.getAreaName();
 
-                Intent intent = SelectAreaMainActivity.newIntent(SelectAreaActivity.this, areaCode, null, areaName, null);
+                Intent intent = SelectAreaResultActivity.newIntent(SelectAreaActivity.this, areaCode, null, areaName, null);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
@@ -205,7 +205,7 @@ public class SelectAreaActivity extends AppCompatActivity {
                 String areaName = areaRVAdapter.getAreaName();
                 String sigunguName = lists.get(getAdapterPosition()).name;
 
-                Intent intent = SelectAreaMainActivity.newIntent(SelectAreaActivity.this, areaCode, sigunguCode, areaName, sigunguName);
+                Intent intent = SelectAreaResultActivity.newIntent(SelectAreaActivity.this, areaCode, sigunguCode, areaName, sigunguName);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 

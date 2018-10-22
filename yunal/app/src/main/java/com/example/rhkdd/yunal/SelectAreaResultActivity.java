@@ -3,6 +3,7 @@ package com.example.rhkdd.yunal;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -15,16 +16,17 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rhkdd.yunal.adapter.LocalPopularityTellerVPAdapter;
 import com.example.rhkdd.yunal.adapter.TourResultRVAdapter;
+import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
 import com.example.rhkdd.yunal.model.areaBase.AreaBase;
 import com.example.rhkdd.yunal.model.areaBase.AreaBaseItem;
 import com.example.rhkdd.yunal.dialog.SelectAreaMainBottomSheet;
+import com.example.rhkdd.yunal.model.tourDetail.TourInfoItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -46,9 +48,9 @@ import static com.example.rhkdd.yunal.SelectAreaActivity.AREA_NAME;
 import static com.example.rhkdd.yunal.SelectAreaActivity.SIGUNGU_CODE;
 import static com.example.rhkdd.yunal.SelectAreaActivity.SIGUNGU_NAME;
 
-public class SelectAreaMainActivity extends AppCompatActivity {
+public class SelectAreaResultActivity extends AppCompatActivity {
 
-    final static String TAG = "SelectAreaMainActivity";
+    final static String TAG = "SelectAreaResult";
 
 
     private String areaCode;
@@ -56,9 +58,12 @@ public class SelectAreaMainActivity extends AppCompatActivity {
     private String areaName;
     private String sigunguName;
 
-    private ArrayList<AreaBaseItem> areaBaseItems;
+    private String email_id;
 
-    private ProgressBar progressBar;
+    private ArrayList<AreaBaseItem> areaBaseItems;
+    private ArrayList<Integer> contentIdList;
+
+
 
     private int currentPage = 1;
 
@@ -72,9 +77,12 @@ public class SelectAreaMainActivity extends AppCompatActivity {
 
     private Boolean checkRun = true;
 
+    private int listPositionData = 0;
+    private int listPositionContentId;
+
     public static Intent newIntent(Context context, String areaCode, String sigunguCode, String areaName, String sigunguName) {
 
-        Intent intent = new Intent(context, SelectAreaMainActivity.class);
+        Intent intent = new Intent(context, SelectAreaResultActivity.class);
         intent.putExtra(AREA_CODE, areaCode);
         intent.putExtra(SIGUNGU_CODE, sigunguCode);
         intent.putExtra(AREA_NAME, areaName);
@@ -93,16 +101,24 @@ public class SelectAreaMainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        loadSingleData(listPositionContentId);
+    }
+
     private void Initialize() {
 
+        // 휴대폰 내에 저장된 사용자 email 값 가져오기
+        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
+        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+
         areaBaseItems = new ArrayList<>();
+        contentIdList = new ArrayList<>();
 
         // default 값 설정
         arrange = "O"; // (초기 여행지) 데이터 정렬 제목순으로 셋팅
         contentTypeId = null;
-
-        progressBar = findViewById(R.id.progressBar);
-
 
         // 툴바 셋팅
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -120,17 +136,17 @@ public class SelectAreaMainActivity extends AppCompatActivity {
         // 정보 처리
         TextView toolbar_title = findViewById(R.id.toolbar_title);
         if (sigunguCode != null & sigunguName != null) { // 광역시 , 시군구 모든 정보
-            toolbar_title.setText(areaName + "/" + sigunguName);
+            toolbar_title.setText(String.valueOf(areaName + "/" + sigunguName));
         } else { // 광역시 정보
-            toolbar_title.setText(areaName + " 전체");
+            toolbar_title.setText(String.valueOf(areaName + " 전체"));
         }
 
         // 리사이클러뷰 셋팅
         final RecyclerView recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setNestedScrollingEnabled(false); // ScrollView 안에 RecyclerView 설정 시, Scroll이 부드럽게 되지 않는 경우가 발생해서 해당 구문 필요
-        gridLayoutManager = new GridLayoutManager(SelectAreaMainActivity.this, 2);
+        gridLayoutManager = new GridLayoutManager(SelectAreaResultActivity.this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
-        tourResultRVAdapter = new TourResultRVAdapter(SelectAreaMainActivity.this);
+        tourResultRVAdapter = new TourResultRVAdapter(SelectAreaResultActivity.this);
         recyclerView.setAdapter(tourResultRVAdapter);
 
         // 사용자가 스크롤 끝에 도달했을 경우를 처리하기 위한 구문
@@ -153,7 +169,7 @@ public class SelectAreaMainActivity extends AppCompatActivity {
         viewPager.setClipToPadding(false);
         viewPager.setPadding(6,0,6,0);
         viewPager.setPageMargin(-5);
-        localTellerWritingVP = new LocalPopularityTellerVPAdapter(SelectAreaMainActivity.this);
+        localTellerWritingVP = new LocalPopularityTellerVPAdapter(SelectAreaResultActivity.this);
         viewPager.setAdapter(localTellerWritingVP);
 
         // 여행정보 가져오기
@@ -170,7 +186,7 @@ public class SelectAreaMainActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.toolbar_title :
-                    Intent intent1 = new Intent(SelectAreaMainActivity.this, SelectAreaActivity.class);
+                    Intent intent1 = new Intent(SelectAreaResultActivity.this, SelectAreaActivity.class);
                     startActivity(intent1);
                     break;
                 case R.id.filter_btn :
@@ -181,6 +197,12 @@ public class SelectAreaMainActivity extends AppCompatActivity {
             }
         }
     };
+
+
+    public void setPositionData(int position, int contentId) {
+        listPositionData = position;
+        listPositionContentId = contentId;
+    }
 
     public void resetData(String arrange, String contentTypeId) {
         currentPage = 1;
@@ -194,17 +216,35 @@ public class SelectAreaMainActivity extends AppCompatActivity {
         }
     }
 
-    public void loadAreaData(int page, String arrange, String contentTypeId) {
-        progressBar.setVisibility(View.VISIBLE);
+    private void loadSingleData(int contentId) { // 단일 관광지 데이터를 호출할 경우
+        ArrayList<Integer> contentIdList = new ArrayList<>();
+        contentIdList.add(contentId);
+        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
+        call.enqueue(new Callback<ArrayList<TourInfoItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<TourInfoItem> tourInfoItems = response.body();
+                    if (tourInfoItems != null && !tourInfoItems.isEmpty()) {
+                        tourResultRVAdapter.changeData(listPositionData, tourInfoItems.get(0));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
+            }
+        });
+    }
+
+    public void loadAreaData(int page, String arrange, final String contentTypeId) {
 
 
-        SelectAreaMainActivity.ItemDeserializer itemDeserializer = new SelectAreaMainActivity.ItemDeserializer();
+        SelectAreaResultActivity.ItemDeserializer itemDeserializer = new SelectAreaResultActivity.ItemDeserializer();
         Gson gson = new GsonBuilder().registerTypeAdapter(AreaBase.Items.class, itemDeserializer).create();
 
-
-
         Call<AreaBase> call = RetrofitTourClient.getInstance().getService(gson).AreaBase(API_key, "yunal",
-                "AND", "json", page, 10, areaCode, sigunguCode, arrange, contentTypeId);
+                "AND", "json", page, 20, areaCode, sigunguCode, arrange, contentTypeId);
         Log.e(TAG, call.request().url().toString());
         call.enqueue(new Callback<AreaBase>() {
             @Override
@@ -212,14 +252,36 @@ public class SelectAreaMainActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     AreaBase areaBaseData = response.body();
                     if (areaBaseData != null && areaBaseData.response.body.items != null) {
+
+                        for (int i = 0; i < areaBaseData.response.body.items.item.size(); i++) {
+                            contentIdList.add(areaBaseData.response.body.items.item.get(i).contentid);
+                        }
+
                         areaBaseItems.addAll(areaBaseData.response.body.items.item);
-                        tourResultRVAdapter.setData(areaBaseItems);
+
+                        Call<ArrayList<TourInfoItem>> serverCall = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
+                        serverCall.enqueue(new Callback<ArrayList<TourInfoItem>>() {
+                            @Override
+                            public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
+                                if (response.isSuccessful()) {
+                                    ArrayList<TourInfoItem> tourInfoItems = response.body();
+                                    if (tourInfoItems != null && !tourInfoItems.isEmpty()) {
+                                        tourResultRVAdapter.setData(areaBaseItems, tourInfoItems);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
+
+                            }
+                        });
+
                     } else { // 관광지 데이터 없음
-                        Toasty.error(SelectAreaMainActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();
+                        Toasty.error(SelectAreaResultActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();
                         // 데이터 없다는 다이얼로그 뿌려주기~!
                     }
                 }
-                progressBar.setVisibility(View.GONE);
 
             }
 
@@ -228,7 +290,7 @@ public class SelectAreaMainActivity extends AppCompatActivity {
 
                 Log.e(TAG,"요청 메시지 :"+call.request());
                 Log.e(TAG,"지역정보 불러오기 실패 :" + t.getMessage() );
-                Toasty.error(SelectAreaMainActivity.this, "지역정보를 가져오지 못했습니다", Toast.LENGTH_SHORT).show();
+                Toasty.error(SelectAreaResultActivity.this, "지역정보를 가져오지 못했습니다", Toast.LENGTH_SHORT).show();
             }
         });
 

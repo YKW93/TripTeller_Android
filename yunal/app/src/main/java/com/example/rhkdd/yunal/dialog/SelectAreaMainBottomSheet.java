@@ -11,8 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.rhkdd.yunal.R;
-import com.example.rhkdd.yunal.SearchResultActivity;
-import com.example.rhkdd.yunal.SelectAreaMainActivity;
+import com.example.rhkdd.yunal.SelectAreaResultActivity;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
@@ -131,7 +130,7 @@ public class SelectAreaMainBottomSheet extends BottomSheetDialogFragment {
                     } else {
                         arrange = null;
                     }
-                    ((SelectAreaMainActivity)getActivity()).resetData(arrange, contentTypeId);
+                    ((SelectAreaResultActivity)getActivity()).resetData(arrange, contentTypeId);
                     bottomSheetDialogFragment.dismiss(); // 프래그먼트 종료
                     break;
             }

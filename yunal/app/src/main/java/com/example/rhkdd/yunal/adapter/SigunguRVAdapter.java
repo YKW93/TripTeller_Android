@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.rhkdd.yunal.R;
-import com.example.rhkdd.yunal.SelectAreaMainActivity;
+import com.example.rhkdd.yunal.SelectAreaResultActivity;
 import com.example.rhkdd.yunal.model.areaCode.AreaCodeItem;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class SigunguRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             String sigunguName = lists.get(getAdapterPosition()).name;
 
             if (areaCode != null && areaName != null & sigunguCode != null && sigunguName != null) {
-                Intent intent = SelectAreaMainActivity.newIntent(context, areaCode, sigunguCode, areaName, sigunguName);
+                Intent intent = SelectAreaResultActivity.newIntent(context, areaCode, sigunguCode, areaName, sigunguName);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
             }

@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,10 +57,11 @@ public class SearchResultActivity extends AppCompatActivity {
     private String arrange;
     private int currentPage = 1;
     private int currentItems;
-    private ProgressBar progressBar;
     private ArrayList<SearchKeywordItem> searchResultLists;
     private ArrayList<Integer> contentIdList;
 
+    private int listPositionData = 0;
+    private int listPositionContentId;
 
     public static Intent newIntent(Context context, String search_key) {
         Intent intent = new Intent(context, SearchResultActivity.class);
@@ -70,7 +70,6 @@ public class SearchResultActivity extends AppCompatActivity {
         return intent;
     }
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +77,13 @@ public class SearchResultActivity extends AppCompatActivity {
 
         Initialize();
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        // 리스트에서 아이템을 클릭하고 DetailActivity -> SearchResultActivity로 넘어 왔을 경우
+        loadSingleData(listPositionContentId);
     }
 
     private void Initialize() {
@@ -92,8 +98,6 @@ public class SearchResultActivity extends AppCompatActivity {
         contentIdList = new ArrayList<>();
 
         arrange = "O"; // 기본 정렬값 제목순으로 지정
-
-        progressBar = findViewById(R.id.progressBar);
 
         Intent intent = getIntent();
         search_Name = intent.getStringExtra(SEARCH_NAME);
@@ -116,7 +120,6 @@ public class SearchResultActivity extends AppCompatActivity {
                 });
             }
         });
-
         resultRV.setAdapter(resultRVAdapter);
 
 
@@ -125,8 +128,14 @@ public class SearchResultActivity extends AppCompatActivity {
         searchNameTV.setText(Html.fromHtml("<font color='#14b9d6'>" + search_Name + "</font>" + "에 대한 검색 결과"));
 
         loadData(currentPage, search_Name, arrange);
-
     }
+
+    public void setPositionData(int position, int contentId) {
+        listPositionData = position;
+        listPositionContentId = contentId;
+    }
+
+
 
     public void resetData(String arrange) {
         currentPage = 1;
@@ -134,9 +143,31 @@ public class SearchResultActivity extends AppCompatActivity {
         if (arrange != null) {
             this.arrange = arrange;
             loadData(currentPage, search_Name, this.arrange);
+
         }
     }
 
+    private void loadSingleData(int contentId) { // 단일 관광지 데이터를 호출할 경우
+        ArrayList<Integer> contentIdList = new ArrayList<>();
+        contentIdList.add(contentId);
+        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
+        call.enqueue(new Callback<ArrayList<TourInfoItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<TourInfoItem> tourInfoItems = response.body();
+                    if (tourInfoItems != null && !tourInfoItems.isEmpty()) {
+                        resultRVAdapter.changeData(listPositionData, tourInfoItems.get(0));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
+
+            }
+        });
+    }
 
     private void loadData(int page, String keyWord, String arrange) {
         //서버에 보내기 작업
@@ -162,7 +193,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
         // 데이터셋팅을 하고 서버를 보내준다.
         Call<SearchKeyword> call = RetrofitTourClient.getInstance().getService(gson).searchKeyword(API_key,"yunal",
-                "AND","json",page,10, keyWord, arrange);
+                "AND","json",page,20, keyWord, arrange);
 //            Log.d("test14",call.request().url().toString()); //실제 호출하는 url을 볼수 있다
 
         call.enqueue(new Callback<SearchKeyword>() { // 서버에 데이터를 호출하는 부분
@@ -188,7 +219,6 @@ public class SearchResultActivity extends AppCompatActivity {
                             searchResultLists.addAll(searchResult.response.body.items.item);
 
                             Call<ArrayList<TourInfoItem>> serverCall = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
-                            Log.d("abcd1414", String.valueOf(serverCall.request().url()));
                             serverCall.enqueue(new Callback<ArrayList<TourInfoItem>>() {
                                 @Override
                                 public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
@@ -202,7 +232,6 @@ public class SearchResultActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
-                                    Log.d("abcd1414", t.getMessage());
                                 }
                             });
 

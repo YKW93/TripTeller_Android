@@ -73,6 +73,7 @@ import com.google.gson.JsonParseException;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -244,6 +245,12 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         locationBasedData_AllView.setOnClickListener(onClickListener);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        loadTourInfoData(); // 방 평균평점, 후기갯수값 셋팅
+
+    }
 
     // 파싱 해온 데이터(여행관련) 화면에 적용.
     private void setDetailData() {
@@ -708,17 +715,24 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
                 if (response.isSuccessful()) {
                     ArrayList<TourInfoItem> tourInfoItems = response.body();
-                    if (tourInfoItems != null && !tourInfoItems.isEmpty() && tourInfoItems.get(0).review != 0) { // 관광지 리뷰가 있을때
+                    if (tourInfoItems != null && !tourInfoItems.isEmpty()) {
+                        if (tourInfoItems.get(0).review != 0) { // 관광지 리뷰가 있을때
+                            recyclerview.setVisibility(View.VISIBLE); // 관광지 리뷰
+                            reviewMessage.setVisibility(View.GONE); // 리뷰 없을때 나오는 메시지 삭제
 
-                        recyclerview.setVisibility(View.VISIBLE); // 관광지 리뷰
-                        reviewMessage.setVisibility(View.GONE); // 리뷰 없을때 나오는 메시지 삭제
+                            ratingAverageTV.setText(Float.toString(tourInfoItems.get(0).star));
+                            reviewSize.setText("리뷰 " + tourInfoItems.get(0).review + "개");
 
-                        ratingAverageTV.setText(Float.toString(tourInfoItems.get(0).star));
-                        reviewSize.setText("리뷰 " + tourInfoItems.get(0).review + "개");
+                            if (tourInfoItems.get(0).review > 3) { // 총 리뷰수가 3개 초과일 경우에만 전체보기 버튼 활성화
+                                totalReview.setVisibility(View.VISIBLE); // 리뷰 전체 보기 버튼 표출
+                            } else {
+                                totalReview.setVisibility(View.GONE);
+                            }
 
-                        if (tourInfoItems.get(0).review > 3) { // 총 리뷰수가 3개 초과일 경우에만 전체보기 버튼 활성화
-                            totalReview.setVisibility(View.VISIBLE); // 리뷰 전체 보기 버튼 표출
-                        } else {
+                            ratingAverageMRB.setRating(tourInfoItems.get(0).star);
+                        } else { // 관광지 리뷰가 없을때
+                            recyclerview.setVisibility(View.GONE);
+                            reviewMessage.setVisibility(View.VISIBLE);
                             totalReview.setVisibility(View.GONE);
                         }
 
@@ -728,12 +742,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                             markTBtn.setChecked(false);
                         }
 
-                        ratingAverageMRB.setRating(tourInfoItems.get(0).star);
-
-                    } else { // 관광지 리뷰가 없을때
-                        recyclerview.setVisibility(View.GONE);
-                        reviewMessage.setVisibility(View.VISIBLE);
-                        totalReview.setVisibility(View.GONE);
 
                     }
                     nestedScrollView.scrollTo(0,0); // 액티비티가 열렸을때 맨위 화면으로 보이기위한 작업
@@ -744,7 +752,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
                 recyclerview.setVisibility(View.GONE);
-
             }
         });
     }
