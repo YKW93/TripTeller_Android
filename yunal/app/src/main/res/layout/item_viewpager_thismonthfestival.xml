@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="140dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="280dp"
+    android:layout_height="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:padding="5dp">
+    android:paddingLeft="20dp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/selectableItemBackground"
-        card_view:cardCornerRadius="7dp">
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        card_view:cardCornerRadius="5dp">
         <ImageView
             android:id="@+id/mainImage"
             android:layout_width="match_parent"
@@ -23,11 +23,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="제목 구간"
-                android:textSize="22sp"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:textColor="#ffffff"
-                android:layout_marginTop="20dp"
+                android:textSize="11sp"
+                android:letterSpacing="0.27"
+                android:fontFamily="@font/koreanah2_r"
+                android:textColor="@color/white"
+                android:layout_marginTop="19.7dp"
                 android:layout_centerHorizontal="true" />
 
             <TextView
@@ -35,20 +35,53 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="장소명"
-                android:textColor="#ffffff"
-                android:layout_marginTop="15dp"
+                android:textSize="5.7sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/koreanah1_r"
+                android:layout_marginTop="6dp"
                 android:layout_below="@+id/title"
+                android:letterSpacing="0.14"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"/>
-            <TextView
-                android:id="@+id/eventStartEnd"
-                android:layout_width="wrap_content"
+           
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/address"
-                android:layout_marginTop="3dp"
-                android:textColor="#ffffff"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"/>
+                android:layout_marginTop="7.3dp"
+                android:gravity="center_horizontal">
+                <ImageView
+                    android:layout_width="7.7dp"
+                    android:layout_height="7dp"
+                    android:background="@drawable/ic_like_white"/>
+                <TextView
+                    android:id="@+id/markCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="5.7sp"
+                    android:textColor="#ffffff"
+                    android:fontFamily="@font/koreanah2_r"
+                    android:letterSpacing="0.14"
+                    android:layout_marginLeft="2dp"
+                    android:gravity="center_horizontal"
+                    android:text="223" />
+                <ImageView
+                    android:layout_width="7.7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginLeft="13.7dp"
+                    android:background="@drawable/ic_review_white"/>
+                <TextView
+                    android:id="@+id/reviewCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="5.7sp"
+                    android:textColor="#ffffff"
+                    android:fontFamily="@font/koreanah2_r"
+                    android:layout_marginLeft="3dp"
+                    android:letterSpacing="0.14"
+                    android:gravity="center_horizontal"
+                    android:text="32" />
+            </LinearLayout>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

@@ -47,7 +47,7 @@ public class CurrentLocationVPAdapter extends PagerAdapter {
 
         mapTV.setText(lists.get(position).title);
 
-        contentTypeSetting(lists.get(position).contenttypeid, view);
+//        contentTypeSetting(lists.get(position).contenttypeid, view);
 
         if (lists.get(position).addr1 == null && lists.get(position).addr2 == null) {
             mapLocationTV.setText("");
@@ -62,51 +62,47 @@ public class CurrentLocationVPAdapter extends PagerAdapter {
 
         return view;
     }
-
-    public void contentTypeSetting(int typeid, View view) {
-        ImageView mapContentTypeIV = view.findViewById(R.id.map_contentType_image);
-        TextView mapContentTypeTV = view.findViewById(R.id.map_contentType);
-
-        if (typeid == 12) { // 관광지
-            mapContentTypeIV.setImageResource(R.drawable.travel);
-            mapContentTypeTV.setText("관광지");
-
-        } else if (typeid == 14) { // 문화시설
-            mapContentTypeIV.setImageResource(R.drawable.culture);
-            mapContentTypeTV.setText("문화시설");
-
-        } else if (typeid == 15) { // 행사/공연/축제
-            mapContentTypeIV.setImageResource(R.drawable.festival);
-            mapContentTypeTV.setText("행사/공연/축제");
-
-        } else if (typeid == 28) { // 레포츠
-            mapContentTypeIV.setImageResource(R.drawable.leisure);
-            mapContentTypeTV.setText("레포츠");
-
-        } else if (typeid == 32) { // 숙박
-            mapContentTypeIV.setImageResource(R.drawable.lodgment);
-            mapContentTypeTV.setText("숙박");
-        } else if (typeid == 38) { // 쇼핑
-            mapContentTypeIV.setImageResource(R.drawable.shopping);
-            mapContentTypeTV.setText("쇼핑");
-
-        } else if (typeid == 39) { // 음식점
-            mapContentTypeIV.setImageResource(R.drawable.food);
-            mapContentTypeTV.setText("음식점");
-
-        }
-    }
+//
+//    public void contentTypeSetting(int typeid, View view) {
+//        ImageView mapContentTypeIV = view.findViewById(R.id.map_contentType_image);
+//        TextView mapContentTypeTV = view.findViewById(R.id.map_contentType);
+//
+//        if (typeid == 12) { // 관광지
+//            mapContentTypeIV.setImageResource(R.drawable.travel);
+//            mapContentTypeTV.setText("관광지");
+//
+//        } else if (typeid == 14) { // 문화시설
+//            mapContentTypeIV.setImageResource(R.drawable.culture);
+//            mapContentTypeTV.setText("문화시설");
+//
+//        } else if (typeid == 15) { // 행사/공연/축제
+//            mapContentTypeIV.setImageResource(R.drawable.festival);
+//            mapContentTypeTV.setText("행사/공연/축제");
+//
+//        } else if (typeid == 28) { // 레포츠
+//            mapContentTypeIV.setImageResource(R.drawable.leisure);
+//            mapContentTypeTV.setText("레포츠");
+//
+//        } else if (typeid == 32) { // 숙박
+//            mapContentTypeIV.setImageResource(R.drawable.lodgment);
+//            mapContentTypeTV.setText("숙박");
+//        } else if (typeid == 38) { // 쇼핑
+//            mapContentTypeIV.setImageResource(R.drawable.shopping);
+//            mapContentTypeTV.setText("쇼핑");
+//
+//        } else if (typeid == 39) { // 음식점
+//            mapContentTypeIV.setImageResource(R.drawable.food);
+//            mapContentTypeTV.setText("음식점");
+//
+//        }
+//    }
 
     @Override
     public int getCount() {
         return lists.size();
     }
 
-//    @Override
-//    public float getPageWidth(int position) {
-//        return (0.945f);
-//    }
-//0.945f
+
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View)object);

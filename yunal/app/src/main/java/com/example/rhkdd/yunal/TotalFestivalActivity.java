@@ -89,12 +89,16 @@ public class TotalFestivalActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ArrayList<SearchFestivalItem> lists = (ArrayList<SearchFestivalItem>) intent.getSerializableExtra(FESTIVAL_DATAS);
         loadData(lists);
+//        for (int i = 0 ; i < lists.size(); i++) {
+//            Log.d("testtt1414", lists.get(i).title + " , " + lists.get(i).contentid);
+//        }
     }
 
     private void loadSingleData(int contentId) { // 단일 관광지 데이터를 호출할 경우
         ArrayList<Integer> contentIdList = new ArrayList<>();
         contentIdList.add(contentId);
         Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
+        Log.d("testtt1414", String.valueOf(call.request().url()));
         call.enqueue(new Callback<ArrayList<TourInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {

@@ -47,7 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="snap"
-            app:tabIndicatorHeight="2dp"
+            app:tabIndicatorColor="#2B8073"
+            app:tabIndicatorHeight="3dp"
             app:tabMode="fixed"/>
     </android.support.design.widget.AppBarLayout>
         <!--

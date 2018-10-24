@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -12,12 +13,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.example.rhkdd.yunal.CurrentLocationActivity;
 import com.example.rhkdd.yunal.R;
@@ -25,11 +26,13 @@ import com.example.rhkdd.yunal.SelectAreaActivity;
 import com.example.rhkdd.yunal.TotalFestivalActivity;
 import com.example.rhkdd.yunal.adapter.AreaDataRankRVAdapter;
 import com.example.rhkdd.yunal.adapter.ThisMonthFestivalVPAdapter;
+import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
 import com.example.rhkdd.yunal.model.areaBase.AreaBase;
 import com.example.rhkdd.yunal.model.areaBase.AreaBaseItem;
 import com.example.rhkdd.yunal.model.searchFestival.SearchFestival;
 import com.example.rhkdd.yunal.model.searchFestival.SearchFestivalItem;
+import com.example.rhkdd.yunal.model.tourDetail.TourInfoItem;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,13 +49,14 @@ import static com.example.rhkdd.yunal.SearchActivity.API_key;
 
 public class InfoTabFragment extends Fragment {
 
+    private String email_id;
     private RecyclerView recyclerView;
     private AreaDataRankRVAdapter areaDataRankRVAdapter;
     private ThisMonthFestivalVPAdapter thisMonthFestivalVPAdapter;
 
     private static final String TAG = "InfoFragement";
 
-    private ArrayList<SearchFestivalItem> lists;
+    private ArrayList<SearchFestivalItem> searchFestivalItems;
 
     private String monthStartDay;
     private String monthEndDay;
@@ -63,12 +67,12 @@ public class InfoTabFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_second, container, false);
 
-        Button areaBtn = view.findViewById(R.id.areaBtn);
-        areaBtn.setOnClickListener(onClickListener);
-        Button currentLocationBtn = view.findViewById(R.id.currentLocationBtn);
-        currentLocationBtn.setOnClickListener(onClickListener);
-        TextView allDataViewTV = view.findViewById(R.id.allDataView);
-        allDataViewTV.setOnClickListener(onClickListener);
+        LinearLayout areaSearch = view.findViewById(R.id.areaSearch);
+        areaSearch.setOnClickListener(onClickListener);
+        LinearLayout currentLocation = view.findViewById(R.id.currentLocation);
+        currentLocation.setOnClickListener(onClickListener);
+        LinearLayout allDataView = view.findViewById(R.id.allDataView);
+        allDataView.setOnClickListener(onClickListener);
 
         // recyclerview 셋팅
         recyclerView = view.findViewById(R.id.recyclerview);
@@ -77,11 +81,14 @@ public class InfoTabFragment extends Fragment {
         areaDataRankRVAdapter = new AreaDataRankRVAdapter(getActivity());
         recyclerView.setAdapter(areaDataRankRVAdapter);
 
+
         // viewpage 셋팅
         ViewPager viewPager = view.findViewById(R.id.viewPage);
         viewPager.setClipToPadding(false);
-        viewPager.setPadding(6,0,6,0);
-        viewPager.setPageMargin(-5);
+        int padding_dp = 30;
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int dp = Math.round(padding_dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        viewPager.setPadding(0,0, dp,0);
         thisMonthFestivalVPAdapter = new ThisMonthFestivalVPAdapter(getActivity());
         viewPager.setAdapter(thisMonthFestivalVPAdapter);
 
@@ -91,6 +98,10 @@ public class InfoTabFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // 휴대폰 내에 저장된 사용자 email 값 가져오기
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TripTeller", Context.MODE_PRIVATE);
+        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
 
         getMonthStartEndDate();
         loadRankAreaData();
@@ -103,15 +114,15 @@ public class InfoTabFragment extends Fragment {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.areaBtn :
+                case R.id.areaSearch :
                     Intent intent = new Intent(getActivity(), SelectAreaActivity.class);
                     startActivity(intent);
                     break;
-                case  R.id.currentLocationBtn :
+                case  R.id.currentLocation :
                     GpsOnOffCheck();
                     break;
                 case R.id.allDataView :
-                    Intent intent1 = TotalFestivalActivity.newIntent(getActivity(), lists);
+                    Intent intent1 = TotalFestivalActivity.newIntent(getActivity(), searchFestivalItems);
                     startActivity(intent1);
                     break;
             }
@@ -183,11 +194,10 @@ public class InfoTabFragment extends Fragment {
     }
 
     private void loadFestivalData() {
-        lists = new ArrayList<>();
+        searchFestivalItems = new ArrayList<>();
 
         Call<SearchFestival> call = RetrofitTourClient.getInstance().getService(null).SearchFestival(API_key, "yunal", "AND" , "json",
-                1, 500, "P", monthStartDay, monthEndDay);
-        Log.d("test1414", String.valueOf(call.request().url()));
+                1, 20, "P", monthStartDay, monthEndDay);
         call.enqueue(new Callback<SearchFestival>() {
             @Override
             public void onResponse(Call<SearchFestival> call, Response<SearchFestival> response) {
@@ -195,8 +205,14 @@ public class InfoTabFragment extends Fragment {
                     SearchFestival searchFestival = response.body();
                     if (searchFestival != null && searchFestival.response.body.items.item != null) {
                         Log.d("test1414", String.valueOf(searchFestival.response.body.items.item.size()));
-                        lists.addAll(searchFestival.response.body.items.item);
-                        thisMonthFestivalVPAdapter.setData(lists);
+                        searchFestivalItems.addAll(searchFestival.response.body.items.item);
+                        ArrayList<Integer> integers = new ArrayList<>();
+
+                        for (int i = 0; i < searchFestivalItems.size(); i++) {
+                            integers.add(searchFestivalItems.get(i).contentid);
+                        }
+                        loadLikeReviewData(integers);
+
                     }
                 }
             }
@@ -206,6 +222,28 @@ public class InfoTabFragment extends Fragment {
                 Log.d("test1414", t.getMessage());
             }
         });
+    }
+
+    private void loadLikeReviewData(ArrayList<Integer> integers) {
+
+        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, integers);
+        call.enqueue(new Callback<ArrayList<TourInfoItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<TourInfoItem> tourInfoItems = response.body();
+                    if (tourInfoItems != null && !tourInfoItems.isEmpty()) { // 관광지 리뷰 정보 등이 있을 때
+                        thisMonthFestivalVPAdapter.setData(searchFestivalItems, tourInfoItems);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
+
+            }
+        });
+
     }
 
     private void getMonthStartEndDate() {

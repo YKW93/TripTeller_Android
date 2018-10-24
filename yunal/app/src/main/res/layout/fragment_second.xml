@@ -3,6 +3,8 @@
     android:id="@+id/layout"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#cbd3d2
+"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v4.widget.NestedScrollView
@@ -17,75 +19,188 @@
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/currentLocationBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="내 주변 장소"/>
-                <Button
-                    android:id="@+id/areaBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="지역 선택"/>
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Top Teller"/>
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:background="@color/white"
+                android:paddingTop="10dp"
+                android:paddingBottom="21dp">
+                <LinearLayout
+                    android:id="@+id/currentLocation"
+                    android:layout_width="102dp"
+                    android:layout_height="129dp"
+                    android:background="@drawable/location_background"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_marginRight="12dp"
+                    android:gravity="bottom">
+                    <LinearLayout
+                        android:layout_width="102dp"
+                        android:layout_height="46dp"
+                        android:background="@drawable/ic_shadow"
+                        android:layout_marginBottom="23dp">
+                        <ImageView
+                            android:layout_width="4dp"
+                            android:layout_height="35dp"
+                            android:background="@drawable/ic_contour"
+                            android:layout_marginLeft="8dp"
+                            android:layout_gravity="center_vertical"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16.7sp"
+                            android:textColor="#ffffff"
+                            android:fontFamily="@font/koreanah2_r"
+                            android:text="내 주변\n여행지"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/areaSearch"
+                    android:layout_width="102dp"
+                    android:layout_height="129dp"
+                    android:background="@drawable/areasearch_background"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_marginRight="12dp"
+                    android:gravity="bottom">
+                    <LinearLayout
+                        android:layout_width="102dp"
+                        android:layout_height="46dp"
+                        android:background="@drawable/ic_shadow"
+                        android:layout_marginBottom="23dp">
+                        <ImageView
+                            android:layout_width="4dp"
+                            android:layout_height="35dp"
+                            android:background="@drawable/ic_contour"
+                            android:layout_marginLeft="8dp"
+                            android:layout_gravity="center_vertical"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16.7sp"
+                            android:textColor="#ffffff"
+                            android:fontFamily="@font/koreanah2_r"
+                            android:text="지역\n검색"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/topTeller"
+                    android:layout_width="102dp"
+                    android:layout_height="129dp"
+                    android:background="@drawable/topteller_background"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:gravity="bottom">
+                    <LinearLayout
+                        android:layout_width="102dp"
+                        android:layout_height="46dp"
+                        android:background="@drawable/ic_shadow"
+                        android:layout_marginBottom="23dp">
+                        <ImageView
+                            android:layout_width="4dp"
+                            android:layout_height="35dp"
+                            android:background="@drawable/ic_contour"
+                            android:layout_marginLeft="8dp"
+                            android:layout_gravity="center_vertical"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16.7sp"
+                            android:textColor="#ffffff"
+                            android:fontFamily="@font/koreanah2_r"
+                            android:text="TOP\nTeller"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"/>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@color/white"
                 android:layout_marginTop="10dp">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="21.3dp"
+                    android:paddingTop="24dp">
                     <TextView
+                        android:id="@+id/festival_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="이번달 인기 축제"
-                        android:textColor="#262525"
-                        android:textSize="20dp"/>
-                    <TextView
+                        android:textColor="#58c8c9"
+                        android:fontFamily="@font/koreanah3_r"
+                        android:textSize="19.3sp"/>
+                    <ImageView
+                        android:id="@+id/location_icon"
+                        android:layout_width="14.3dp"
+                        android:layout_height="19.3dp"
+                        android:background="@drawable/ic_location_icon"
+                        android:layout_marginLeft="7.7dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_toRightOf="@id/festival_tv" />
+                    <LinearLayout
                         android:id="@+id/allDataView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="전체보기"
-                        android:padding="5dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:layout_gravity="right"
-                        android:layout_marginRight="10dp"
-                        android:layout_alignParentRight="true"
-                        android:textColor="#262525"/>
+                        android:layout_toRightOf="@id/location_icon"
+                        android:layout_alignParentBottom="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="전체보기"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:textSize="8.3sp"
+                            android:fontFamily="@font/koreanah2_r"
+                            android:layout_marginLeft="12.3dp"
+                            android:textColor="#4e7c72"/>
+                        <ImageView
+                            android:layout_width="4dp"
+                            android:layout_height="7.3dp"
+                            android:layout_marginTop="1.2dp"
+                            android:layout_marginLeft="2.3dp"
+                            android:background="@drawable/ic_arrow_right" />
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewPage"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="140dp">
+                    android:layout_height="80dp">
                 </android.support.v4.view.ViewPager>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="전국 Top10 여행지"
-                    android:layout_marginTop="10dp"
-                    android:textColor="#262525"
-                    android:textSize="20dp"/>
+                    android:paddingLeft="21.3dp"
+                    android:paddingTop="24dp">
+                    <TextView
+                        android:id="@+id/toptour_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TOP 10 여행지"
+                        android:textColor="#58c8c9"
+                        android:fontFamily="@font/koreanah3_r"
+                        android:textSize="19.3sp"/>
+                    <ImageView
+                        android:layout_width="14.3dp"
+                        android:layout_height="19.3dp"
+                        android:background="@drawable/ic_location_icon"
+                        android:layout_marginLeft="7.7dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_toRightOf="@id/toptour_tv" />
+                </RelativeLayout>
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp">
-                </android.support.v7.widget.RecyclerView>
+                    android:paddingLeft="20dp"
+                    android:layout_marginTop="12dp"></android.support.v7.widget.RecyclerView>
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

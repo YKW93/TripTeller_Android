@@ -12,5 +12,8 @@
     </style>
 
 
+    <style name="Theme.Rating" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/yellow</item>
+    </style>
 
 </resources>

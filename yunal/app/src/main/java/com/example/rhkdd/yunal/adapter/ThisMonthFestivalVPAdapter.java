@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,27 +16,33 @@ import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.model.searchFestival.SearchFestivalItem;
+import com.example.rhkdd.yunal.model.tourDetail.TourInfoItem;
 
 import java.util.ArrayList;
 
-public class ThisMonthFestivalVPAdapter extends PagerAdapter{
+public class ThisMonthFestivalVPAdapter extends PagerAdapter {
 
     private Context context;
-    private ArrayList<SearchFestivalItem> lists;
+    private ArrayList<SearchFestivalItem> searchFestivalItems;
+    private ArrayList<TourInfoItem> tourInfoItems;
 
     public ThisMonthFestivalVPAdapter(Context context) {
         this.context = context;
-        lists = new ArrayList<>();
+        searchFestivalItems = new ArrayList<>();
+        tourInfoItems = new ArrayList<>();
     }
 
-    public void setData(ArrayList<SearchFestivalItem> lists) {
-        this.lists.addAll(lists);
+    public void setData(ArrayList<SearchFestivalItem> lists, ArrayList<TourInfoItem> lists1) {
+        this.searchFestivalItems.clear();
+        this.tourInfoItems.clear();
+        this.searchFestivalItems.addAll(lists);
+        this.tourInfoItems.addAll(lists1);
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return lists.size();
+        return searchFestivalItems.size();
     }
 
     @SuppressLint("SetTextI18n")
@@ -47,38 +54,41 @@ public class ThisMonthFestivalVPAdapter extends PagerAdapter{
         ImageView mainIV = view.findViewById(R.id.mainImage);
         TextView titleTV = view.findViewById(R.id.title);
         TextView addressTV = view.findViewById(R.id.address);
-        TextView eventStartEndTV = view.findViewById(R.id.eventStartEnd);
+        TextView markCountTV = view.findViewById(R.id.markCount);
+        TextView reviewCountTV = view.findViewById(R.id.reviewCount);
 
-        if (lists.get(position).firstimage != null) {
-            GlideApp.with(context).load(lists.get(position).firstimage).into(mainIV);
+        if (searchFestivalItems.get(position).firstimage != null) {
+            GlideApp.with(context).load(searchFestivalItems.get(position).firstimage).into(mainIV);
         } else {
             GlideApp.with(context).load(R.drawable.no_image).into(mainIV);
         }
 
-        titleTV.setText(lists.get(position).title);
+        titleTV.setText(searchFestivalItems.get(position).title);
 
-        if (lists.get(position).addr1 == null && lists.get(position).addr2 == null) {
+        if (searchFestivalItems.get(position).addr1 == null && searchFestivalItems.get(position).addr2 == null) {
             addressTV.setVisibility(View.GONE);
-        } else if (lists.get(position).addr2 == null) {
+        } else if (searchFestivalItems.get(position).addr2 == null) {
             addressTV.setVisibility(View.VISIBLE);
-            addressTV.setText(lists.get(position).addr1);
+            addressTV.setText(searchFestivalItems.get(position).addr1);
         } else {
             addressTV.setVisibility(View.VISIBLE);
-            String addr = lists.get(position).addr1 + lists.get(position).addr2;
+            String addr = searchFestivalItems.get(position).addr1 + searchFestivalItems.get(position).addr2;
             addressTV.setText(addr);
         }
-
-        eventStartEndTV.setText(lists.get(position).eventstartdate + " ~ " + lists.get(position).eventenddate);
 
 
         mainIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = DetailActivity.newIntent(context, lists.get(position).contentid);
+                Intent intent = DetailActivity.newIntent(context, searchFestivalItems.get(position).contentid);
                 context.startActivity(intent);
 
             }
         });
+
+
+        markCountTV.setText(String.valueOf(tourInfoItems.get(position).mark_cnt));
+        reviewCountTV.setText(String.valueOf(tourInfoItems.get(position).review));
 
         container.addView(view);
 
@@ -88,11 +98,6 @@ public class ThisMonthFestivalVPAdapter extends PagerAdapter{
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
-    }
-
-    @Override
-    public float getPageWidth(int position) {
-        return (0.968f);
     }
 
 

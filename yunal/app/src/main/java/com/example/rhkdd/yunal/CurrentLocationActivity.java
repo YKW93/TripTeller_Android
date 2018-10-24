@@ -102,7 +102,6 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
         currentLocationVPAdapter = new CurrentLocationVPAdapter(CurrentLocationActivity.this);
         viewPager.setAdapter(currentLocationVPAdapter);
         viewPager.setVisibility(View.GONE);
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -179,7 +178,7 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
                 loadData(longitude, latitude);
 
                 LatLng dataLocation = new LatLng( latitude ,  longitude);
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(dataLocation).zoom(15).build(); // 카메라 현재 위치로 셋팅
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(dataLocation).zoom(13).build(); // 카메라 현재 위치로 셋팅
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition)); // 애니메이션 적용, 위치 이동
 
             }
@@ -215,7 +214,6 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
 
         Call<LocationBased> call = RetrofitTourClient.getInstance().getService(null).locationBased(API_key, "yunal", "AND", "json",
                 longitude, latitude, 3000, "O", 1, 500);
-        Log.d("test15", String.valueOf(call.request().url()));
         call.enqueue(new Callback<LocationBased>() {
             @Override
             public void onResponse(Call<LocationBased> call, Response<LocationBased> response) {
@@ -310,17 +308,20 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
                     }
 
                 }
-
                 return false;
             }
         });
 
+        // 디폴트 위치
+        LatLng dataLocation = new LatLng( 37.5512645 ,  126.9553756);
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(dataLocation).zoom(12).build(); // 카메라 현재 위치로 셋팅
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition)); // 애니메이션 적용, 위치 이동
    }
 
    private void moveCamera(MarkerOptions markerOptions) {
 
        mMap.addMarker(markerOptions).showInfoWindow(); // 위치한 마커 클릭
-       CameraPosition cameraPosition = new CameraPosition.Builder().target(markerOptions.getPosition()).zoom(15).build(); // 카메라 셋팅
+       CameraPosition cameraPosition = new CameraPosition.Builder().target(markerOptions.getPosition()).zoom(14).build(); // 카메라 셋팅
        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition)); // 애니메이션 적용, 위치 이동
 
    }
