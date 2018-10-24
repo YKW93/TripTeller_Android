@@ -62,5 +62,7 @@ dependencies {
     //fishbun 갤러리 다중선택
     implementation 'com.github.GrenderG:Toasty:1.2.8'
     // 다양한 toast 메세지
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    // circle 이미지뷰
 
 }

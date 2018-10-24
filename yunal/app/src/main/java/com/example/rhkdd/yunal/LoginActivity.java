@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.model.userResponseResult.LoginResponseResult;
 
+import java.io.IOException;
+
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,19 +25,8 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private RelativeLayout Rlayout1, Rlayout2;
-
     private EditText email_edit;
     private EditText pw_edit;
-
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            Rlayout1.setVisibility(View.VISIBLE);
-            Rlayout2.setVisibility(View.VISIBLE);
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +42,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void Initialize() {
-
-        Rlayout1 = findViewById(R.id.Rlayout1);
-        Rlayout2 = findViewById(R.id.Rlayout2);
-
-        handler.postDelayed(runnable, 2000);
 
         email_edit = findViewById(R.id.id_edit);
         pw_edit = findViewById(R.id.pw_edit);
@@ -101,6 +87,12 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             } else if (response.code() == 400) {
+                                try {
+                                    String re = response.errorBody().string();
+                                    Log.d("ttt1515", re);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                                 Toasty.error(LoginActivity.this, "회원 정보가 없습니다.", Toast.LENGTH_LONG).show();
                             } else { // 로그인 실패
                                 Toasty.error(LoginActivity.this, "로그인 정보를 다시 확인해주세요.", Toast.LENGTH_LONG).show();

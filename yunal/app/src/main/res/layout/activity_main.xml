@@ -14,7 +14,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="?colorPrimary"
+            android:background="@drawable/toolbar_background"
             app:layout_collapseMode="pin"
             app:layout_scrollFlags="scroll|enterAlways">
             <RelativeLayout
@@ -22,22 +22,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageView
+                    android:layout_width="108dp"
+                    android:layout_height="23dp"
                     android:text="Trip teller"
-                    android:textColor="#000"
                     android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
-                    android:textSize="20sp"/>
+                    android:background="@drawable/toolbar_title_icon"/>
 
                 <ImageButton
                     android:id="@+id/search"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
                     android:background="?attr/actionBarItemBackground"
-                    android:layout_margin="10dp"
+                    android:layout_marginRight="19dp"
+                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/ic_search"/>
             </RelativeLayout>

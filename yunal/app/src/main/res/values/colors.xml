@@ -10,4 +10,5 @@
     <color name="text_default">#262525</color>
     <color name="colorTextPrimary">#72000000</color>
     <color name="dark">#000000</color>
+    <color name="white">#ffffff</color>
 </resources>

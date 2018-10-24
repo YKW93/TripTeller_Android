@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#19AA8B"
+    android:background="@drawable/splash_background"
     tools:context=".LoginActivity">
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -14,49 +14,45 @@
         android:layout_marginLeft="40dp">
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:src="@drawable/splash_icon"
+            android:layout_marginRight="67dp"
+            android:layout_marginLeft="67dp"
             android:adjustViewBounds="true"
+            android:layout_centerHorizontal="true"
             android:scaleType="fitCenter"/>
         <RelativeLayout
             android:id="@+id/Rlayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_below="@+id/logo">
-            <TextView
-                android:id="@+id/login_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Login"
-                android:textSize="30sp"
-                android:layout_marginTop="20dp"
-                android:textColor="#ffffff"
-                android:fontFamily="sans-serif-condensed"/>
 
             <LinearLayout
                 android:id="@+id/linear1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="vertical"
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/login_tv">
+                android:layout_marginTop="49dp">
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ID"
-                        android:textColor="#ffffff"
+                        android:text="이메일(아이디)"
+                        android:textColor="#527573"
+                        android:fontFamily="@font/nanumsquare_otfr"
                         android:textAllCaps="true"
-                        android:textSize="15sp"/>
+                        android:layout_marginBottom="3dp"
+                        android:letterSpacing="-0.02"
+                        android:textSize="11sp"/>
                     <EditText
                         android:id="@+id/id_edit"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:textSize="15sp"
                         android:singleLine="true"
                         android:inputType="textEmailAddress"
@@ -68,21 +64,24 @@
                         android:fontFamily="sans-serif"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="230dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="21dp"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Password"
-                        android:textColor="#ffffff"
+                        android:text="패스워드"
+                        android:fontFamily="@font/nanumsquare_otfr"
+                        android:textColor="#527573"
                         android:textAllCaps="true"
-                        android:textSize="15sp"/>
+                        android:layout_marginBottom="3dp"
+                        android:letterSpacing="-0.02"
+                        android:textSize="11sp"/>
                     <EditText
                         android:id="@+id/pw_edit"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:textSize="15sp"
                         android:singleLine="true"
                         android:inputType="textPassword"
@@ -96,19 +95,19 @@
             </LinearLayout>
             <Button
                 android:id="@+id/login_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_width="230dp"
+                android:layout_height="30dp"
                 android:layout_below="@id/linear1"
-                android:paddingLeft="70dp"
-                android:paddingRight="70dp"
-                android:text="Login Now"
+                android:text="로그인"
                 android:layout_centerHorizontal="true"
+                android:fontFamily="@font/nanumsquare_otfb"
                 android:textAllCaps="false"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:textColor="#ffffff"
-                android:textSize="16sp"
+                android:textSize="12sp"
+                android:letterSpacing="-0.02"
                 android:background="@drawable/button_bg"
-                android:layout_marginTop="50dp"/>
+                android:layout_marginTop="65dp"/>
         </RelativeLayout>
 
     </RelativeLayout>
@@ -117,7 +116,6 @@
         android:id="@+id/Rlayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_marginLeft="20dp"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="20dp">
@@ -128,7 +126,8 @@
             android:text="Signup Now"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             android:textColor="#ffffff"
-            android:fontFamily="sans-serif"
+            android:fontFamily="@font/nanumsquare_otfb"
+            android:textSize="13sp"
             android:background="#00ff0000"
             android:textAllCaps="true"/>
         <Button
@@ -137,8 +136,9 @@
             android:text="Forgot Password?"
             android:layout_alignParentRight="true"
             android:textColor="#ffffff"
-            android:background="#00ff0000"
             android:fontFamily="sans-serif"
+            android:textSize="13sp"
+            android:background="#00ff0000"
             android:textAllCaps="true"/>
     </RelativeLayout>
 </RelativeLayout>

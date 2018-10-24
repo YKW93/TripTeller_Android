@@ -24,13 +24,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAwLH3gtDBW90Y2_A_JqVoUH17PC6tcnyk" />
 
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".LoginActivity"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".MainActivity" />
         <activity
             android:name=".SearchActivity"
@@ -50,7 +45,14 @@
         <activity android:name=".CurrentLocationActivity" />
         <activity android:name=".TotalFestivalActivity" />
         <activity android:name=".SignupActivity" />
-        <activity android:name=".TotalReviewActivity"></activity>
+        <activity android:name=".TotalReviewActivity" />
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

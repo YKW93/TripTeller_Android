@@ -88,10 +88,16 @@ public interface TourApiService {
             @Query("eventEndDate") String eventEndDate
     );
 
-    @FormUrlEncoded
-    @POST("api/users/create")
+//    @FormUrlEncoded
+//    @POST("api/users/create")
+//    Call<SignupResponseResult> SignupResponseResult(
+//            @Field("nickname") String nickname, @Field("email") String email, @Field("password") String password
+//    );
+
+    @Multipart
+    @POST("api/user/signup/")
     Call<SignupResponseResult> SignupResponseResult(
-            @Field("nickname") String nickname, @Field("email") String email, @Field("password") String password
+            @Part("nickname") RequestBody nickname, @Part("email") RequestBody email, @Part("password") RequestBody password, @Part MultipartBody.Part photo
     );
 
     @FormUrlEncoded
