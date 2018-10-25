@@ -53,7 +53,7 @@
                 <ImageView
                     android:layout_width="7.7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/ic_like_white"/>
+                    android:background="@drawable/ic_mark_white"/>
                 <TextView
                     android:id="@+id/markCount"
                     android:layout_width="wrap_content"

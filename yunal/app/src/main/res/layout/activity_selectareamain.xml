@@ -11,19 +11,18 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/transparent">
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:layout_gravity="center"
-                android:textColor="#262525"
-                android:background="?android:attr/selectableItemBackground"
-                android:text="지역명"
-                android:textSize="19dp"
-                android:textStyle="bold"
-                android:padding="8dp"/>
+        android:background="@drawable/toolbar_background">
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="19.3sp"
+            android:background="?android:attr/selectableItemBackground"
+            android:fontFamily="@font/koreanah3_r"
+            android:singleLine="true"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:text="TOP Teller"/>
     </android.support.v7.widget.Toolbar>
     <!--
     Toolbar 안에 textview 클릭 시 ripple effect 효과를 넣을려면 AppbarLayout 없애야된다.
@@ -47,51 +46,79 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
+                android:id="@+id/tellerReviewLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
+                android:paddingTop="16.3dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="지역 인기 Teller"
-                    android:textColor="#262525"
-                    android:textSize="20dp"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="19.3sp"
+                        android:textColor="#58c8c9"
+                        android:fontFamily="@font/koreanah3_r"
+                        android:text="지역 인기 텔러"/>
+                    <ImageView
+                        android:layout_width="14.3dp"
+                        android:layout_height="19.3dp"
+                        android:layout_marginLeft="8.3dp"
+                        android:background="@drawable/ic_location_icon"/>
+                </LinearLayout>
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="21dp"
+                    android:layout_marginTop="20.3dp"
+                    android:layout_height="130dp">
+                </android.support.v4.view.ViewPager>
             </LinearLayout>
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewpager"
+            <LinearLayout
+                android:id="@+id/emptylayout"
                 android:layout_width="match_parent"
-                android:layout_height="130dp">
-            </android.support.v4.view.ViewPager>
+                android:layout_height="12dp"
+                android:background="#cbd3d2"
+                android:orientation="horizontal" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
+                android:paddingLeft="15dp"
                 android:orientation="vertical">
                 <RelativeLayout
                     android:id="@+id/layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:id="@+id/totalTrableTV"
+                        android:id="@+id/text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="여행지"
-                        android:paddingLeft="10dp"
+                        android:textSize="19.3sp"
+                        android:textColor="#58c8c9"
+                        android:fontFamily="@font/koreanah3_r"
+                        android:text="여행지"/>
+                    <ImageView
+                        android:layout_width="14.3dp"
+                        android:layout_height="19.3dp"
+                        android:layout_marginLeft="8.3dp"
+                        android:layout_toRightOf="@+id/text"
+                        android:layout_marginTop="1dp"
                         android:layout_centerVertical="true"
-                        android:textColor="#262525"
-                        android:textSize="20dp"/>
-
+                        android:background="@drawable/ic_location_icon"/>
                     <ImageButton
                         android:id="@+id/filter_btn"
-                        android:layout_width="21dp"
+                        android:layout_width="23dp"
                         android:layout_height="21dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="11dp"
+                        android:layout_marginRight="17dp"
                         android:layout_centerVertical="true"
                         android:background="?attr/actionBarItemBackground"
                         android:src="@drawable/ic_filter_btn" />
@@ -102,16 +129,9 @@
                     android:layout_below="@+id/layout">
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerview"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="12dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
-                    <ProgressBar
-                        android:id="@+id/progressBar"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:visibility="gone"/>
             </RelativeLayout>
 
 

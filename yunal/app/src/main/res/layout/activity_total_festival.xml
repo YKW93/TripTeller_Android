@@ -13,7 +13,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="?colorPrimary"
+            android:background="@drawable/toolbar_background"
             app:layout_collapseMode="pin"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -23,14 +23,17 @@
                 android:layout_height="?attr/actionBarSize"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="전체 보기"
-                    android:textColor="#000"
-                    android:layout_marginLeft="10dp"
+                    android:textSize="19.3sp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:fontFamily="@font/koreanah3_r"
+                    android:singleLine="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
-                    android:textSize="20sp"/>
+                    android:textColor="@color/white"
+                    android:text="전체 보기"/>
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
@@ -38,6 +41,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="15dp">
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>

@@ -352,7 +352,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                         detailImageItems = new ArrayList<>();
                         detailImageItems.addAll(detailImage.response.body.items.item);
                         Call<DetailCommon> call2 = RetrofitTourClient.getInstance().getService(null).detailCommon(API_key, "yunal", "AND", "json",
-                                contentTyId, "Y", "Y", "Y", "Y", "Y");
+                                contentTyId, "Y", "Y", "Y", "Y", "Y", "Y");
+                        Log.d("test141414", String.valueOf(call2.request().url()));
                         call2.enqueue(new Callback<DetailCommon>() {
                             @Override
                             public void onResponse(Call<DetailCommon> call, @NonNull Response<DetailCommon> response) {
@@ -375,7 +376,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                 // 1.이건 추가이미지가 없을 경우이니 인텐트를 설정할때 그냥 null 값을 보내버린뒤 DetailActivity에서 null 값이 오면 예외처리를 해주면됨
                 // 2.이때도 위와 같이 대표이미지가 있을 경우 없을 경우로 나뉠수 있다.
                 Call<DetailCommon> call2 = RetrofitTourClient.getInstance().getService(null).detailCommon(API_key, "yunal",
-                        "AND", "json", contentTyId, "Y", "Y", "Y", "Y", "Y");
+                        "AND", "json", contentTyId, "Y", "Y", "Y", "Y", "Y", "Y");
                 call2.enqueue(new Callback<DetailCommon>() {
                     @Override
                     public void onResponse(Call<DetailCommon> call, Response<DetailCommon> response) {
@@ -680,6 +681,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private void loadTourReviewListData() {
 
         Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().TourReviewResponseBody(contentId);
+        Log.d("tttt1414", String.valueOf(call.request().url()));
         call.enqueue(new Callback<ArrayList<TourReviewItem>>() {
             @Override
             public void onResponse(Call<ArrayList<TourReviewItem>> call, Response<ArrayList<TourReviewItem>> response) {

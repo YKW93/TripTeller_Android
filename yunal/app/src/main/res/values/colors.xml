@@ -12,4 +12,8 @@
     <color name="dark">#000000</color>
     <color name="white">#ffffff</color>
     <color name="yellow">#FAC917</color>
+    <color name="green">#55c7c3</color>
+    <color name="gray">#cbd3d2</color>
+
+
 </resources>

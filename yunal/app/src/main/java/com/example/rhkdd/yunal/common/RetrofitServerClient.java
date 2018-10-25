@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitServerClient {
 
-    public static final String API_BASE_URL = "http://gelos12.iptime.org/";
+    public static final String API_BASE_URL = "http://ec2-13-124-129-85.ap-northeast-2.compute.amazonaws.com/";
 
     private Retrofit retrofit;
     private static RetrofitServerClient instance = null;

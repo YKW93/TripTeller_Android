@@ -11,54 +11,62 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:paddingTop="15.7dp"
+            android:paddingBottom="13.7dp"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="정렬 및 필터"
-                android:textSize="17sp"
-                android:textColor="@color/text_default"
+                android:textSize="19.3sp"
+                android:textColor="#020202"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:textStyle="bold"/>
+                android:fontFamily="@font/nanumsquare_otfb"
+                android:text="정렬 및 필터"/>
+
             <TextView
                 android:id="@+id/completeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="선택 완료"
-                android:textColor="@color/text_default"
+                android:textSize="15.3sp"
+                android:textColor="#545454"
+                android:layout_marginRight="14dp"
+                android:fontFamily="@font/nanumsquare_otfb"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:padding="5dp"
-                android:layout_marginRight="5dp"/>
+                android:text="완료" />
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#BDBDBD"/>
+            android:layout_height="0.3dp"
+            android:background="#cbd3d2"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="정렬"
-            android:textSize="16sp"
-            android:textColor="@color/text_default"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"/>
+            android:textSize="16.7sp"
+            android:fontFamily="@font/nanumsquare_otfb"
+            android:layout_marginTop="19dp"
+            android:layout_marginLeft="15dp"
+            android:textColor="#020202"
+            android:text="정렬" />
 
         <info.hoang8f.android.segmented.SegmentedGroup
             xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
             android:id="@+id/segmented"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            segmentedgroup:sc_tint_color="#52c7be"
+            segmentedgroup:sc_checked_text_color="@color/white"
+            android:layout_marginTop="11dp"
+            android:layout_marginLeft="2.3dp"
+            android:layout_marginRight="2.7dp"
             android:orientation="horizontal"
             segmentedgroup:sc_border_width="1dp"
             segmentedgroup:sc_corner_radius="1dp">
             <RadioButton
                 android:id="@+id/titleRbtn"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="39.3dp"
                 android:text="제목 순"
                 android:layout_weight="1"
                 style="@style/RadioButton" />
@@ -66,7 +74,7 @@
             <RadioButton
                 android:id="@+id/popularityRbtn"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="39.3dp"
                 android:text="인기순"
                 android:layout_weight="1"
                 style="@style/RadioButton" />
@@ -74,7 +82,7 @@
             <RadioButton
                 android:id="@+id/recentModifyRbtn"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="39.3dp"
                 android:text="최근 수정 순"
                 android:layout_weight="1"
                 style="@style/RadioButton" />
@@ -82,7 +90,7 @@
             <RadioButton
                 android:id="@+id/registerRbtn"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="39.3dp"
                 android:text="등록 순"
                 android:layout_weight="1"
                 style="@style/RadioButton" />
@@ -92,7 +100,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="10dp">
+            android:layout_height="30dp">
 
         </LinearLayout>
     </LinearLayout>

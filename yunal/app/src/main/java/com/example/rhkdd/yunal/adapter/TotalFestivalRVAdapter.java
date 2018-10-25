@@ -52,7 +52,6 @@ public class TotalFestivalRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         private ImageView thumbIV;
         private TextView titleTV;
-        private TextView ratingTV;
         private TextView reviewTV;
         private TextView markTV;
 
@@ -60,7 +59,6 @@ public class TotalFestivalRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(itemView);
             thumbIV = itemView.findViewById(R.id.thumb);
             titleTV = itemView.findViewById(R.id.name);
-            ratingTV = itemView.findViewById(R.id.ratingbarTV);
             reviewTV = itemView.findViewById(R.id.reviewTV);
             markTV = itemView.findViewById(R.id.markTV);
 
@@ -94,9 +92,8 @@ public class TotalFestivalRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         totalFestivalVH.titleTV.setText(searchFestivalItems.get(position).title);
 
-        totalFestivalVH.ratingTV.setText(String.valueOf(tourInfoItems.get(position).star));
-        totalFestivalVH.reviewTV.setText(String.valueOf("(후기 "+ tourInfoItems.get(position).review + ")"));
-        totalFestivalVH.markTV.setText(String.valueOf(tourInfoItems.get(position).mark_cnt));
+        totalFestivalVH.reviewTV.setText(String.valueOf("후기 "+ tourInfoItems.get(position).review));
+        totalFestivalVH.markTV.setText(String.valueOf("찜 " + tourInfoItems.get(position).mark_cnt));
     }
 
     @Override

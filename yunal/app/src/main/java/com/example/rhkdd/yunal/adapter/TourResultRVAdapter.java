@@ -52,7 +52,6 @@ public class TourResultRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         private ImageView thumbIV;
         private TextView nameTV;
-        private TextView ratingTV;
         private TextView reviewTV;
         private TextView markTV;
 
@@ -60,7 +59,6 @@ public class TourResultRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
             thumbIV = itemView.findViewById(R.id.thumb);
             nameTV = itemView.findViewById(R.id.name);
-            ratingTV = itemView.findViewById(R.id.ratingbarTV);
             reviewTV = itemView.findViewById(R.id.reviewTV);
             markTV = itemView.findViewById(R.id.markTV);
 
@@ -100,9 +98,8 @@ public class TourResultRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         tourResultVH.nameTV.setText(areaBaseItems.get(position).title);
 
-        tourResultVH.ratingTV.setText(String.valueOf(tourInfoItems.get(position).star));
-        tourResultVH.reviewTV.setText(String.valueOf("(후기 "+ tourInfoItems.get(position).review + ")"));
-        tourResultVH.markTV.setText(String.valueOf(tourInfoItems.get(position).mark_cnt));
+        tourResultVH.reviewTV.setText(String.valueOf("후기 "+ tourInfoItems.get(position).review));
+        tourResultVH.markTV.setText(String.valueOf("찜 " + tourInfoItems.get(position).mark_cnt));
 
     }
 

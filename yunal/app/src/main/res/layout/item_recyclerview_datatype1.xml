@@ -1,103 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/view_layout"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="17dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="5dp"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:foreground="?android:attr/selectableItemBackground"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_margin="6dp">
+        android:layout_margin="1dp"
+        android:layout_marginRight="11dp">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/thumb"
                     android:scaleType="fitXY"
-                    android:layout_width="match_parent"
-                    android:layout_height="130dp"/>
-                <!--<com.sackcentury.shinebuttonlib.ShineButton-->
-                <!--android:id="@+id/like_btn"-->
-                <!--android:layout_width="25dp"-->
-                <!--android:layout_height="25dp"-->
-                <!--android:src="@android:color/darker_gray"-->
-                <!--app:btn_color="@android:color/darker_gray"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_margin="8dp"-->
-                <!--app:btn_fill_color="#f26d7d"-->
-                <!--app:siShape="@raw/heart" />-->
+                    android:layout_width="159.3dp"
+                    android:layout_height="117.7dp"/>
             </RelativeLayout>
             <TextView
                 android:id="@+id/name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="8.7dp"
+                android:layout_marginLeft="10.7dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/koreanah3_r"
+                android:textSize="11sp"
+                android:text="제목"
+                android:textColor="#292b2b" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.7dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp"
-                android:textSize="13sp"
-                android:textColor="#000" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:background="#515151"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp">
-                <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                    android:id="@+id/ratingbar"
-                    android:layout_width="11dp"
-                    android:layout_height="12dp"
-                    android:rating="1"
-                    android:numStars="1"
-                    android:isIndicator="true"/>
-                <TextView
-                    android:id="@+id/ratingbarTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/ratingbar"
-                    android:layout_toEndOf="@+id/ratingbar"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="3dp"
-                    android:text="0.0"
-                    android:textSize="9sp"
-                    android:layout_marginStart="2dp" />
-                <TextView
-                    android:id="@+id/reviewTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="(후기 test)"
-                    android:layout_marginLeft="2dp"
-                    android:layout_toRightOf="@+id/ratingbarTV"
-                    android:textSize="9sp"/>
-                <com.sackcentury.shinebuttonlib.ShineButton
-                    android:id="@+id/shineBtn"
-                    android:layout_width="10dp"
-                    android:layout_height="11dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginLeft="5dp"
-                    app:btn_color="@color/colorAccent"
-                    android:layout_toRightOf="@+id/reviewTV"
-                    android:clickable="false"
-                    app:siShape="@raw/heart" />
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="7.7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginRight="1.3dp"
+                    android:background="@drawable/ic_mark_black"/>
                 <TextView
                     android:id="@+id/markTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="test"
-                    android:layout_marginLeft="2dp"
-                    android:layout_toRightOf="@+id/shineBtn"
-                    android:textSize="9sp"/>
-            </RelativeLayout>
+                    android:textSize="8.3sp"
+                    android:textColor="#566563"
+                    android:fontFamily="@font/koreanah2_r"
+                    android:letterSpacing="0.21"
+                    android:layout_marginRight="7.3dp"
+                    android:gravity="center_horizontal"
+                    android:text="찜 223" />
+                <ImageView
+                    android:layout_width="9.7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginRight="1.7dp"
+                    android:background="@drawable/ic_review_black"/>
+                <TextView
+                    android:id="@+id/reviewTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="8.3sp"
+                    android:textColor="#566563"
+                    android:letterSpacing="0.21"
+                    android:text="후기 32" />
+            </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

@@ -70,7 +70,7 @@ public class SelectAreaActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_green);
 
         // 시군구 로딩
         sigunguLoading = findViewById(R.id.sigungu_loading);

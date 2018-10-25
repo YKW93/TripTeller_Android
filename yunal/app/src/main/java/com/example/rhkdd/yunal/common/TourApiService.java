@@ -64,7 +64,8 @@ public interface TourApiService {
     Call<DetailCommon> detailCommon (
             @Query(value = "ServiceKey", encoded = true) String ServiceKey, @Query("MobileApp") String MobileApp, @Query("MobileOS") String MobileOS,
             @Query("_type") String type, @Query("contentId") int contentId,  @Query("defaultYN") String defaultYN, @Query("addrinfoYN") String addrinfoYN,
-            @Query("overviewYN") String overviewYN, @Query("mapinfoYN") String mapinfoYN, @Query("firstImageYN") String firstImageYN
+            @Query("overviewYN") String overviewYN, @Query("mapinfoYN") String mapinfoYN, @Query("firstImageYN") String firstImageYN,
+            @Query("areacodeYN") String areacodeYN
     );
 
     @GET("detailImage") // 추가 이미지 요청
@@ -121,6 +122,16 @@ public interface TourApiService {
     @GET("api/review") // 관광지 모든 리뷰 리턴
     Call<ArrayList<TourReviewItem>> TourReviewResponseBody (
             @Query("content_id") int content_id
+    );
+
+    @GET("api/review") // 지역관광지 리뷰 리턴
+    Call<ArrayList<TourReviewItem>> AreaSigunguReviewResponseBody (
+            @Query("areacode") int areacode, @Query("sigungucode") int sigungucode
+    );
+
+    @GET("api/review") // 지역관광지 리뷰 리턴
+    Call<ArrayList<TourReviewItem>> AreaTotalReviewResponseBody (
+            @Query("areacode") int areacode
     );
 
     @FormUrlEncoded

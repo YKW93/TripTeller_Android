@@ -205,6 +205,9 @@ public class ReviewActivity extends AppCompatActivity {
         RequestBody areaCodeRequest = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(detailCommonItem.areacode));
         RequestBody sigunguCodeRequest = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(detailCommonItem.sigungucode));
 
+        Log.d("test1414", String.valueOf(detailCommonItem.areacode));
+        Log.d("test1414", String.valueOf(detailCommonItem.sigungucode));
+
 //                        MultipartBody.Part image = images.get(0);
         Call<ResponseBody> call = RetrofitServerClient.getInstance().getService().reviewResponseBody(token, emailIdRequest, contentIdRequest, contentRequest,
                 images, ratingRequest, areaCodeRequest, sigunguCodeRequest);

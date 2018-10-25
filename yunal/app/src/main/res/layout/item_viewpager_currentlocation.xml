@@ -64,6 +64,7 @@
                         android:layout_height="10.3dp"
                         android:isIndicator="true" />
                     <TextView
+                        android:id="@+id/ratingbarTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="8.3sp"
@@ -81,8 +82,9 @@
                     <ImageView
                         android:layout_width="7.7dp"
                         android:layout_height="7dp"
-                        android:background="@drawable/ic_like_black"/>
+                        android:background="@drawable/ic_mark_black"/>
                     <TextView
+                        android:id="@+id/markTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="8.3sp"
@@ -98,6 +100,7 @@
                         android:layout_marginLeft="7.3dp"
                         android:background="@drawable/ic_review_black"/>
                     <TextView
+                        android:id="@+id/reviewTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="8.3sp"

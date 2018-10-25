@@ -108,37 +108,44 @@
                 android:letterSpacing="-0.02"
                 android:background="@drawable/button_bg"
                 android:layout_marginTop="65dp"/>
+            <LinearLayout
+                android:id="@+id/Rlayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/login_btn"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="비밀번호가 기억안나세요?"
+                    android:textColor="#ffffff"
+                    android:fontFamily="@font/nanumsquare_otfb"
+                    android:textSize="11sp"
+                    android:background="#00ff0000"
+                    android:textAllCaps="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="1dp"
+                    android:text="|"/>
+                <Button
+                    android:id="@+id/signup_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="회원 가입"
+                    android:textColor="#ffffff"
+                    android:fontFamily="@font/nanumsquare_otfb"
+                    android:textSize="11sp"
+                    android:background="#00ff0000"
+                    android:textAllCaps="true"/>
+
+            </LinearLayout>
         </RelativeLayout>
-
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/Rlayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="20dp">
-        <Button
-            android:id="@+id/signup_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Signup Now"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:textColor="#ffffff"
-            android:fontFamily="@font/nanumsquare_otfb"
-            android:textSize="13sp"
-            android:background="#00ff0000"
-            android:textAllCaps="true"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Forgot Password?"
-            android:layout_alignParentRight="true"
-            android:textColor="#ffffff"
-            android:fontFamily="sans-serif"
-            android:textSize="13sp"
-            android:background="#00ff0000"
-            android:textAllCaps="true"/>
-    </RelativeLayout>
 </RelativeLayout>

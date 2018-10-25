@@ -77,7 +77,7 @@ public class TotalFestivalActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
 
         //recyclerview 셋팅
         RecyclerView recyclerView = findViewById(R.id.recyclerview);

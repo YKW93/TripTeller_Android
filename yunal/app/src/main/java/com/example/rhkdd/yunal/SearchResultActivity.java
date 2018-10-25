@@ -125,7 +125,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
         findViewById(R.id.back_btn).setOnClickListener(onClickListener);
         findViewById(R.id.filter_btn).setOnClickListener(onClickListener);
-        searchNameTV.setText(Html.fromHtml("<font color='#14b9d6'>" + search_Name + "</font>" + "에 대한 검색 결과"));
+        searchNameTV.setText(Html.fromHtml("<font color='#55c7c3'>" + search_Name + "</font>" + "에 대한 검색 결과"));
 
         loadData(currentPage, search_Name, arrange);
     }
@@ -170,6 +170,7 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void loadData(int page, String keyWord, String arrange) {
+        contentIdList.clear();
         //서버에 보내기 작업
         // -------------------------------------------------v------//
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();

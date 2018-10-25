@@ -204,7 +204,6 @@ public class InfoTabFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     SearchFestival searchFestival = response.body();
                     if (searchFestival != null && searchFestival.response.body.items.item != null) {
-                        Log.d("test1414", String.valueOf(searchFestival.response.body.items.item.size()));
                         searchFestivalItems.addAll(searchFestival.response.body.items.item);
                         ArrayList<Integer> integers = new ArrayList<>();
 
@@ -219,7 +218,6 @@ public class InfoTabFragment extends Fragment {
 
             @Override
             public void onFailure(Call<SearchFestival> call, Throwable t) {
-                Log.d("test1414", t.getMessage());
             }
         });
     }

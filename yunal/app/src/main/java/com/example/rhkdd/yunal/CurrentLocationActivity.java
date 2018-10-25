@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Looper;
@@ -20,13 +21,17 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rhkdd.yunal.adapter.CurrentLocationVPAdapter;
+import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
 import com.example.rhkdd.yunal.model.locationBased.LocationBased;
 import com.example.rhkdd.yunal.model.locationBased.LocationBasedItem;
+import com.example.rhkdd.yunal.model.tourDetail.TourInfoItem;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
@@ -37,6 +42,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -55,6 +61,7 @@ import static com.example.rhkdd.yunal.SearchActivity.API_key;
 
 public class CurrentLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    private String email_id;
     private LinearLayout warningMsg;
 
     private SupportMapFragment mapFragment;
@@ -78,6 +85,9 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_location);
 
+        // 휴대폰 내에 저장된 사용자 email 값 가져오기
+        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", Context.MODE_PRIVATE);
+        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
         Initialize();
     }
 
@@ -88,7 +98,7 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
 
         // viewpager 셋팅
         viewPager = findViewById(R.id.viewPager);
@@ -204,9 +214,37 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
             MarkerOptions markers = new MarkerOptions();
             markers.position(dataLocation).title(lists.get(i).title);
             markerOptions.add(i, markers);
+            contentTypeSetting(lists.get(i).contenttypeid, markers);
             mMap.addMarker((markers));
         }
 
+    }
+
+
+    public void contentTypeSetting(int typeid, MarkerOptions markerOptions) {
+
+        if (typeid == 12) { // 관광지
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_travel_mark));
+
+        } else if (typeid == 14) { // 문화시설
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_culture_mark));
+
+        } else if (typeid == 15) { // 행사/공연/축제
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_festival_mark));
+
+        } else if (typeid == 28) { // 레포츠
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_leisure_mark));
+
+        } else if (typeid == 32) { // 숙박
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_lodgment_mark));
+
+        } else if (typeid == 38) { // 쇼핑
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_shopping_mark));
+
+        } else if (typeid == 39) { // 음식점
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_food_mark));
+
+        }
     }
 
     private void loadData(final double longitude, final double latitude) {
@@ -221,8 +259,18 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
                     LocationBased locationBased = response.body();
                     if (locationBased != null) {
                         locationBasedItems.addAll(locationBased.response.body.items.item);
+                        for (int i = 0; i < locationBasedItems.size(); i++) {
+                            if (locationBasedItems.get(i).contenttypeid == 25) {
+                                locationBasedItems.remove(i);
+                            }
+                        }
+
+                        ArrayList<Integer> integers = new ArrayList<>();
+                        for (int i = 0; i < locationBasedItems.size(); i++) {
+                            integers.add(locationBasedItems.get(i).contentid);
+                        }
                         setMarker(locationBasedItems);
-                        currentLocationVPAdapter.setData(locationBasedItems);
+                        loadLikeReviewData(integers);
                     }
                 }
             }
@@ -232,6 +280,29 @@ public class CurrentLocationActivity extends AppCompatActivity implements OnMapR
 //                Toasty.error(CurrentLocationActivity.this, "잠시 후 다시 시도해주세요.", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void loadLikeReviewData(ArrayList<Integer> integers) {
+
+        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, integers);
+        call.enqueue(new Callback<ArrayList<TourInfoItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<TourInfoItem> tourInfoItems = response.body();
+                    if (tourInfoItems != null && !tourInfoItems.isEmpty()) { // 관광지 리뷰 정보 등이 있을 때
+                        currentLocationVPAdapter.setData(locationBasedItems, tourInfoItems);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
+
+            }
+        });
+
     }
 
     private void buildLocationRequest() {

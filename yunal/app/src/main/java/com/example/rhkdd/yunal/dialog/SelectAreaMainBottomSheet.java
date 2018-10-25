@@ -1,5 +1,6 @@
 package com.example.rhkdd.yunal.dialog;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,9 +20,9 @@ public class SelectAreaMainBottomSheet extends BottomSheetDialogFragment {
 
     private TextView completeBtn;
     private SegmentedGroup segmentedGroup;
-    private RadioGroup radioGroup1;
-    private RadioGroup radioGroup2;
-    private RadioGroup radioGroup3;
+    private SegmentedGroup segmentedGroup1;
+    private SegmentedGroup segmentedGroup2;
+//    private SegmentedGroup radioGroup3;
     private BottomSheetDialogFragment bottomSheetDialogFragment;
     private String arrange;
     private String contentTypeId;
@@ -43,19 +44,22 @@ public class SelectAreaMainBottomSheet extends BottomSheetDialogFragment {
 
         completeBtn = view.findViewById(R.id.completeBtn);
         segmentedGroup = view.findViewById(R.id.segmented);
-        radioGroup1 = view.findViewById(R.id.radioGroup1);
-        radioGroup2 = view.findViewById(R.id.radioGroup2);
-        radioGroup3 = view.findViewById(R.id.radioGroup3);
+        segmentedGroup1 = view.findViewById(R.id.radioGroup1);
+        segmentedGroup2 = view.findViewById(R.id.radioGroup2);
+//        radioGroup3 = view.findViewById(R.id.radioGroup3);
 
         completeBtn.setOnClickListener(onClickListener);
+        segmentedGroup.setTintColor(Color.parseColor("#52c7be"));
+        segmentedGroup1.setTintColor(Color.parseColor("#52c7be"));
+        segmentedGroup2.setTintColor(Color.parseColor("#52c7be"));
 
-        radioGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        segmentedGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
                 if (checkId != -1 && isChecked) {
                     isChecked = false;
-                    radioGroup2.clearCheck();
-                    radioGroup3.clearCheck();
+                    segmentedGroup2.clearCheck();
+//                    radioGroup3.clearCheck();
                     switch (checkId) {
                         case R.id.travelRbtn :
                             contentTypeId = String.valueOf(12);
@@ -72,13 +76,13 @@ public class SelectAreaMainBottomSheet extends BottomSheetDialogFragment {
             }
         });
 
-        radioGroup2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        segmentedGroup2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
                 if (checkId != -1 && isChecked) {
                     isChecked = false;
-                    radioGroup1.clearCheck();
-                    radioGroup3.clearCheck();
+                    segmentedGroup1.clearCheck();
+//                    radioGroup3.clearCheck();
                     switch (checkId) {
                         case R.id.lodgmentRbtn :
                             contentTypeId = String.valueOf(32);
@@ -95,22 +99,22 @@ public class SelectAreaMainBottomSheet extends BottomSheetDialogFragment {
             }
         });
 
-        radioGroup3.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
-                if (checkId != -1 && isChecked) {
-                    isChecked = false;
-                    radioGroup1.clearCheck();
-                    radioGroup2.clearCheck();
-                    switch (checkId) {
-                        case R.id.totalRbtn :
-                            contentTypeId = null;
-                            break;
-                    }
-                }
-                isChecked = true;
-            }
-        });
+//        radioGroup3.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
+//                if (checkId != -1 && isChecked) {
+//                    isChecked = false;
+//                    radioGroup1.clearCheck();
+//                    radioGroup2.clearCheck();
+//                    switch (checkId) {
+//                        case R.id.totalRbtn :
+//                            contentTypeId = null;
+//                            break;
+//                    }
+//                }
+//                isChecked = true;
+//            }
+//        });
     }
 
     public View.OnClickListener onClickListener = new View.OnClickListener() {

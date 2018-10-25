@@ -33,14 +33,15 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:orientation="horizontal"
-            android:background="#eaeaea">
+            android:paddingLeft="15dp"
+            android:background="@color/gray">
 
             <TextView
                 android:id="@+id/searchname"
                 android:layout_width="wrap_content"
                 android:layout_height="30sp"
                 android:text="검색명 : "
-                android:layout_marginLeft="9dp"
+                android:textColor="#292b2b"
                 android:gravity="center"
                 android:textSize="15sp"
                 android:layout_centerVertical="true"/>
@@ -66,18 +67,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="15dp"
+        android:layout_marginTop="12dp"
         android:orientation="vertical">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/result_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:visibility="gone"/>
      </RelativeLayout>
 
 
