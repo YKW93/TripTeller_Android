@@ -42,6 +42,7 @@
                     android:src="@drawable/ic_search"/>
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
+
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
@@ -61,4 +62,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
 </android.support.design.widget.CoordinatorLayout>

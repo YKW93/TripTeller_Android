@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.R;
-import com.example.rhkdd.yunal.SelectAreaResultActivity;
 import com.example.rhkdd.yunal.TotalFestivalActivity;
 import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.model.searchFestival.SearchFestivalItem;
@@ -77,7 +76,7 @@ public class TotalFestivalRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TotalFestivalVH(LayoutInflater.from(context).inflate(R.layout.item_recyclerview_datatype1, parent, false));
+        return new TotalFestivalVH(LayoutInflater.from(context).inflate(R.layout.item_recyclerview_tourtype1, parent, false));
     }
 
     @Override

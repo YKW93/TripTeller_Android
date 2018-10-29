@@ -13,7 +13,6 @@
     <color name="white">#ffffff</color>
     <color name="yellow">#FAC917</color>
     <color name="green">#55c7c3</color>
+    <color name="status_color">#5dc8cf</color>
     <color name="gray">#cbd3d2</color>
-
-
 </resources>

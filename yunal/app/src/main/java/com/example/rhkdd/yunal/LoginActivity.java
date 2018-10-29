@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                                 Toasty.error(LoginActivity.this, "회원 정보가 없습니다.", Toast.LENGTH_LONG).show();
                             } else { // 로그인 실패
-                                Toasty.error(LoginActivity.this, "로그인 정보를 다시 확인해주세요.", Toast.LENGTH_LONG).show();
+                                Toasty.error(LoginActivity.this, "서버 점검중입니다.", Toast.LENGTH_LONG).show();
                             }
                         }
 

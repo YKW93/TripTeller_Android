@@ -45,11 +45,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.rhkdd.yunal.SearchActivity.API_key;
 import static com.example.rhkdd.yunal.SelectAreaActivity.AREA_CODE;
 import static com.example.rhkdd.yunal.SelectAreaActivity.AREA_NAME;
 import static com.example.rhkdd.yunal.SelectAreaActivity.SIGUNGU_CODE;
 import static com.example.rhkdd.yunal.SelectAreaActivity.SIGUNGU_NAME;
+import static com.example.rhkdd.yunal.common.RetrofitTourClient.API_key;
 
 public class SelectAreaResultActivity extends AppCompatActivity {
 
@@ -313,10 +313,17 @@ public class SelectAreaResultActivity extends AppCompatActivity {
                     if (areaBaseData != null && areaBaseData.response.body.items != null) {
 
                         for (int i = 0; i < areaBaseData.response.body.items.item.size(); i++) {
-                            contentIdList.add(areaBaseData.response.body.items.item.get(i).contentid);
+                            if (areaBaseData.response.body.items.item.get(i).contenttypeid == 25) { // 여행코스(관광 타입) 데이터 제외시킴
+                                areaBaseData.response.body.items.item.remove(i);
+                            }
                         }
 
                         areaBaseItems.addAll(areaBaseData.response.body.items.item);
+
+                        for (int i = 0; i < areaBaseItems.size(); i++) {
+                            contentIdList.add(areaBaseItems.get(i).contentid);
+                        }
+
 
                         Call<ArrayList<TourInfoItem>> serverCall = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
                         serverCall.enqueue(new Callback<ArrayList<TourInfoItem>>() {

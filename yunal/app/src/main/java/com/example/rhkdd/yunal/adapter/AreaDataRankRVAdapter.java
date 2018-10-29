@@ -65,7 +65,7 @@ public class AreaDataRankRVAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new AreaDataRankVH(LayoutInflater.from(context).inflate(R.layout.item_recyclerview_datatype2, parent, false));
+        return new AreaDataRankVH(LayoutInflater.from(context).inflate(R.layout.item_recyclerview_tourtype2, parent, false));
     }
 
     @Override

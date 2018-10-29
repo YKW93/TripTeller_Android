@@ -2,10 +2,15 @@ package com.example.rhkdd.yunal;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.hardware.input.InputManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,9 +25,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.rhkdd.yunal.common.StatusBarColorChange;
 import com.example.rhkdd.yunal.fragment.MainTabFragment;
 import com.example.rhkdd.yunal.fragment.MypageTabFragment;
 import com.example.rhkdd.yunal.fragment.InfoTabFragment;
@@ -38,11 +52,22 @@ import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.DialogPlusBuilder;
+import com.orhanobut.dialogplus.OnBackPressListener;
+import com.orhanobut.dialogplus.OnCancelListener;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.OnDismissListener;
+import com.orhanobut.dialogplus.ViewHolder;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
+
 public class MainActivity extends AppCompatActivity {
 
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private static GoogleApiClient mGoogleApiClient;
@@ -98,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //상태바 색상 변경
+        StatusBarColorChange.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.status_color));
 
         Initialize();
 
@@ -162,19 +189,82 @@ public class MainActivity extends AppCompatActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
     }
-
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch (view.getId()){
 
                 case R.id.search:
-                    Intent intent = SearchActivity.newIntent(MainActivity.this);
-                    startActivity(intent);
+                    final DialogPlus dialogPlus = DialogPlus.newDialog(MainActivity.this)
+                            .setContentHolder(new ViewHolder(R.layout.dialog_search))
+                            .setGravity(Gravity.TOP)
+                            .setOnDismissListener(new OnDismissListener() { // 다이얼로그 꺼졌을때 반응 리스너
+                                @Override
+                                public void onDismiss(DialogPlus dialog) {
+                                    // 키보드 내리기
+                                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                                }
+                            })
+                            .create();
+                    dialogPlus.show();
+
+                    final EditText searchEdit = (EditText) dialogPlus.findViewById(R.id.testEdit);
+
+                    // 해당 EditText에 포커스 주기
+                    searchEdit.requestFocus();
+                    // 키보드 자동으로 올리기
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
+                    searchEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                        @Override
+                        public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                            switch (i) {
+                                case EditorInfo.IME_ACTION_DONE : // 키보드에서 완료 버튼 클릭했을 경우
+                                    String search_keyword = searchEdit.getText().toString();
+                                    if (!search_keyword.isEmpty()) {
+                                        dialogPlus.dismiss();
+                                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                                        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                                        Intent intent = SearchResultActivity.newIntent(MainActivity.this, search_keyword);
+                                        startActivity(intent);
+
+                                        return true;
+                                    }
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+
+                    ImageView back_btn = (ImageView) dialogPlus.findViewById(R.id.back_btn);
+                    back_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialogPlus.dismiss();
+                        }
+                    });
+
                     break;
             }
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            super.onBackPressed();
+        } else {
+            backPressedTime = tempTime;
+            Toasty.warning(this, "한 번더 누르면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
 
     private void checkPermission() {
         TedPermission.with(this)

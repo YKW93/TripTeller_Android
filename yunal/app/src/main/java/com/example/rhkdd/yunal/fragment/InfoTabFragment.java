@@ -11,6 +11,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -41,7 +42,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.rhkdd.yunal.SearchActivity.API_key;
+import static com.example.rhkdd.yunal.common.RetrofitTourClient.API_key;
+
 
 /**
  * Created by rhkdd on 2018-01-10.
@@ -49,6 +51,7 @@ import static com.example.rhkdd.yunal.SearchActivity.API_key;
 
 public class InfoTabFragment extends Fragment {
 
+    private NestedScrollView nestedScrollView;
     private String email_id;
     private RecyclerView recyclerView;
     private AreaDataRankRVAdapter areaDataRankRVAdapter;
@@ -67,6 +70,7 @@ public class InfoTabFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_second, container, false);
 
+        nestedScrollView = view.findViewById(R.id.nestedScrollView);
         LinearLayout areaSearch = view.findViewById(R.id.areaSearch);
         areaSearch.setOnClickListener(onClickListener);
         LinearLayout currentLocation = view.findViewById(R.id.currentLocation);
@@ -102,6 +106,8 @@ public class InfoTabFragment extends Fragment {
         // 휴대폰 내에 저장된 사용자 email 값 가져오기
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TripTeller", Context.MODE_PRIVATE);
         email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+
+        nestedScrollView.scrollTo(0,0); // 액티비티가 열렸을때 맨위 화면으로 보이기위한 작업
 
         getMonthStartEndDate();
         loadRankAreaData();

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +41,7 @@ import com.example.rhkdd.yunal.adapter.DetailMainImageVPAdapter;
 import com.example.rhkdd.yunal.adapter.ReviewImageVPAdapter;
 import com.example.rhkdd.yunal.adapter.TotalReviewRVAdapter;
 import com.example.rhkdd.yunal.common.GlideApp;
+import com.example.rhkdd.yunal.common.MyAppGlideModule;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommon;
@@ -62,6 +65,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
@@ -87,7 +91,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.rhkdd.yunal.SearchActivity.API_key;
+import static com.example.rhkdd.yunal.common.RetrofitTourClient.API_key;
+
 
 /**
  * Created by rhkdd on 2018-02-19.
@@ -116,6 +121,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private DetailMainImageVPAdapter viewPagerAdapter;
     private int contentId;
     private String email_id;
+
+    private Toolbar toolbar;
 
     private TextView toolbarTitle;
     private Boolean checkRun = true;
@@ -171,7 +178,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private void Initialize() {
         // 툴바 셋팅
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 툴바 왼쪽 이전버튼 생기게 하는 구문
@@ -225,8 +232,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (verticalOffset <= -head_layout.getHeight() / 2) {
                     toolbarTitle.setVisibility(View.VISIBLE);
-                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
+                    toolbar.setBackground(ContextCompat.getDrawable(DetailActivity.this, R.drawable.toolbar_background));
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
                 } else {
+                    toolbar.setBackground(null);
                     toolbarTitle.setVisibility(View.GONE);
                 }
             }
@@ -238,8 +247,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
 
         // 잘못된 정보 신고하기 버튼
-        TextView falseInfoBtn = findViewById(R.id.falseInfoBtn);
-        falseInfoBtn.setOnClickListener(onClickListener);
+        Button tourReportBtn = findViewById(R.id.tourReportBtn);
+        tourReportBtn.setOnClickListener(onClickListener);
 
         locationBasedData_AllView = findViewById(R.id.allDataView);
         locationBasedData_AllView.setOnClickListener(onClickListener);
@@ -303,29 +312,21 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         common_title.setText(detailCommonItem.title);
 
         TextView common_contenttype = findViewById(R.id.common_contenttype);
-        ImageView common_contenttypeimage = findViewById(R.id.common_contenttype_image);
         int contenttypeid = detailCommonItem.contenttypeid;
         if (contenttypeid == 12) {
             common_contenttype.setText("관광지");
-            common_contenttypeimage.setImageResource(R.drawable.travel);
         } else if (contenttypeid == 14) {
             common_contenttype.setText("문화시설");
-            common_contenttypeimage.setImageResource(R.drawable.culture);
         }  else if (contenttypeid == 15) {
             common_contenttype.setText("행사");
-            common_contenttypeimage.setImageResource(R.drawable.festival);
         }  else if (contenttypeid == 28) {
             common_contenttype.setText("레포츠");
-            common_contenttypeimage.setImageResource(R.drawable.leisure);
         }  else if (contenttypeid == 32) {
             common_contenttype.setText("숙박");
-            common_contenttypeimage.setImageResource(R.drawable.lodgment);
         }  else if (contenttypeid == 38) {
             common_contenttype.setText("쇼핑");
-            common_contenttypeimage.setImageResource(R.drawable.shopping);
         }  else if (contenttypeid == 39) {
             common_contenttype.setText("음식점");
-            common_contenttypeimage.setImageResource(R.drawable.food);
         }
 
         // 공통정보 데이터 뿌려주기
@@ -353,7 +354,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                         detailImageItems.addAll(detailImage.response.body.items.item);
                         Call<DetailCommon> call2 = RetrofitTourClient.getInstance().getService(null).detailCommon(API_key, "yunal", "AND", "json",
                                 contentTyId, "Y", "Y", "Y", "Y", "Y", "Y");
-                        Log.d("test141414", String.valueOf(call2.request().url()));
                         call2.enqueue(new Callback<DetailCommon>() {
                             @Override
                             public void onResponse(Call<DetailCommon> call, @NonNull Response<DetailCommon> response) {
@@ -410,6 +410,12 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                         locationBasedItems = new ArrayList<>();
                         locationBasedItems.addAll(locationBased.response.body.items.item);
                         locationBasedItems.remove(0); // 첫번째 값은 해당 여행지이기때문에 삭제 해줘야됨.
+
+                        for (int i = 0; i < locationBasedItems.size(); i++) {
+                            if (locationBasedItems.get(i).contenttypeid == 25) {
+                                locationBasedItems.remove(i);
+                            }
+                        }
 
                         for (int i = 0; i < locationBasedItems.size(); i++) {
                             if (i > 3) { // 아이템을 4개까지만 출력하기 위한 조건문.
@@ -481,6 +487,9 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(DataLocation).title(detailCommonItem.title);
 
+        // 마커 타입 설정
+        contentTypeSetting(detailCommonItem.contenttypeid, markerOptions);
+
         // 마커 생성
         mMap.addMarker(markerOptions);
 
@@ -495,6 +504,32 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 //        Log.d("marker", "카메라 값 : " + mMap.getCameraPosition());
     }
 
+
+    public void contentTypeSetting(int typeid, MarkerOptions markerOptions) {
+
+        if (typeid == 12) { // 관광지
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_travel_mark));
+
+        } else if (typeid == 14) { // 문화시설
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_culture_mark));
+
+        } else if (typeid == 15) { // 행사/공연/축제
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_festival_mark));
+
+        } else if (typeid == 28) { // 레포츠
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_leisure_mark));
+
+        } else if (typeid == 32) { // 숙박
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_lodgment_mark));
+
+        } else if (typeid == 38) { // 쇼핑
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_shopping_mark));
+
+        } else if (typeid == 39) { // 음식점
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_food_mark));
+
+        }
+    }
 
     public View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -619,16 +654,18 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                                 .check();
                     }
                     break;
-                case R.id.falseInfoBtn : // 잘못된 정보 신고하기 버튼
+                case R.id.tourReportBtn : // 잘못된 정보 신고하기 버튼
+                    Intent intent1 = new Intent(DetailActivity.this, ReportActivity.class);
+                    startActivity(intent1);
                     break;
                 case R.id.allDataView : // 주변장소 전체보기 버튼클릭 처리
-                    Intent intent1 =LocationBasedListActivity.newIntent(DetailActivity.this, locationBasedItems, detailCommonItem.title);
-                    startActivity(intent1);
+                    Intent intent2 =LocationBasedListActivity.newIntent(DetailActivity.this, locationBasedItems, detailCommonItem.title);
+                    startActivity(intent2);
                     break;
                 case R.id.totalReview :
                     //리뷰 전체보기 작업하자
-                    Intent intent = TotalReviewActivity.newIntent(DetailActivity.this, contentId);
-                    startActivityForResult(intent, ACTIVITY_TOTAL_REVIEW);
+                    Intent intent3 = TotalReviewActivity.newIntent(DetailActivity.this, contentId);
+                    startActivityForResult(intent3, ACTIVITY_TOTAL_REVIEW);
                     break;
                 case R.id.markBtn : // 찜하기 기능
                     setTourMark();
@@ -645,9 +682,13 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.message().equals("Created")) {
+                    Log.d("test1414", String.valueOf(response.code()));
+                    Log.d("test1414", String.valueOf(response.message()));
                     if (markTBtn.isChecked()) {
+                        markTBtn.setTextColor(Color.parseColor("#ffffff"));
                         Toasty.success(DetailActivity.this, "찜 등록", Toast.LENGTH_SHORT).show();
                     } else {
+                        markTBtn.setTextColor(Color.parseColor("#5dc8cf"));
                         Toasty.success(DetailActivity.this, "찜 해제", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -722,7 +763,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                             recyclerview.setVisibility(View.VISIBLE); // 관광지 리뷰
                             reviewMessage.setVisibility(View.GONE); // 리뷰 없을때 나오는 메시지 삭제
 
-                            ratingAverageTV.setText(Float.toString(tourInfoItems.get(0).star));
+                            ratingAverageTV.setText("평점 " + Float.toString(tourInfoItems.get(0).star));
                             reviewSize.setText("리뷰 " + tourInfoItems.get(0).review + "개");
 
                             if (tourInfoItems.get(0).review > 3) { // 총 리뷰수가 3개 초과일 경우에만 전체보기 버튼 활성화
@@ -740,8 +781,11 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
                         if (tourInfoItems.get(0).mark) { // 유저가 찜을 했을 경우
                             markTBtn.setChecked(true);
+                            markTBtn.setTextColor(Color.parseColor("#ffffff"));
                         } else {
                             markTBtn.setChecked(false);
+                            markTBtn.setTextColor(Color.parseColor("#5dc8cf"));
+
                         }
 
 
@@ -846,8 +890,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
 
         if (detailCommonItem.homepage != null) {
-//            String htmlTag = detailCommonItem.homepage.replace("/[<]br [/][>]/gi", "");
-//            String htmlTag = detailCommonItem.homepage.replace("<[^>]*>", "");
             String htmlTag = detailCommonItem.homepage;
             String tempHtmlTag = htmlTag;
 
@@ -859,17 +901,14 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             }
 
             common_homepage.setText(Html.fromHtml(tempHtmlTag));
-            common_hompage_image.setImageResource(R.drawable.homepage);
 
         } else {
             common_homepage.setText("준비중 입니다.");
-            common_hompage_image.setImageResource(R.drawable.homepage);
         }
 
         if (detailCommonItem.addr1 != null || detailCommonItem.addr2 != null) {
             String addr = detailCommonItem.addr1 + detailCommonItem.addr2;
             common_address.setText(addr);
-            common_address_image.setImageResource(R.drawable.address);
 
         } else {
             common_address.setVisibility(View.GONE);
@@ -878,10 +917,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
         if (detailCommonItem.tel != null) {
             common_tel.setText(Html.fromHtml(detailCommonItem.tel));
-            common_tel_image.setImageResource(R.drawable.tel);
 
         } else {
-            common_tel_image.setImageResource(R.drawable.tel);
             common_tel.setText("준비중 입니다.");
 
         }
@@ -890,10 +927,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             String createtime = String.valueOf(detailCommonItem.createdtime);
             StringBuilder stringBuilder = new StringBuilder(createtime);
             stringBuilder.delete(8, createtime.length());
-            stringBuilder.insert(4, "-");
-            stringBuilder.insert(7, "-");
+            stringBuilder.insert(4, ". ");
+            stringBuilder.insert(7, ". ");
 
-            common_createdtime.setText("등록날짜 :  " + stringBuilder);
+            common_createdtime.setText(stringBuilder);
 
         } else {
             common_createdtime.setVisibility(View.GONE);
@@ -904,10 +941,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             String modifitime = String.valueOf(detailCommonItem.modifiedtime);
             StringBuilder stringBuilder = new StringBuilder(modifitime);
             stringBuilder.delete(8, modifitime.length());
-            stringBuilder.insert(4, "-");
-            stringBuilder.insert(7, "-");
+            stringBuilder.insert(4, ". ");
+            stringBuilder.insert(7, ". ");
 
-            common_modifiedtime.setText("수정날짜 :  " + stringBuilder);
+            common_modifiedtime.setText(stringBuilder);
 
         } else {
             common_modifiedtime.setVisibility(View.GONE);

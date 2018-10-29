@@ -4,6 +4,7 @@ import com.example.rhkdd.yunal.model.areaBase.AreaBase;
 import com.example.rhkdd.yunal.model.areaCode.AreaCode;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommon;
 import com.example.rhkdd.yunal.model.detailImage.DetailImage;
+import com.example.rhkdd.yunal.model.mainReview.MainReviewItem;
 import com.example.rhkdd.yunal.model.tourType.DetailIntro;
 import com.example.rhkdd.yunal.model.locationBased.LocationBased;
 import com.example.rhkdd.yunal.model.searchFestival.SearchFestival;
@@ -105,6 +106,11 @@ public interface TourApiService {
     @POST("api/jwt/create")
     Call<LoginResponseResult> LoginResponseResult (
             @Field("email") String email, @Field("password") String password
+    );
+
+    @GET("api/main")
+    Call<ArrayList<MainReviewItem>> MainReviewResponseResult (
+            @Query("email") String email
     );
 
     @Multipart

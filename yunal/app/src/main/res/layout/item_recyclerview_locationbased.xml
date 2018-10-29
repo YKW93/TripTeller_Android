@@ -1,56 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/view_layout"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:paddingBottom="7.7dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="1dp"
-        android:layout_margin="6dp">
+        app:cardCornerRadius="5dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:foreground="?android:attr/selectableItemBackground"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_margin="1dp"
+        android:layout_marginRight="6.7dp">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/thumb"
                     android:scaleType="fitXY"
-                    android:layout_width="match_parent"
-                    android:layout_height="130dp"/>
+                    android:layout_width="159.3dp"
+                    android:layout_height="117.7dp"/>
             </RelativeLayout>
             <TextView
                 android:id="@+id/name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="8.7dp"
+                android:layout_marginLeft="10.7dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/koreanah3_r"
+                android:textSize="11sp"
+                android:text="제목"
+                android:textColor="#292b2b" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.7dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp"
-                android:textSize="13sp"
-                android:textColor="#000" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:background="#515151"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp">
-
+                android:gravity="center_vertical">
                 <TextView
                     android:id="@+id/dist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:textSize="9sp"
-                    android:textColor="#000"
+                    android:textSize="8.3sp"
+                    android:fontFamily="@font/koreanah2_r"
+                    android:letterSpacing="0.21"
+                    android:textColor="#566563"
                     android:text="거리"/>
-            </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
+
+
+

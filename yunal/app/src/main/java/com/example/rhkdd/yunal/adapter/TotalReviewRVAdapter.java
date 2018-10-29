@@ -2,11 +2,9 @@ package com.example.rhkdd.yunal.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.model.tourDetail.TourReviewItem;
@@ -80,7 +77,7 @@ public class TotalReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.View
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TotalReviewVH(LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_comment, parent, false));
+        return new TotalReviewVH(LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_tour_review, parent, false));
     }
 
     @Override
@@ -96,6 +93,7 @@ public class TotalReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (mLists.get(position).photo.isEmpty()) { // 사용자가 댓글에 이미지를 추가 안했을 경우
             totalReviewVH.viewPager.setVisibility(View.GONE);
         } else { // 댓글에 이미지를 추가했을 경우 -> Viewpager 셋팅
+            totalReviewVH.viewPager.setVisibility(View.VISIBLE);
             totalReviewVH.viewPager.setClipToPadding(false);
             totalReviewVH.viewPager.setPadding(35,0,35,0);
             totalReviewVH.viewPager.setPageMargin(17);

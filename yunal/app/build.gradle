@@ -64,5 +64,8 @@ dependencies {
     // 다양한 toast 메세지
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     // circle 이미지뷰
+    implementation 'com.orhanobut:dialogplus:1.11@aar'
+    // dialog 위치 조절 라이브러리
+
 
 }

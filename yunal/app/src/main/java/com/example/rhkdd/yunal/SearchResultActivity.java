@@ -38,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.rhkdd.yunal.SearchActivity.API_key;
+import static com.example.rhkdd.yunal.common.RetrofitTourClient.API_key;
 
 
 /**
@@ -212,12 +212,13 @@ public class SearchResultActivity extends AppCompatActivity {
                                 }
                             }
 
+                            searchResultLists.addAll(searchResult.response.body.items.item);
+
                             // 위에 for문이랑 합칠경우 remove(리스트에서 제거) 때문에 throwIndexOutOfBoundsException 오류가 발생
-                            for (int i = 0; i < searchResult.response.body.items.item.size(); i++) { // 검색한 관광지 contentid 값 저장
-                                contentIdList.add(searchResult.response.body.items.item.get(i).contentid);
+                            for (int i = 0; i < searchResultLists.size(); i++) { // 검색한 관광지 contentid 값 저장
+                                contentIdList.add(searchResultLists.get(i).contentid);
                             }
 
-                            searchResultLists.addAll(searchResult.response.body.items.item);
 
                             Call<ArrayList<TourInfoItem>> serverCall = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
                             serverCall.enqueue(new Callback<ArrayList<TourInfoItem>>() {
@@ -233,6 +234,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
+
                                 }
                             });
 

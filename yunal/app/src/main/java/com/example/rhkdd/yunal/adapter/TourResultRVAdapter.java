@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.R;
-import com.example.rhkdd.yunal.SearchResultActivity;
 import com.example.rhkdd.yunal.SelectAreaResultActivity;
 import com.example.rhkdd.yunal.model.areaBase.AreaBaseItem;
 import com.example.rhkdd.yunal.model.tourDetail.TourInfoItem;
@@ -83,7 +81,7 @@ public class TourResultRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TourResultVH(LayoutInflater.from(context).inflate(R.layout.item_recyclerview_datatype1, parent, false));
+        return new TourResultVH(LayoutInflater.from(context).inflate(R.layout.item_recyclerview_tourtype1, parent, false));
     }
 
     @Override

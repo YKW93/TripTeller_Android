@@ -24,12 +24,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAwLH3gtDBW90Y2_A_JqVoUH17PC6tcnyk" />
 
-        <activity android:name=".LoginActivity"/>
-
+        <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
-        <activity
-            android:name=".SearchActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".SearchResultActivity" />
         <activity android:name=".DetailActivity" />
         <activity android:name=".IntroductoryInfoActivity" />
@@ -53,6 +49,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ReportActivity" />
+        <activity android:name=".CommentActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

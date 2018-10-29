@@ -3,6 +3,7 @@ package com.example.rhkdd.yunal.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,8 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         searchResultLists.addAll(data);
         tourInfoItems.addAll(data1);
         notifyDataSetChanged();
+        Log.d("ttt1515", String.valueOf(tourInfoItems.size()));
+        Log.d("ttt1515", String.valueOf(searchResultLists.size()));
     }
 
     public void changeData(int position, TourInfoItem tourInfoItem) {
@@ -87,7 +90,7 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ResultVH(LayoutInflater.from(context).inflate(R.layout.item_recyclerview_datatype1, parent,false));
+        return new ResultVH(LayoutInflater.from(context).inflate(R.layout.item_recyclerview_tourtype1, parent,false));
     }
 
 

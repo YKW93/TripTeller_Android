@@ -35,7 +35,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.rhkdd.yunal.SearchActivity.API_key;
+import static com.example.rhkdd.yunal.common.RetrofitTourClient.API_key;
+
 
 public class SelectAreaActivity extends AppCompatActivity {
 
