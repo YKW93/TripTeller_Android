@@ -97,8 +97,7 @@ public class TotalFestivalActivity extends AppCompatActivity {
     private void loadSingleData(int contentId) { // 단일 관광지 데이터를 호출할 경우
         ArrayList<Integer> contentIdList = new ArrayList<>();
         contentIdList.add(contentId);
-        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
-        Log.d("testtt1414", String.valueOf(call.request().url()));
+        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseResult(email_id, contentIdList);
         call.enqueue(new Callback<ArrayList<TourInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
@@ -122,7 +121,7 @@ public class TotalFestivalActivity extends AppCompatActivity {
             contentIdList.add(list.get(i).contentid);
         }
 
-        Call<ArrayList<TourInfoItem>> serverCall = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
+        Call<ArrayList<TourInfoItem>> serverCall = RetrofitServerClient.getInstance().getService().TourInfoResponseResult(email_id, contentIdList);
         serverCall.enqueue(new Callback<ArrayList<TourInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {

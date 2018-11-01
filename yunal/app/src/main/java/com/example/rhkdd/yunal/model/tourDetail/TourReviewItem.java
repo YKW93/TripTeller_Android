@@ -10,6 +10,7 @@ public class TourReviewItem implements Serializable { // 후기 아이템
     public String author;
     public String content;
     public float star_score;
+    public String image;
     public String created_at;
     public int like;
     public ArrayList<PhotoItem> photo;

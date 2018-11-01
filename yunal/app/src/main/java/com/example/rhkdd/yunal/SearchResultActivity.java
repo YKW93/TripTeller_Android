@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -150,7 +149,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private void loadSingleData(int contentId) { // 단일 관광지 데이터를 호출할 경우
         ArrayList<Integer> contentIdList = new ArrayList<>();
         contentIdList.add(contentId);
-        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
+        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseResult(email_id, contentIdList);
         call.enqueue(new Callback<ArrayList<TourInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
@@ -220,7 +219,7 @@ public class SearchResultActivity extends AppCompatActivity {
                             }
 
 
-                            Call<ArrayList<TourInfoItem>> serverCall = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
+                            Call<ArrayList<TourInfoItem>> serverCall = RetrofitServerClient.getInstance().getService().TourInfoResponseResult(email_id, contentIdList);
                             serverCall.enqueue(new Callback<ArrayList<TourInfoItem>>() {
                                 @Override
                                 public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {

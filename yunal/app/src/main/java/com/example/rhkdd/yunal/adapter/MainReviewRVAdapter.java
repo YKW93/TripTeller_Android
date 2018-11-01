@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,9 +20,11 @@ import android.widget.Toast;
 import com.example.rhkdd.yunal.CommentActivity;
 import com.example.rhkdd.yunal.DetailActivity;
 import com.example.rhkdd.yunal.DetailImageSliderActivity;
+import com.example.rhkdd.yunal.MainActivity;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
+import com.example.rhkdd.yunal.fragment.MainTabFragment;
 import com.example.rhkdd.yunal.model.mainReview.MainReviewItem;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
@@ -33,6 +36,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.rhkdd.yunal.fragment.MainTabFragment.FRAGMENT_COMMENT;
 
 public class MainReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -48,6 +53,11 @@ public class MainReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mainReviewItems.clear();
         mainReviewItems.addAll(data);
         notifyDataSetChanged();
+    }
+
+    public void changeData(int position, MainReviewItem data) {
+        mainReviewItems.set(position, data);
+        notifyItemChanged(position);
     }
 
     private class MainReviewVH extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -89,6 +99,7 @@ public class MainReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             review_btn.setOnClickListener(this);
             review_image.setOnClickListener(this);
             moreimageCount.setOnClickListener(this);
+            comment_cnt.setOnClickListener(this);
             like_btn.setClickable(false);
 
         }
@@ -112,12 +123,15 @@ public class MainReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     setReviewLike(like_btn, getAdapterPosition());
                     break;
                 case R.id.review_btn :
-                    Intent intent3 = CommentActivity.newIntent(mContext, mainReviewItems.get(getAdapterPosition()).comment);
+                    Intent intent3 = CommentActivity.newIntent(mContext, mainReviewItems.get(getAdapterPosition()).pk, getAdapterPosition(), mainReviewItems.get(getAdapterPosition()).comment);
                     mContext.startActivity(intent3);
+                    break;
+                case R.id.comment_cnt :
+                    Intent intent4 = CommentActivity.newIntent(mContext, mainReviewItems.get(getAdapterPosition()).pk, getAdapterPosition(), mainReviewItems.get(getAdapterPosition()).comment);
+                    mContext.startActivity(intent4);
                     break;
             }
         }
-
     }
 
     @NonNull
@@ -157,30 +171,35 @@ public class MainReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         if (mainReviewItems.get(position).is_like) {
             mainReviewVH.like_btn.setChecked(true);
+        } else {
+            mainReviewVH.like_btn.setChecked(false);
         }
 
 
     }
+
 
     @Override
     public int getItemCount() {
         return mainReviewItems.size();
     }
 
-    private void setReviewLike(final ShineButton likeBtn, int position) {
+    private  void setReviewLike(final ShineButton likeBtn, final int position) {
+
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("TripTeller", mContext.MODE_PRIVATE);
-        String email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+        final String email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
         Call<ResponseBody> call = RetrofitServerClient.getInstance().getService().LikeResponseBody(mainReviewItems.get(position).pk, email_id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("test1414", response.message());
                 if (response.isSuccessful() && response.message().equals("Created")) {
                     if (!likeBtn.isChecked()) {
                         likeBtn.setChecked(true, true);
+                        MainTabFragment.loadSingleReviewData(email_id, mainReviewItems.get(position).pk, position);
                         Toasty.success(mContext, "좋아요를 눌르셨습니다.", Toast.LENGTH_SHORT).show();
                     } else {
                         likeBtn.setChecked(false);
+                        MainTabFragment.loadSingleReviewData(email_id, mainReviewItems.get(position).pk, position);
                         Toasty.success(mContext, "좋아요를 취소 하셨습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -192,4 +211,7 @@ public class MainReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         });
     }
+
+
+
 }

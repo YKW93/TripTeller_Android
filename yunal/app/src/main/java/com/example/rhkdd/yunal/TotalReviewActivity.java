@@ -70,7 +70,7 @@ public class TotalReviewActivity extends AppCompatActivity {
     // 해당 관광지 리뷰 리스트 가져오기
     private void loadTourReviewListData() {
 
-        Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().TourReviewResponseBody(contentId);
+        Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().TourReviewResponseResult(contentId);
         call.enqueue(new Callback<ArrayList<TourReviewItem>>() {
             @Override
             public void onResponse(Call<ArrayList<TourReviewItem>> call, Response<ArrayList<TourReviewItem>> response) {
@@ -85,7 +85,6 @@ public class TotalReviewActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<TourReviewItem>> call, Throwable t) {
-                Log.d(TAG, "에러 값 : " + t.getMessage());
 
             }
         });

@@ -68,7 +68,7 @@ public class ReviewImageVPAdapter extends PagerAdapter {
 
     @Override
     public float getPageWidth(int position) {
-        return (0.48f);
+        return (0.35f);
     }
 
     @Override

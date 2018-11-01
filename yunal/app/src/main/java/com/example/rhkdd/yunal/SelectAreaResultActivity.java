@@ -228,8 +228,7 @@ public class SelectAreaResultActivity extends AppCompatActivity {
     private void loadPopularityTellerReviewData() {
 
         if (sigunguCode == null) { // 지역 전체보기
-            Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().AreaTotalReviewResponseBody(Integer.valueOf(areaCode));
-            Log.d("ttt14145", String.valueOf(call.request().url()));
+            Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().AreaTotalReviewResponseResult(Integer.valueOf(areaCode));
             call.enqueue(new Callback<ArrayList<TourReviewItem>>() {
                 @Override
                 public void onResponse(Call<ArrayList<TourReviewItem>> call, Response<ArrayList<TourReviewItem>> response) {
@@ -250,8 +249,7 @@ public class SelectAreaResultActivity extends AppCompatActivity {
                 }
             });
         } else { // 지역 시군구 값 모두 존재할때
-            Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().AreaSigunguReviewResponseBody(Integer.valueOf(areaCode), Integer.valueOf(sigunguCode));
-            Log.d("ttt14145", String.valueOf(call.request().url()));
+            Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().AreaSigunguReviewResponseResult(Integer.valueOf(areaCode), Integer.valueOf(sigunguCode));
             call.enqueue(new Callback<ArrayList<TourReviewItem>>() {
                 @Override
                 public void onResponse(Call<ArrayList<TourReviewItem>> call, Response<ArrayList<TourReviewItem>> response) {
@@ -277,7 +275,7 @@ public class SelectAreaResultActivity extends AppCompatActivity {
     private void loadSingleData(int contentId) { // 단일 관광지 데이터를 호출할 경우
         ArrayList<Integer> contentIdList = new ArrayList<>();
         contentIdList.add(contentId);
-        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
+        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseResult(email_id, contentIdList);
         call.enqueue(new Callback<ArrayList<TourInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {
@@ -325,7 +323,7 @@ public class SelectAreaResultActivity extends AppCompatActivity {
                         }
 
 
-                        Call<ArrayList<TourInfoItem>> serverCall = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
+                        Call<ArrayList<TourInfoItem>> serverCall = RetrofitServerClient.getInstance().getService().TourInfoResponseResult(email_id, contentIdList);
                         serverCall.enqueue(new Callback<ArrayList<TourInfoItem>>() {
                             @Override
                             public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {

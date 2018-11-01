@@ -1,6 +1,7 @@
 package com.example.rhkdd.yunal.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,14 +27,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by rhkdd on 2018-01-10.
  */
 
 public class MainTabFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private MainReviewRVAdapter mainReviewRVAdapter;
+    public static final int FRAGMENT_COMMENT = 1000;
+    public static final String COMMENT_SIZE = "COMMENT_SIZE";
+
+    private static MainReviewRVAdapter mainReviewRVAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,19 +68,15 @@ public class MainTabFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
         loadTotalReviewData();
-
     }
 
     private void loadTotalReviewData() {
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TripTeller", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TripTeller", MODE_PRIVATE);
         String email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
 
         Call<ArrayList<MainReviewItem>> call = RetrofitServerClient.getInstance().getService().MainReviewResponseResult(email_id);
-        Log.d("test1414", String.valueOf(call.request().url()));
         call.enqueue(new Callback<ArrayList<MainReviewItem>>() {
             @Override
             public void onResponse(Call<ArrayList<MainReviewItem>> call, Response<ArrayList<MainReviewItem>> response) {
@@ -91,5 +100,26 @@ public class MainTabFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onRefresh() {
         loadTotalReviewData();
+    }
+
+    public static void loadSingleReviewData(String email_id, int pk, final int position) {
+
+        Call<ArrayList<MainReviewItem>> call = RetrofitServerClient.getInstance().getService().ReviewResponseResult(email_id, pk);
+        call.enqueue(new Callback<ArrayList<MainReviewItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<MainReviewItem>> call, Response<ArrayList<MainReviewItem>> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<MainReviewItem> lists = response.body();
+                    if (lists.get(0) != null) {
+                        mainReviewRVAdapter.changeData(position, lists.get(0));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<MainReviewItem>> call, Throwable t) {
+
+            }
+        });
     }
 }

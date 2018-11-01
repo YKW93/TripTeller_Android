@@ -114,7 +114,7 @@
                 android:textSize="9.7sp"
                 android:textColor="#8f9796"
                 android:fontFamily="@font/koreanah2_r"
-                android:layout_marginRight="7dp"
+                android:layout_marginRight="9dp"
                 android:text="좋아요 0개" />
             <TextView
                 android:id="@+id/comment_cnt"

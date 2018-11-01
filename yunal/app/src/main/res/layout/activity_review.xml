@@ -11,36 +11,29 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@null"
+            android:layout_height="?actionBarSize"
+            android:background="@drawable/toolbar_background"
             android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:singleLine="true"
-                android:textColor="#3e3d3d"
+                android:textColor="@color/white"
                 android:text="리뷰하기"
-                android:textSize="20dp"/>
+                android:layout_gravity="center"
+                android:fontFamily="@font/koreanah3_r"
+                android:textSize="19.3sp"/>
             <Button
                 android:id="@+id/saveBtn"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
+                android:fontFamily="@font/koreanah1_r"
                 android:text="저장"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:layout_marginRight="10dp"
                 android:layout_gravity="right"
-                android:textColor="#3e3d3d"
+                android:textColor="@color/white"
                 android:background="#00ff0000"/>
-            <!--<TextView-->
-                <!--android:id="@+id/saveBtn"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="right"-->
-                <!--android:textColor="#3e3d3d"-->
-                <!--android:text="저장"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:textSize="14sp"/>-->
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
     <android.support.v4.widget.NestedScrollView
@@ -57,15 +50,19 @@
             <LinearLayout
                 android:id="@+id/location_name_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_below="@+id/appbar"
                 android:padding="3dp"
                 android:gravity="center"
-                android:background="#f1f1f1">
+                android:background="@color/gray">
                 <TextView
                     android:id="@+id/placeName"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30sp"
+                    android:gravity="center_vertical"
+                    android:textSize="15sp"
+                    android:textColor="#292b2b"
+                    android:fontFamily="@font/koreanah1_r"
                     android:text="장소명 : "/>
             </LinearLayout>
             <RelativeLayout
@@ -79,15 +76,19 @@
                 <me.zhanghai.android.materialratingbar.MaterialRatingBar
                     android:id="@+id/ratingbar"
                     android:layout_width="160dp"
+                    android:layout_height="32dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_height="32dp"/>
+                    android:theme="@style/Theme.Rating"
+                    />
                 <TextView
                     android:id="@+id/ratingbarTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/ratingbar"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/koreanah2_r"
                     android:textColor="#000"
-                    android:textSize="23sp"
+                    android:textSize="20sp"
                     android:layout_marginLeft="8dp"
                     android:text="5.0"/>
             </RelativeLayout>
@@ -101,6 +102,8 @@
                     android:layout_height="wrap_content"
                     android:hint="리뷰를 작성해주세요."
                     android:layout_marginLeft="7dp"
+                    android:fontFamily="@font/nanumsquare_otfr"
+                    android:textColor="#527573"
                     android:layout_marginRight="5dp"
                     android:layout_weight="10"
                     android:background="@null"
@@ -142,12 +145,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="3dp"
             android:orientation="horizontal">
             <Button
                 android:id="@+id/albumBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="69.7dp"
+                android:layout_height="35.3dp"
+                android:fontFamily="@font/koreanah2_r"
+                android:textSize="12sp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/white"
+                android:background="@drawable/mark_click_background"
                 android:text="앨범"/>
+
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

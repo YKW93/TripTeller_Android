@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rhkdd.yunal.R;
+import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.model.tourDetail.TourReviewItem;
 import com.sackcentury.shinebuttonlib.ShineButton;
@@ -44,24 +46,24 @@ public class TotalReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class TotalReviewVH extends RecyclerView.ViewHolder {
 
-        private ImageView userImage;
+        private ImageView user_profile;
         private TextView userNickname;
         private MaterialRatingBar ratingBar;
         private TextView ratingbarTV;
-        private TextView reviewDate;
+        private TextView review_created;
         private ViewPager viewPager;
         private TextView contentTV;
         private ShineButton likeBtn;
 
         public TotalReviewVH(View itemView) {
             super(itemView);
-            userImage = itemView.findViewById(R.id.user_IMAGE);
+            user_profile = itemView.findViewById(R.id.user_profile);
             userNickname = itemView.findViewById(R.id.user_Nickname);
             ratingBar = itemView.findViewById(R.id.ratingbar);
             ratingbarTV = itemView.findViewById(R.id.ratingbarTV);
-            reviewDate = itemView.findViewById(R.id.commentDate);
-            viewPager = itemView.findViewById(R.id.commentVP);
-            contentTV = itemView.findViewById(R.id.commentTV);
+            review_created = itemView.findViewById(R.id.review_created);
+            viewPager = itemView.findViewById(R.id.review_ImageVP);
+            contentTV = itemView.findViewById(R.id.contentTV);
             likeBtn = itemView.findViewById(R.id.like_btn);
 
             likeBtn.setOnClickListener(new View.OnClickListener() {
@@ -84,10 +86,11 @@ public class TotalReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TotalReviewVH totalReviewVH = (TotalReviewVH) holder;
 
+        GlideApp.with(mContext).load(mLists.get(position).image).into(totalReviewVH.user_profile);
         totalReviewVH.userNickname.setText(mLists.get(position).author);
         totalReviewVH.ratingBar.setRating(mLists.get(position).star_score);
-        totalReviewVH.ratingbarTV.setText(String.valueOf(mLists.get(position).star_score));
-        totalReviewVH.reviewDate.setText(mLists.get(position).created_at);
+        totalReviewVH.ratingbarTV.setText(String.valueOf("(" + String.valueOf(mLists.get(position).star_score) + ")"));
+        totalReviewVH.review_created.setText(mLists.get(position).created_at);
         totalReviewVH.contentTV.setText(mLists.get(position).content);
 
         if (mLists.get(position).photo.isEmpty()) { // 사용자가 댓글에 이미지를 추가 안했을 경우
@@ -95,8 +98,10 @@ public class TotalReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else { // 댓글에 이미지를 추가했을 경우 -> Viewpager 셋팅
             totalReviewVH.viewPager.setVisibility(View.VISIBLE);
             totalReviewVH.viewPager.setClipToPadding(false);
-            totalReviewVH.viewPager.setPadding(35,0,35,0);
-            totalReviewVH.viewPager.setPageMargin(17);
+            int padding_dp = 11;
+            DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+            int dp = Math.round(padding_dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+            totalReviewVH.viewPager.setPadding(0,0, dp,0);
 
             ReviewImageVPAdapter commentImageVP = new ReviewImageVPAdapter(mContext);
             commentImageVP.setData(mLists.get(position).photo);

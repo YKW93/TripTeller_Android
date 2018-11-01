@@ -63,7 +63,6 @@ public class DetailImageActivity extends AppCompatActivity {
 
         // recycler 셋팅 및 초기화
         if (detailImageItems != null && !detailImageItems.get(0).originimgurl.equals(String.valueOf(2131165339))) { // 2131165339 => R.drawable.no_image 값
-            Log.d("test14", detailImageItems.get(0).originimgurl);
             DetailImageRV = findViewById(R.id.imageRV);
             DetailImageRV.setLayoutManager(new GridLayoutManager(DetailImageActivity.this, 3));
             TotalDetailImageRVAdapter detailImageAdapter = new TotalDetailImageRVAdapter(DetailImageActivity.this);

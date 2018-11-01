@@ -31,16 +31,12 @@ import android.widget.Toast;
 import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommonItem;
-import com.google.gson.Gson;
 import com.sangcomz.fishbun.FishBun;
 import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter;
 import com.sangcomz.fishbun.define.Define;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import es.dmoral.toasty.Toasty;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -98,7 +94,7 @@ public class ReviewActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_btn);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
 
         saveBtn = findViewById(R.id.saveBtn);
         picture_Layout = findViewById(R.id.picture_layout);
@@ -163,7 +159,7 @@ public class ReviewActivity extends AppCompatActivity {
                     if ((reviewEdit.getText().toString().length() > 20)) {
                         if (checkRun) {
                             checkRun = false;
-                            sendCommentsToServer();
+                            sendReviewToServer();
                         }
 
                     } else {
@@ -185,7 +181,7 @@ public class ReviewActivity extends AppCompatActivity {
     };
 
     // 서버로 댓글 데이터 전송
-    private void sendCommentsToServer() {
+    private void sendReviewToServer() {
 
         SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
         String email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
@@ -205,8 +201,6 @@ public class ReviewActivity extends AppCompatActivity {
         RequestBody areaCodeRequest = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(detailCommonItem.areacode));
         RequestBody sigunguCodeRequest = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(detailCommonItem.sigungucode));
 
-        Log.d("test1414", String.valueOf(detailCommonItem.areacode));
-        Log.d("test1414", String.valueOf(detailCommonItem.sigungucode));
 
 //                        MultipartBody.Part image = images.get(0);
         Call<ResponseBody> call = RetrofitServerClient.getInstance().getService().reviewResponseBody(token, emailIdRequest, contentIdRequest, contentRequest,
@@ -216,8 +210,6 @@ public class ReviewActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d(TAG, "서버 응답 메시지: " + String.valueOf(response.message()));
-                Log.d(TAG, "서버 응답 코드 : " + String.valueOf(response.code()));
 
                 if(response.isSuccessful() && response.body() != null && response.message().equals("Created")) {
                     Intent intent = new Intent();

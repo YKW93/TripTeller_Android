@@ -32,6 +32,11 @@ public class CommentRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 
+    public void addData(int position, CommentItem data) {
+        commentItems.add(data);
+        notifyItemInserted(position);
+    }
+
     private class CommentVH extends RecyclerView.ViewHolder {
         private ImageView user_profile;
         private TextView user_name;
@@ -45,6 +50,7 @@ public class CommentRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             review_content = itemView.findViewById(R.id.review_content);
             review_created = itemView.findViewById(R.id.review_created);
         }
+
     }
 
     @NonNull

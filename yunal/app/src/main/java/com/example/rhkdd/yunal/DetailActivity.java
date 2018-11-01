@@ -38,10 +38,8 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.example.rhkdd.yunal.adapter.DetailMainImageVPAdapter;
-import com.example.rhkdd.yunal.adapter.ReviewImageVPAdapter;
 import com.example.rhkdd.yunal.adapter.TotalReviewRVAdapter;
 import com.example.rhkdd.yunal.common.GlideApp;
-import com.example.rhkdd.yunal.common.MyAppGlideModule;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommon;
@@ -77,7 +75,6 @@ import com.google.gson.JsonParseException;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -682,8 +679,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.message().equals("Created")) {
-                    Log.d("test1414", String.valueOf(response.code()));
-                    Log.d("test1414", String.valueOf(response.message()));
                     if (markTBtn.isChecked()) {
                         markTBtn.setTextColor(Color.parseColor("#ffffff"));
                         Toasty.success(DetailActivity.this, "찜 등록", Toast.LENGTH_SHORT).show();
@@ -715,14 +710,12 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             ArrayList<TourReviewItem> mLists = new ArrayList<>(list.subList(0,list.size()));
             totalReviewRVAdapter.setData(mLists);
         }
-
     }
 
     // 해당 관광지 리뷰 리스트 가져오기
     private void loadTourReviewListData() {
 
-        Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().TourReviewResponseBody(contentId);
-        Log.d("tttt1414", String.valueOf(call.request().url()));
+        Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().TourReviewResponseResult(contentId);
         call.enqueue(new Callback<ArrayList<TourReviewItem>>() {
             @Override
             public void onResponse(Call<ArrayList<TourReviewItem>> call, Response<ArrayList<TourReviewItem>> response) {
@@ -751,7 +744,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         ArrayList<Integer> contentIdList = new ArrayList<>();
         contentIdList.add(contentId);
 
-        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, contentIdList);
+        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseResult(email_id, contentIdList);
         call.enqueue(new Callback<ArrayList<TourInfoItem>>() {
             @SuppressLint("SetTextI18n")
             @Override

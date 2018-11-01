@@ -15,7 +15,6 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,18 +63,20 @@ public class InfoTabFragment extends Fragment {
     private String monthStartDay;
     private String monthEndDay;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_second, container, false);
+        View view = inflater.inflate(R.layout.fragment_info, container, false);
 
         nestedScrollView = view.findViewById(R.id.nestedScrollView);
         LinearLayout areaSearch = view.findViewById(R.id.areaSearch);
         areaSearch.setOnClickListener(onClickListener);
         LinearLayout currentLocation = view.findViewById(R.id.currentLocation);
-        currentLocation.setOnClickListener(onClickListener);
         LinearLayout allDataView = view.findViewById(R.id.allDataView);
+
+        currentLocation.setOnClickListener(onClickListener);
         allDataView.setOnClickListener(onClickListener);
 
         // recyclerview 셋팅
@@ -83,8 +84,15 @@ public class InfoTabFragment extends Fragment {
         recyclerView.setNestedScrollingEnabled(false); // NestScrollView 안에 RecyclerView 설정 시, Scroll이 부드럽게 되지 않는 경우가 발생해서 해당 구문 필요
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         areaDataRankRVAdapter = new AreaDataRankRVAdapter(getActivity());
-        recyclerView.setAdapter(areaDataRankRVAdapter);
 
+        /*
+        계속 Recyclerview 아이템 부분에 포커스가 가서 해당 구문을 통해 해결
+        start_layout(시작레이아웃)에 포커스를 둔다.
+        * */
+        recyclerView.setFocusable(false);
+        view.findViewById(R.id.start_layout).requestFocus();
+
+        recyclerView.setAdapter(areaDataRankRVAdapter);
 
         // viewpage 셋팅
         ViewPager viewPager = view.findViewById(R.id.viewPage);
@@ -107,14 +115,26 @@ public class InfoTabFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TripTeller", Context.MODE_PRIVATE);
         email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
 
-        nestedScrollView.scrollTo(0,0); // 액티비티가 열렸을때 맨위 화면으로 보이기위한 작업
-
         getMonthStartEndDate();
         loadRankAreaData();
         loadFestivalData();
 
+//        Runnable runnable=new Runnable() {
+//            @Override
+//            public void run() {
+//                nestedScrollView.scrollTo(0,0); // 액티비티가 열렸을때 맨위 화면으로 보이기위한 작업
+//            }
+//        };
+//        recyclerView.setNestedScrollingEnabled(false);
+//        nestedScrollView.post(runnable);
+//        nestedScrollView.scrollTo(0,0); // 액티비티가 열렸을때 맨위 화면으로 보이기위한 작업
+//        ViewCompat.setNestedScrollingEnabled(recyclerView, false);
+
+
 
     }
+
+
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -230,7 +250,7 @@ public class InfoTabFragment extends Fragment {
 
     private void loadLikeReviewData(ArrayList<Integer> integers) {
 
-        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseBody(email_id, integers);
+        Call<ArrayList<TourInfoItem>> call = RetrofitServerClient.getInstance().getService().TourInfoResponseResult(email_id, integers);
         call.enqueue(new Callback<ArrayList<TourInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<TourInfoItem>> call, Response<ArrayList<TourInfoItem>> response) {

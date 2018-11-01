@@ -11,7 +11,7 @@
         android:layout_height="95.3dp"
         android:background="@color/white">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile"
+            android:id="@+id/user_profile"
             android:layout_width="54dp"
             android:layout_height="53.7dp"
             app:civ_border_color="@color/dark"
@@ -20,11 +20,12 @@
             app:civ_border_width="1dp"
             android:src="#fff"/>
         <TextView
+            android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16.7sp"
             android:layout_marginLeft="22.7dp"
-            android:layout_toRightOf="@+id/profile"
+            android:layout_toRightOf="@+id/user_profile"
             android:layout_centerVertical="true"
             android:fontFamily="@font/koreanah2_r"
             android:textColor="#000000"
@@ -80,9 +81,11 @@
             android:background="#cbd3d2"/>
 
         <LinearLayout
+            android:id="@+id/myReview_Layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:gravity="center_horizontal"
             android:layout_weight="1">
             <ImageView
@@ -100,6 +103,7 @@
                 android:fontFamily="@font/koreanah2_r"
                 android:text="내 작성 후기" />
             <TextView
+                android:id="@+id/review_cnt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -117,9 +121,11 @@
 
 
         <LinearLayout
+            android:id="@+id/myMark_Layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:layout_weight="1"
             android:gravity="center">
             <ImageView
@@ -136,6 +142,7 @@
                 android:fontFamily="@font/koreanah2_r"
                 android:text="내 찜 목록" />
             <TextView
+                android:id="@+id/mark_cnt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"

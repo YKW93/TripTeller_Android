@@ -64,6 +64,10 @@ import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
 
+import static com.example.rhkdd.yunal.CommentActivity.COMMENT_ITEMS;
+import static com.example.rhkdd.yunal.fragment.MainTabFragment.COMMENT_SIZE;
+import static com.example.rhkdd.yunal.fragment.MainTabFragment.FRAGMENT_COMMENT;
+
 public class MainActivity extends AppCompatActivity {
 
     private final long FINISH_INTERVAL_TIME = 2000;
@@ -338,8 +342,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         switch (requestCode) {
             // Check for the integer request code originally supplied to startResolutionForResult().
             case REQUEST_CHECK_SETTINGS:
@@ -354,7 +360,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
 

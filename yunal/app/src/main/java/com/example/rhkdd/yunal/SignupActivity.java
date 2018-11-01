@@ -60,6 +60,8 @@ public class SignupActivity extends AppCompatActivity {
 
     private File file = null;
 
+    private boolean isChecked = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,25 +140,28 @@ public class SignupActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.signup_btn : // 회원가입
-                    if (isEmailSuccess && isPwSuccess) {
-                        String userName = userName_edit.getText().toString();
-                        String id = id_edit.getText().toString();
-                        String pw = pw_edit.getText().toString();
+                    if (isChecked) {
+                        isChecked = false;
+                        if (isEmailSuccess && isPwSuccess) {
+                            String userName = userName_edit.getText().toString();
+                            String id = id_edit.getText().toString();
+                            String pw = pw_edit.getText().toString();
 
-                        RequestBody nickNameRequest = RequestBody.create(MediaType.parse("text/pain"), userName);
-                        RequestBody IdRequest = RequestBody.create(MediaType.parse("text/pain"), id);
-                        RequestBody pwRequest = RequestBody.create(MediaType.parse("text/pain"), pw);
+                            RequestBody nickNameRequest = RequestBody.create(MediaType.parse("text/pain"), userName);
+                            RequestBody IdRequest = RequestBody.create(MediaType.parse("text/pain"), id);
+                            RequestBody pwRequest = RequestBody.create(MediaType.parse("text/pain"), pw);
 
-                        if (file != null) { // 사용자 프로필 이미지를 지정했을 경우
-                            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-                            MultipartBody.Part body = MultipartBody.Part.createFormData("photo", file.getName(), requestBody);
-                            sendUserInfoToServer(nickNameRequest,IdRequest, pwRequest, body);
-                        } else { // 프로필 이미지를 지정 안했을 경우
-                            sendUserInfoToServer(nickNameRequest,IdRequest, pwRequest, null);
+                            if (file != null) { // 사용자 프로필 이미지를 지정했을 경우
+                                RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+                                MultipartBody.Part body = MultipartBody.Part.createFormData("photo", file.getName(), requestBody);
+                                sendUserInfoToServer(nickNameRequest,IdRequest, pwRequest, body);
+                            } else { // 프로필 이미지를 지정 안했을 경우
+                                sendUserInfoToServer(nickNameRequest,IdRequest, pwRequest, null);
+                            }
+                        } else {
+                            // 이메일, pw 형식이 안맞음.
+                            Toasty.error(SignupActivity.this, "회원가입 형식을 다시 한번 확인해주세요.", Toast.LENGTH_LONG).show();
                         }
-                    } else {
-                        // 이메일, pw 형식이 안맞음.
-                        Toasty.error(SignupActivity.this, "회원가입 형식을 다시 한번 확인해주세요.", Toast.LENGTH_LONG).show();
                     }
                     break;
                 case R.id.elbumBtn :
@@ -212,6 +217,7 @@ public class SignupActivity extends AppCompatActivity {
 
             }
         });
+        isChecked = true;
     }
 
     @Override

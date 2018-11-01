@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText email_edit;
     private EditText pw_edit;
-
+    private boolean isChecked = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +56,6 @@ public class LoginActivity extends AppCompatActivity {
 //        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
 //        String token = sharedPreferences.getString("userToken", "값이 없네..");
 //        String id = sharedPreferences.getString("userId", "값이 없네..");
-//        Log.d("rr159", token);
-//        Log.d("rr159", id);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -66,44 +64,51 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.login_btn :
-                    String email = email_edit.getText().toString();
-                    String pw = pw_edit.getText().toString();
+                    if (isChecked) {
+                        isChecked = false;
+                        String email = email_edit.getText().toString();
+                        String pw = pw_edit.getText().toString();
 
-                    Call<LoginResponseResult> call = RetrofitServerClient.getInstance().getService().LoginResponseResult(email, pw);
-                    call.enqueue(new Callback<LoginResponseResult>() {
-                        @Override
-                        public void onResponse(Call<LoginResponseResult> call, Response<LoginResponseResult> response) {
-                            if (response.code() == 200) { // 로그인 성공
-                                // 휴대폰에 로그인 토큰값 저장
-                                SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("userToken", response.body().token);
-                                editor.putString("userId", email_edit.getText().toString());
-                                editor.apply();
-//                                Log.d("rr159", response.body().token);
+                        Call<LoginResponseResult> call = RetrofitServerClient.getInstance().getService().LoginResponseResult(email, pw);
+                        call.enqueue(new Callback<LoginResponseResult>() {
+                            @Override
+                            public void onResponse(Call<LoginResponseResult> call, Response<LoginResponseResult> response) {
+                                if (response.code() == 200) { // 로그인 성공
+                                    // 휴대폰에 로그인 토큰값 저장
+                                    SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("userToken", response.body().token);
+                                    editor.putString("userId", email_edit.getText().toString());
+                                    editor.apply();
 
-                                Toasty.success(LoginActivity.this, "Trip Teller에 입장 하셨습니다.", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                            } else if (response.code() == 400) {
-                                try {
-                                    String re = response.errorBody().string();
-                                    Log.d("ttt1515", re);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                                    Toasty.success(LoginActivity.this, "Trip Teller에 입장 하셨습니다.", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                    isChecked = true;
+                                } else if (response.code() == 400) {
+                                    try {
+                                        String re = response.errorBody().string();
+                                        Log.d("ttt1515", re);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Toasty.error(LoginActivity.this, "회원 정보가 없습니다.", Toast.LENGTH_LONG).show();
+                                    isChecked = true;
+                                } else { // 로그인 실패
+                                    Toasty.error(LoginActivity.this, "서버 점검중입니다.", Toast.LENGTH_LONG).show();
+                                    isChecked = true;
                                 }
-                                Toasty.error(LoginActivity.this, "회원 정보가 없습니다.", Toast.LENGTH_LONG).show();
-                            } else { // 로그인 실패
-                                Toasty.error(LoginActivity.this, "서버 점검중입니다.", Toast.LENGTH_LONG).show();
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<LoginResponseResult> call, Throwable t) {
-                            Toasty.error(LoginActivity.this, "서버 에러", Toast.LENGTH_LONG).show();
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<LoginResponseResult> call, Throwable t) {
+                                Toasty.error(LoginActivity.this, "서버 에러", Toast.LENGTH_LONG).show();
+                                isChecked = true;
+                            }
+                        });
+                    }
+
 
                     break;
                 case R.id.signup_btn :

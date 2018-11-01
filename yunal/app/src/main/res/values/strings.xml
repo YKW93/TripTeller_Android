@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">yunal</string>
+    <string name="app_name">트립텔러</string>
     <string name="search_key_hint"><font size="15">장소명 또는 지역명을 입력해주세요.</font></string>
     <string name="nav_tab1">홈</string>
     <string name="nav_tab2">여행지</string>

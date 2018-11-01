@@ -41,8 +41,6 @@ public class SearchResultsRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         searchResultLists.addAll(data);
         tourInfoItems.addAll(data1);
         notifyDataSetChanged();
-        Log.d("ttt1515", String.valueOf(tourInfoItems.size()));
-        Log.d("ttt1515", String.valueOf(searchResultLists.size()));
     }
 
     public void changeData(int position, TourInfoItem tourInfoItem) {
