@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.example.rhkdd.yunal.adapter.TotalFestivalRVAdapter;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.StatusBarColorChange;
+import com.example.rhkdd.yunal.common.UserInfoReturn;
 import com.example.rhkdd.yunal.model.searchFestival.SearchFestivalItem;
 import com.example.rhkdd.yunal.model.tourDetail.TourInfoItem;
 
@@ -53,8 +54,7 @@ public class TotalFestivalActivity extends AppCompatActivity {
         StatusBarColorChange.setStatusBarColor(TotalFestivalActivity.this, getResources().getColor(R.color.status_color));
 
         // 휴대폰 내에 저장된 사용자 email 값 가져오기
-        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
-        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+        email_id = UserInfoReturn.getInstance().getUserNicname(TotalFestivalActivity.this);
 
         Initialize();
 

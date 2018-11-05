@@ -133,15 +133,15 @@ public interface ApiService {
 
     @GET("api/review") // 관광지 모든 리뷰 리턴
     Call<ArrayList<TourReviewItem>> TourReviewResponseResult(
-            @Query("content_id") int content_id
+            @Query("content_id") int content_id, @Query("user") String user
     );
 
-    @GET("api/review") // 지역관광지 리뷰 리턴
+    @GET("api/review") // 지역관광지 리뷰 리턴 (지역,시군구조회)
     Call<ArrayList<TourReviewItem>> AreaSigunguReviewResponseResult(
             @Query("areacode") int areacode, @Query("sigungucode") int sigungucode
     );
 
-    @GET("api/review") // 지역관광지 리뷰 리턴
+    @GET("api/review") // 지역관광지 리뷰 리턴 (지역조회)
     Call<ArrayList<TourReviewItem>> AreaTotalReviewResponseResult(
             @Query("areacode") int areacode
     );
@@ -174,7 +174,7 @@ public interface ApiService {
             @Field("review") int review, @Field("author") String author, @Field("content") String content
     );
 
-    @GET("api/user/")
+    @GET("api/user/") // 유저 정보 반환
     Call<ArrayList<UserInfoResponseResult>> UserInfoResponseResult (
             @Query("user") String user
     );

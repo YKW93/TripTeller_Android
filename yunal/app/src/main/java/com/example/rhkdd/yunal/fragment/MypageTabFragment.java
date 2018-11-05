@@ -19,6 +19,7 @@ import com.example.rhkdd.yunal.MyReviewActivity;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
+import com.example.rhkdd.yunal.common.UserInfoReturn;
 import com.example.rhkdd.yunal.model.userResponseResult.UserInfoResponseResult;
 
 import java.util.ArrayList;
@@ -62,9 +63,7 @@ public class MypageTabFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 휴대폰 내에 저장된 사용자 email 값 가져오기
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TripTeller", Context.MODE_PRIVATE);
-        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+        email_id = UserInfoReturn.getInstance().getUserNicname(getActivity());
 
         loadUserInfoData();
     }

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.example.rhkdd.yunal.adapter.TotalReviewRVAdapter;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
+import com.example.rhkdd.yunal.common.UserInfoReturn;
 import com.example.rhkdd.yunal.model.tourDetail.TourReviewItem;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class TotalReviewActivity extends AppCompatActivity {
     private static final String TAG = TotalReviewActivity.class.getSimpleName();
     private ArrayList<TourReviewItem> tourReviewItems;
     private int contentId;
+    private String email_id;
     private TotalReviewRVAdapter totalReviewRVAdapter;
 
     public static Intent newIntent(Context context, int contentid) {
@@ -47,6 +49,8 @@ public class TotalReviewActivity extends AppCompatActivity {
     }
 
     private void Initialize() {
+
+        email_id = UserInfoReturn.getInstance().getUserNicname(TotalReviewActivity.this);
 
         // 툴바 셋팅
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -70,7 +74,7 @@ public class TotalReviewActivity extends AppCompatActivity {
     // 해당 관광지 리뷰 리스트 가져오기
     private void loadTourReviewListData() {
 
-        Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().TourReviewResponseResult(contentId);
+        Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().TourReviewResponseResult(contentId, email_id);
         call.enqueue(new Callback<ArrayList<TourReviewItem>>() {
             @Override
             public void onResponse(Call<ArrayList<TourReviewItem>> call, Response<ArrayList<TourReviewItem>> response) {

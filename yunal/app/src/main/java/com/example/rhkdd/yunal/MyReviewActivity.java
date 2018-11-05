@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.example.rhkdd.yunal.adapter.TotalReviewRVAdapter;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.StatusBarColorChange;
+import com.example.rhkdd.yunal.common.UserInfoReturn;
 import com.example.rhkdd.yunal.model.tourDetail.TourInfoItem;
 import com.example.rhkdd.yunal.model.tourDetail.TourReviewItem;
 
@@ -35,8 +36,7 @@ public class MyReviewActivity extends AppCompatActivity {
         StatusBarColorChange.setStatusBarColor(MyReviewActivity.this, getResources().getColor(R.color.status_color));
 
         // 휴대폰 내에 저장된 사용자 email 값 가져오기
-        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", Context.MODE_PRIVATE);
-        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+        email_id = UserInfoReturn.getInstance().getUserNicname(MyReviewActivity.this);
 
         Initialize();
         loadMyReviewData();

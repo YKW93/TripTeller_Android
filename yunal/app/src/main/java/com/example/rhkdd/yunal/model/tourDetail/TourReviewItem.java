@@ -13,6 +13,7 @@ public class TourReviewItem implements Serializable { // 후기 아이템
     public String image;
     public String created_at;
     public int like;
+    public boolean is_like;
     public ArrayList<PhotoItem> photo;
     public int areacode;
     public int sigungucode;

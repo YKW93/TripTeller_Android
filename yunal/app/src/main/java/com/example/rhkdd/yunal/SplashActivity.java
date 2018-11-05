@@ -14,6 +14,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void run() {
             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
             finish();
         }
@@ -30,6 +31,13 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         handler.postDelayed(runnable, 2000);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
 
     }
 }

@@ -23,9 +23,11 @@ import android.widget.Toast;
 
 import com.example.rhkdd.yunal.adapter.LocalPopularityTellerVPAdapter;
 import com.example.rhkdd.yunal.adapter.TourResultRVAdapter;
+import com.example.rhkdd.yunal.common.LoadingScreenHelper;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
 import com.example.rhkdd.yunal.common.StatusBarColorChange;
+import com.example.rhkdd.yunal.common.UserInfoReturn;
 import com.example.rhkdd.yunal.model.areaBase.AreaBase;
 import com.example.rhkdd.yunal.model.areaBase.AreaBaseItem;
 import com.example.rhkdd.yunal.dialog.SelectAreaMainBottomSheet;
@@ -119,8 +121,7 @@ public class SelectAreaResultActivity extends AppCompatActivity {
     private void Initialize() {
 
         // 휴대폰 내에 저장된 사용자 email 값 가져오기
-        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
-        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+        email_id = UserInfoReturn.getInstance().getUserNicname(SelectAreaResultActivity.this);
 
         areaBaseItems = new ArrayList<>();
         contentIdList = new ArrayList<>();
@@ -298,6 +299,7 @@ public class SelectAreaResultActivity extends AppCompatActivity {
     }
 
     public void loadAreaData(int page, String arrange, final String contentTypeId) {
+        LoadingScreenHelper.getInstance().progressON(SelectAreaResultActivity.this);
 
         contentIdList.clear();
 
@@ -337,12 +339,15 @@ public class SelectAreaResultActivity extends AppCompatActivity {
                                     ArrayList<TourInfoItem> tourInfoItems = response.body();
                                     if (tourInfoItems != null && !tourInfoItems.isEmpty()) {
                                         tourResultRVAdapter.setData(areaBaseItems, tourInfoItems);
+                                        LoadingScreenHelper.getInstance().progressOFF();
+
                                     }
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
+                                LoadingScreenHelper.getInstance().progressOFF();
 
                             }
                         });
@@ -357,6 +362,7 @@ public class SelectAreaResultActivity extends AppCompatActivity {
 
                 Log.e(TAG,"요청 메시지 :"+call.request());
                 Log.e(TAG,"지역정보 불러오기 실패 :" + t.getMessage() );
+                LoadingScreenHelper.getInstance().progressOFF();
                 Toasty.error(SelectAreaResultActivity.this, "지역정보를 가져오지 못했습니다", Toast.LENGTH_SHORT).show();
             }
         });

@@ -230,7 +230,6 @@ public class SignupActivity extends AppCompatActivity {
         switch (requestCode) {
             case Define.ALBUM_REQUEST_CODE :
                 if (resultCode == RESULT_OK) {
-                    Toasty.info(SignupActivity.this, "실행", Toast.LENGTH_SHORT).show();
                     ArrayList<Uri> uri = data.getParcelableArrayListExtra(Define.INTENT_PATH); // 앨범에서 선택된 이미지값 가져오기
                     GlideApp.with(SignupActivity.this).load(uri.get(0)).into(user_Profile); // 선택된 이미지 뷰로 출력
                     file = new File(getRealPathFromURI(uri.get(0))); // 이미지 절대 경로가져와 file로 변경

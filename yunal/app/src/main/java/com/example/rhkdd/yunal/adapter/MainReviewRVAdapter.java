@@ -201,11 +201,11 @@ public class MainReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if (!likeBtn.isChecked()) {
                         likeBtn.setChecked(true, true);
                         MainTabFragment.loadSingleReviewData(email_id, mainReviewItems.get(position).pk);
-                        Toasty.success(mContext, "좋아요를 눌르셨습니다.", Toast.LENGTH_SHORT).show();
+//                        Toasty.success(mContext, "좋아요를 눌르셨습니다.", Toast.LENGTH_SHORT).show();
                     } else {
                         likeBtn.setChecked(false);
                         MainTabFragment.loadSingleReviewData(email_id, mainReviewItems.get(position).pk);
-                        Toasty.success(mContext, "좋아요를 취소 하셨습니다.", Toast.LENGTH_SHORT).show();
+//                        Toasty.success(mContext, "좋아요를 취소 하셨습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

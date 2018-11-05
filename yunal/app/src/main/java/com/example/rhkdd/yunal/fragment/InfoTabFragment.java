@@ -29,6 +29,7 @@ import com.example.rhkdd.yunal.adapter.AreaDataRankRVAdapter;
 import com.example.rhkdd.yunal.adapter.ThisMonthFestivalVPAdapter;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
+import com.example.rhkdd.yunal.common.UserInfoReturn;
 import com.example.rhkdd.yunal.model.areaBase.AreaBase;
 import com.example.rhkdd.yunal.model.areaBase.AreaBaseItem;
 import com.example.rhkdd.yunal.model.searchFestival.SearchFestival;
@@ -115,8 +116,7 @@ public class InfoTabFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // 휴대폰 내에 저장된 사용자 email 값 가져오기
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TripTeller", Context.MODE_PRIVATE);
-        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+        email_id = UserInfoReturn.getInstance().getUserNicname(getActivity());
 
         getMonthStartEndDate();
         loadRankAreaData();

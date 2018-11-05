@@ -52,10 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         login_btn.setOnClickListener(onClickListener);
         signup_btn.setOnClickListener(onClickListener);
 
-        // 저장된 토큰값 가져오기
-//        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
-//        String token = sharedPreferences.getString("userToken", "값이 없네..");
-//        String id = sharedPreferences.getString("userId", "값이 없네..");
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {

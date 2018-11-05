@@ -76,7 +76,6 @@ public class TotalReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -109,13 +108,11 @@ public class TotalReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.View
             totalReviewVH.viewPager.setAdapter(commentImageVP);
         }
 
-        if (mLists.get(position).like != 1) { // 해당 리뷰에 사용자가 좋아요 버튼을 클릭한적이 없을 경우
-            totalReviewVH.likeBtn.setChecked(false);
-        } else {
+        if (mLists.get(position).is_like) {
             totalReviewVH.likeBtn.setChecked(true);
+        } else {
+            totalReviewVH.likeBtn.setChecked(false);
         }
-
-
     }
 
     @Override
@@ -133,10 +130,10 @@ public class TotalReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (response.isSuccessful() && response.message().equals("Created")) {
                     if (likeBtn.isChecked()) {
                         MainTabFragment.loadSingleReviewData(email_id, mLists.get(position).pk);
-                        Toasty.success(mContext, "좋아요", Toast.LENGTH_SHORT).show();
+//                        Toasty.success(mContext, "좋아요", Toast.LENGTH_SHORT).show();
                     } else {
                         MainTabFragment.loadSingleReviewData(email_id, mLists.get(position).pk);
-                        Toasty.success(mContext, "좋아요 취소", Toast.LENGTH_SHORT).show();
+//                        Toasty.success(mContext, "좋아요 취소", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

@@ -3,28 +3,25 @@ package com.example.rhkdd.yunal;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.example.rhkdd.yunal.adapter.MyMarkDataRVAdapter;
-import com.example.rhkdd.yunal.adapter.TotalReviewRVAdapter;
+import com.example.rhkdd.yunal.common.LoadingScreenHelper;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
 import com.example.rhkdd.yunal.common.StatusBarColorChange;
+import com.example.rhkdd.yunal.common.UserInfoReturn;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommon;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommonItem;
 import com.example.rhkdd.yunal.model.userResponseResult.MyMarkResponseResult;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -50,14 +47,15 @@ public class MyMarkActivity extends AppCompatActivity {
 
 
         // 휴대폰 내에 저장된 사용자 email 값 가져오기
-        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", Context.MODE_PRIVATE);
-        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+        UserInfoReturn.getInstance().getUserNicname(MyMarkActivity.this);
 
         Initialize();
         loadMyMarkData();
     }
 
     private void Initialize() {
+
+        email_id = UserInfoReturn.getInstance().getUserNicname(MyMarkActivity.this);
 
         // 툴바 셋팅
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -77,7 +75,7 @@ public class MyMarkActivity extends AppCompatActivity {
     private void loadMyMarkData() {
 
         Call<ArrayList<MyMarkResponseResult>> call = RetrofitServerClient.getInstance().getService().MyMarkResponseResult(email_id);
-
+        Log.d("test167", String.valueOf(call.request().url()));
         call.enqueue(new Callback<ArrayList<MyMarkResponseResult>>() {
             @Override
             public void onResponse(Call<ArrayList<MyMarkResponseResult>> call, Response<ArrayList<MyMarkResponseResult>> response) {
@@ -96,9 +94,9 @@ public class MyMarkActivity extends AppCompatActivity {
         });
     }
 
-    private DetailCommon detailCommon;
     @SuppressLint("StaticFieldLeak")
     private void loadTourData(final ArrayList<MyMarkResponseResult> lists) {
+        LoadingScreenHelper.getInstance().progressON(MyMarkActivity.this);
 
         detailCommonItems = new ArrayList<>();
 
@@ -119,8 +117,11 @@ public class MyMarkActivity extends AppCompatActivity {
                                 handler.postDelayed(new Runnable() {
                                     public void run() {
                                         myMarkDataRVAdapter.setData(detailCommonItems);
+                                        LoadingScreenHelper.getInstance().progressOFF();
+
                                     }
                                 }, 2000);
+
                             }
                         }
 

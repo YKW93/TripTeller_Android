@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.rhkdd.yunal.adapter.TopTellerRVAdapter;
-import com.example.rhkdd.yunal.adapter.TotalReviewRVAdapter;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
 import com.example.rhkdd.yunal.common.StatusBarColorChange;

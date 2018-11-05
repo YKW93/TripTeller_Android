@@ -43,6 +43,7 @@ import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
 import com.example.rhkdd.yunal.common.StatusBarColorChange;
+import com.example.rhkdd.yunal.common.UserInfoReturn;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommon;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommonItem;
 import com.example.rhkdd.yunal.model.detailImage.DetailImage;
@@ -167,8 +168,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         contentId = intent.getIntExtra(CONTENT_ID, 0);
 
         // 휴대폰 내에 저장된 사용자 email 값 가져오기
-        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
-        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+        email_id = UserInfoReturn.getInstance().getUserNicname(DetailActivity.this);
 
         Initialize();
         loadTourInfoData(); // 여행지 별점평균/ 후기 갯수/ 찜 값 리턴 함수 호출
@@ -687,10 +687,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                 if (response.isSuccessful() && response.message().equals("Created")) {
                     if (markTBtn.isChecked()) {
                         markTBtn.setTextColor(Color.parseColor("#ffffff"));
-                        Toasty.success(DetailActivity.this, "찜 등록", Toast.LENGTH_SHORT).show();
+                        Toasty.normal(DetailActivity.this, "찜 등록", Toast.LENGTH_SHORT).show();
                     } else {
                         markTBtn.setTextColor(Color.parseColor("#5dc8cf"));
-                        Toasty.success(DetailActivity.this, "찜 해제", Toast.LENGTH_SHORT).show();
+                        Toasty.normal(DetailActivity.this, "찜 해제", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -721,7 +721,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     // 해당 관광지 리뷰 리스트 가져오기
     private void loadTourReviewListData() {
 
-        Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().TourReviewResponseResult(contentId);
+        Call<ArrayList<TourReviewItem>> call = RetrofitServerClient.getInstance().getService().TourReviewResponseResult(contentId, email_id);
         call.enqueue(new Callback<ArrayList<TourReviewItem>>() {
             @Override
             public void onResponse(Call<ArrayList<TourReviewItem>> call, Response<ArrayList<TourReviewItem>> response) {

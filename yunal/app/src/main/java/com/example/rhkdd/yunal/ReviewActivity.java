@@ -29,8 +29,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rhkdd.yunal.common.GlideApp;
+import com.example.rhkdd.yunal.common.LoadingScreenHelper;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.StatusBarColorChange;
+import com.example.rhkdd.yunal.common.UserInfoReturn;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommonItem;
 import com.sangcomz.fishbun.FishBun;
 import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter;
@@ -188,9 +190,10 @@ public class ReviewActivity extends AppCompatActivity {
     // 서버로 댓글 데이터 전송
     private void sendReviewToServer() {
 
-        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
-        String email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
-        String token = sharedPreferences.getString("userToken", "토큰 정보 없음");
+        LoadingScreenHelper.getInstance().progressON(ReviewActivity.this);
+
+        String email_id = UserInfoReturn.getInstance().getUserNicname(ReviewActivity.this);
+        String token = UserInfoReturn.getInstance().getUserToken(ReviewActivity.this);
 
         ArrayList<MultipartBody.Part> images = new ArrayList<>();
 
@@ -219,6 +222,7 @@ public class ReviewActivity extends AppCompatActivity {
                 if(response.isSuccessful() && response.body() != null && response.message().equals("Created")) {
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
+                    LoadingScreenHelper.getInstance().progressOFF();
                     finish();
                 }
             }

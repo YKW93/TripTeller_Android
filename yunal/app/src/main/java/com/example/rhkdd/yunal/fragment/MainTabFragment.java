@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.adapter.MainReviewRVAdapter;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
+import com.example.rhkdd.yunal.common.UserInfoReturn;
 import com.example.rhkdd.yunal.model.mainReview.MainReviewItem;
 
 import java.util.ArrayList;
@@ -73,8 +74,7 @@ public class MainTabFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     private void loadTotalReviewData() {
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TripTeller", MODE_PRIVATE);
-        String email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+        String email_id = UserInfoReturn.getInstance().getUserNicname(getActivity());
 
         Call<ArrayList<MainReviewItem>> call = RetrofitServerClient.getInstance().getService().MainReviewResponseResult(email_id);
         call.enqueue(new Callback<ArrayList<MainReviewItem>>() {

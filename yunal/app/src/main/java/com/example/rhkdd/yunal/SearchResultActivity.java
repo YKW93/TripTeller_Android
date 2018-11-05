@@ -16,9 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rhkdd.yunal.adapter.SearchResultsRVAdapter;
+import com.example.rhkdd.yunal.common.LoadingScreenHelper;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
 import com.example.rhkdd.yunal.common.StatusBarColorChange;
+import com.example.rhkdd.yunal.common.UserInfoReturn;
 import com.example.rhkdd.yunal.model.searchKeyword.SearchKeyword;
 import com.example.rhkdd.yunal.model.searchKeyword.SearchKeywordItem;
 import com.example.rhkdd.yunal.dialog.SearchResultBottomSheet;
@@ -33,7 +35,6 @@ import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import es.dmoral.toasty.Toasty;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -93,8 +94,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private void Initialize() {
 
         // 휴대폰 내에 저장된 사용자 email 값 가져오기
-        SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", MODE_PRIVATE);
-        email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+        email_id = UserInfoReturn.getInstance().getUserNicname(SearchResultActivity.this);
 
         searchNameTV = findViewById(R.id.searchname);
 
@@ -174,6 +174,8 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void loadData(int page, String keyWord, String arrange) {
+        LoadingScreenHelper.getInstance().progressON(SearchResultActivity.this);
+
         contentIdList.clear();
         //서버에 보내기 작업
         // -------------------------------------------------v------//
@@ -235,12 +237,15 @@ public class SearchResultActivity extends AppCompatActivity {
                                         ArrayList<TourInfoItem> tourInfoItems = response.body();
                                         if (tourInfoItems != null && !tourInfoItems.isEmpty()) { // 관광지 리뷰 정보 등이 있을 때
                                             resultRVAdapter.setData(searchResultLists, tourInfoItems);
+                                            LoadingScreenHelper.getInstance().progressOFF();
+
                                         }
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Call<ArrayList<TourInfoItem>> call, Throwable t) {
+                                    LoadingScreenHelper.getInstance().progressOFF();
 
                                 }
                             });
@@ -249,9 +254,10 @@ public class SearchResultActivity extends AppCompatActivity {
                     } else { // 관광지 데이터 없음
                         resultRVAdapter.setMoreDataAvailable(false);
                         // 데이터 없다는 다이얼로그 뿌려주기~!
-                        Log.d("test1414", "관광데이터 없음");
+                        LoadingScreenHelper.getInstance().progressOFF();
                     }
                     resultRVAdapter.notifyDataChanged();
+
                 }
             }
 
@@ -259,6 +265,7 @@ public class SearchResultActivity extends AppCompatActivity {
             public void onFailure(Call<SearchKeyword> call, Throwable t) {
                 t.printStackTrace();
                 Toast.makeText(SearchResultActivity.this, "서버와 연결이 끊어졌습니다.", Toast.LENGTH_LONG).show();
+                LoadingScreenHelper.getInstance().progressOFF();
 
             }
         });
