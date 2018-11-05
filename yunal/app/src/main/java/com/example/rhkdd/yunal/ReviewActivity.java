@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
+import com.example.rhkdd.yunal.common.StatusBarColorChange;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommonItem;
 import com.sangcomz.fishbun.FishBun;
 import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter;
@@ -84,6 +85,10 @@ public class ReviewActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+
+        //상태바 색상 변경
+        StatusBarColorChange.setStatusBarColor(ReviewActivity.this, getResources().getColor(R.color.status_color));
+
 
         Initialize();
     }

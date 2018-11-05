@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
+import com.example.rhkdd.yunal.common.StatusBarColorChange;
 import com.example.rhkdd.yunal.model.userResponseResult.SigunupResponseError;
 import com.example.rhkdd.yunal.model.userResponseResult.SignupResponseResult;
 import com.google.gson.Gson;
@@ -66,6 +67,9 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        //상태바 색상 변경
+        StatusBarColorChange.setStatusBarColor(SignupActivity.this, getResources().getColor(R.color.status_color));
 
         Initialize();
     }

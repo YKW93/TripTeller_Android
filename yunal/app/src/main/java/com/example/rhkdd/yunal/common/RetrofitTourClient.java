@@ -25,7 +25,7 @@ public class RetrofitTourClient { // 싱글톤
 
     }
 
-    public TourApiService getService(Gson gson) {
+    public ApiService getService(Gson gson) {
 
         if (gson != null) {
             retrofit = new Retrofit.Builder()
@@ -39,7 +39,7 @@ public class RetrofitTourClient { // 싱글톤
                     .build();
         }
 
-        TourApiService service = retrofit.create(TourApiService.class);
+        ApiService service = retrofit.create(ApiService.class);
 
         return service;
     }

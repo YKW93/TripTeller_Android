@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.rhkdd.yunal.adapter.SearchResultsRVAdapter;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
+import com.example.rhkdd.yunal.common.StatusBarColorChange;
 import com.example.rhkdd.yunal.model.searchKeyword.SearchKeyword;
 import com.example.rhkdd.yunal.model.searchKeyword.SearchKeywordItem;
 import com.example.rhkdd.yunal.dialog.SearchResultBottomSheet;
@@ -73,6 +75,9 @@ public class SearchResultActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchresult);
+
+        //상태바 색상 변경
+        StatusBarColorChange.setStatusBarColor(SearchResultActivity.this, getResources().getColor(R.color.status_color));
 
         Initialize();
 
@@ -194,20 +199,23 @@ public class SearchResultActivity extends AppCompatActivity {
         // 데이터셋팅을 하고 서버를 보내준다.
         Call<SearchKeyword> call = RetrofitTourClient.getInstance().getService(gson).searchKeyword(API_key,"yunal",
                 "AND","json",page,20, keyWord, arrange);
-//            Log.d("test14",call.request().url().toString()); //실제 호출하는 url을 볼수 있다
-
+            Log.d("test1414",call.request().url().toString()); //실제 호출하는 url을 볼수 있다
         call.enqueue(new Callback<SearchKeyword>() { // 서버에 데이터를 호출하는 부분
             @Override
             public void onResponse(Call<SearchKeyword> call, Response<SearchKeyword> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     SearchKeyword searchResult = response.body();
-                    //searchResult.response.body.items != null 이 경우는 10개씩 파싱해서 데이터를 가져오는데 데이터가 없을 경우 json에서 "" 공백데이터를 주는데
+                    //searchResult.response.body.items != null 이 경우는 20개씩 파싱해서 데이터를 가져오는데 데이터가 없을 경우 json에서 "" 공백데이터를 주는데
                     //그걸 ItemDeserializer 에서 try~catch로 잡아서 공백데이터일 경우 items에 null 값을 줬기 때문에 그 구문을 체크해서 화면에 안뿌려주게 하기 위한 조건
                     if (searchResult != null && searchResult.response.body.items != null) {
                         if (searchResult.response.body.items.item != null) {
+
+
+                            int j = 0; // remove 경우 해당 아이템이 앞으로 정렬이 되서 일부 아이템을 건너뛰는 문제를 해결하기 위한 변수
                             for (int i = 0; i < searchResult.response.body.items.item.size(); i++) {
-                                if (searchResult.response.body.items.item.get(i).contenttypeid == 25) { // 여행코스(관광 타입) 데이터 제외시킴
-                                    searchResult.response.body.items.item.remove(i);
+                                if (searchResult.response.body.items.item.get(i-j).contenttypeid == 25) { // 여행코스(관광 타입) 데이터 제외시킴
+                                    searchResult.response.body.items.item.remove(i-j);
+                                    j++;
                                 }
                             }
 
@@ -240,8 +248,8 @@ public class SearchResultActivity extends AppCompatActivity {
                         }
                     } else { // 관광지 데이터 없음
                         resultRVAdapter.setMoreDataAvailable(false);
-                        Toasty.error(SearchResultActivity.this, "데이터 없음", Toast.LENGTH_LONG).show();
                         // 데이터 없다는 다이얼로그 뿌려주기~!
+                        Log.d("test1414", "관광데이터 없음");
                     }
                     resultRVAdapter.notifyDataChanged();
                 }

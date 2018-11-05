@@ -42,6 +42,7 @@ import com.example.rhkdd.yunal.adapter.TotalReviewRVAdapter;
 import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
+import com.example.rhkdd.yunal.common.StatusBarColorChange;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommon;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommonItem;
 import com.example.rhkdd.yunal.model.detailImage.DetailImage;
@@ -157,6 +158,9 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        //상태바 색상 변경
+        StatusBarColorChange.setStatusBarColor(DetailActivity.this, getResources().getColor(R.color.status_color));
 
         // intent 받은 데이터 가져오기
         Intent intent = getIntent();
@@ -408,9 +412,11 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                         locationBasedItems.addAll(locationBased.response.body.items.item);
                         locationBasedItems.remove(0); // 첫번째 값은 해당 여행지이기때문에 삭제 해줘야됨.
 
+                        int j = 0;
                         for (int i = 0; i < locationBasedItems.size(); i++) {
-                            if (locationBasedItems.get(i).contenttypeid == 25) {
-                                locationBasedItems.remove(i);
+                            if (locationBasedItems.get(i-j).contenttypeid == 25) {
+                                locationBasedItems.remove(i-j);
+                                j++;
                             }
                         }
 
@@ -921,7 +927,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             StringBuilder stringBuilder = new StringBuilder(createtime);
             stringBuilder.delete(8, createtime.length());
             stringBuilder.insert(4, ". ");
-            stringBuilder.insert(7, ". ");
+            stringBuilder.insert(8, ". ");
 
             common_createdtime.setText(stringBuilder);
 
@@ -935,7 +941,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             StringBuilder stringBuilder = new StringBuilder(modifitime);
             stringBuilder.delete(8, modifitime.length());
             stringBuilder.insert(4, ". ");
-            stringBuilder.insert(7, ". ");
+            stringBuilder.insert(8, ". ");
 
             common_modifiedtime.setText(stringBuilder);
 

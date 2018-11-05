@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("userId", email_edit.getText().toString());
                                     editor.apply();
 
-                                    Toasty.success(LoginActivity.this, "Trip Teller에 입장 하셨습니다.", Toast.LENGTH_LONG).show();
+                                    Toasty.normal(LoginActivity.this, "Trip Teller에 입장 하셨습니다.", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();

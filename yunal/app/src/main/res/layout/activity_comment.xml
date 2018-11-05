@@ -63,7 +63,7 @@
                 android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:hint="댓글을 입력하세요..."
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:paddingLeft="12dp"

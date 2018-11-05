@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.rhkdd.yunal.adapter.CommentRVAdapter;
 import com.example.rhkdd.yunal.adapter.MainReviewRVAdapter;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
+import com.example.rhkdd.yunal.common.StatusBarColorChange;
 import com.example.rhkdd.yunal.fragment.MainTabFragment;
 import com.example.rhkdd.yunal.model.mainReview.CommentItem;
 
@@ -44,12 +45,10 @@ public class CommentActivity extends AppCompatActivity {
 
     public static final String COMMENT_ITEMS = "COMMENT_ITEMS";
     public static final String REVIEW_PK = "REVIEW_PK";
-    public static final String REIVEW_POSITION = "REIVEW_POSITION";
 
-    public static Intent newIntent(Context context, int pk, int position, ArrayList<CommentItem> commentItems) {
+    public static Intent newIntent(Context context, int pk, ArrayList<CommentItem> commentItems) {
         Intent intent = new Intent(context, CommentActivity.class);
         intent.putExtra(REVIEW_PK, pk);
-        intent.putExtra(REIVEW_POSITION, position);
         intent.putExtra(COMMENT_ITEMS, commentItems);
         return intent;
     }
@@ -58,6 +57,9 @@ public class CommentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
+
+        //상태바 색상 변경
+        StatusBarColorChange.setStatusBarColor(CommentActivity.this, getResources().getColor(R.color.status_color));
 
         Initialize();
     }
@@ -79,7 +81,6 @@ public class CommentActivity extends AppCompatActivity {
         Intent intent = getIntent();
         commentItems = (ArrayList<CommentItem>) intent.getSerializableExtra(COMMENT_ITEMS);
         review_pk = intent.getIntExtra(REVIEW_PK, 0);
-        review_position = intent.getIntExtra(REIVEW_POSITION, 0);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -138,7 +139,7 @@ public class CommentActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        MainTabFragment.loadSingleReviewData(email_id, review_pk, review_position);
+        MainTabFragment.loadSingleReviewData(email_id, review_pk);
     }
 
     @Override

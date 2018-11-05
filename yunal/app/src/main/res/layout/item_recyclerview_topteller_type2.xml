@@ -5,19 +5,22 @@
     android:layout_height="77.3dp"
     android:gravity="center_vertical"
     android:layout_marginBottom="0.7dp"
-    android:paddingLeft="17dp"
     android:background="@color/white"
+    android:paddingLeft="37.3dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:id="@+id/rankImage"
-        android:layout_width="40.7dp"
-        android:layout_height="45.7dp"
-        android:src="@drawable/ic_rank_1"/>
+    <TextView
+        android:id="@+id/rank_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15.3sp"
+        android:fontFamily="@font/koreanah2_r"
+        android:textColor="@color/dark"
+        android:text="4" />
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_profile"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="24dp"
+        android:layout_marginLeft="35.7dp"
         app:civ_border_color="@color/dark"
         android:layout_centerVertical="true"
         app:civ_border_width="1dp"

@@ -26,7 +26,7 @@ public class RetrofitServerClient {
 
     }
 
-    public TourApiService getService() {
+    public ApiService getService() {
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
@@ -40,7 +40,7 @@ public class RetrofitServerClient {
                 .build();
 
 
-        TourApiService service = retrofit.create(TourApiService.class);
+        ApiService service = retrofit.create(ApiService.class);
 
         return service;
     }

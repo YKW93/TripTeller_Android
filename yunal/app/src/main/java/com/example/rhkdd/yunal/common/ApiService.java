@@ -15,6 +15,7 @@ import com.example.rhkdd.yunal.model.tourDetail.TourReviewItem;
 import com.example.rhkdd.yunal.model.userResponseResult.LoginResponseResult;
 import com.example.rhkdd.yunal.model.userResponseResult.MyMarkResponseResult;
 import com.example.rhkdd.yunal.model.userResponseResult.SignupResponseResult;
+import com.example.rhkdd.yunal.model.userResponseResult.TopTellerResponseResult;
 import com.example.rhkdd.yunal.model.userResponseResult.UserInfoResponseResult;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import retrofit2.http.Query;
  * Created by rhkdd on 2018-03-18.
  */
 
-public interface TourApiService {
+public interface ApiService {
 
     // 관광 api
     @GET("searchKeyword")
@@ -178,7 +179,10 @@ public interface TourApiService {
             @Query("user") String user
     );
 
+    @GET("api/user/ranking/") // Top Teller 조회
+    Call<ArrayList<TopTellerResponseResult>> topTellerResponseResult (
 
+    );
 
 
 

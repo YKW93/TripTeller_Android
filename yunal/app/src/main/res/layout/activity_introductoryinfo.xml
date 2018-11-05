@@ -41,7 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:singleLine="true"
-            android:textColor="#262525"
+            android:fontFamily="@font/koreanah3_r"
+            android:textColor="@color/dark"
             android:textSize="20dp"
 
             android:textStyle="bold" />
@@ -65,12 +66,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/koreanah2_r"
+                    android:textColor="@color/dark"
                     android:text="개요"/>
                 <TextView
                     android:id="@+id/introductoryinfo_overview"
                     android:layout_width="wrap_content"
+                    android:textColor="@color/dark"
+                    android:fontFamily="@font/koreanah1_r"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"/>
             </LinearLayout>
@@ -91,7 +94,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/koreanah2_r"
+                    android:textColor="@color/dark"
                     android:text="소개 정보"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -105,6 +109,8 @@
                         <TextView
                             android:id="@+id/infoName1"
                             android:layout_width="50dp"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
                             android:text="1"/>
@@ -112,6 +118,8 @@
                             android:id="@+id/infoData1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginLeft="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="1"/>
@@ -124,12 +132,16 @@
                             android:id="@+id/infoName2"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginBottom="10dp"
                             android:text="2"/>
                         <TextView
                             android:id="@+id/infoData2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginLeft="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="2"/>
@@ -142,12 +154,16 @@
                             android:id="@+id/infoName3"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginBottom="10dp"
                             android:text="3"/>
                         <TextView
                             android:id="@+id/infoData3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginLeft="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="3"/>
@@ -160,12 +176,16 @@
                             android:id="@+id/infoName4"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginBottom="10dp"
                             android:text="4"/>
                         <TextView
                             android:id="@+id/infoData4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginLeft="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="4"/>
@@ -178,12 +198,16 @@
                             android:id="@+id/infoName5"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginBottom="10dp"
                             android:text="5"/>
                         <TextView
                             android:id="@+id/infoData5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginLeft="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="5"/>
@@ -196,12 +220,16 @@
                             android:id="@+id/infoName6"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginBottom="10dp"
                             android:text="6"/>
                         <TextView
                             android:id="@+id/infoData6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginLeft="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="6"/>
@@ -214,12 +242,16 @@
                             android:id="@+id/infoName7"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginBottom="10dp"
                             android:text="7"/>
                         <TextView
                             android:id="@+id/infoData7"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginLeft="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="7"/>
@@ -232,12 +264,16 @@
                             android:id="@+id/infoName8"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginBottom="10dp"
                             android:text="8"/>
                         <TextView
                             android:id="@+id/infoData8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginLeft="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="8"/>
@@ -250,12 +286,16 @@
                             android:id="@+id/infoName9"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginBottom="10dp"
                             android:text="9"/>
                         <TextView
                             android:id="@+id/infoData9"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginLeft="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="9"/>
@@ -268,12 +308,16 @@
                             android:id="@+id/infoName10"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginBottom="10dp"
                             android:text="10"/>
                         <TextView
                             android:id="@+id/infoData10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginLeft="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="10"/>
@@ -286,12 +330,16 @@
                             android:id="@+id/infoName11"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginBottom="10dp"
                             android:text="11"/>
                         <TextView
                             android:id="@+id/infoData11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginLeft="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="11"/>
@@ -304,12 +352,16 @@
                             android:id="@+id/infoName12"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginBottom="10dp"
                             android:text="12"/>
                         <TextView
                             android:id="@+id/infoData12"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/koreanah1_r"
+                            android:textColor="@color/dark"
                             android:layout_marginLeft="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="12"/>

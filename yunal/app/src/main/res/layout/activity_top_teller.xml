@@ -22,17 +22,21 @@
                 android:singleLine="true"
                 android:textColor="@color/white"
                 android:text="TOP Teller"
-                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
                 android:fontFamily="@font/koreanah3_r"
                 android:textSize="19.3sp"/>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:paddingTop="12dp"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:background="#cbd3d2">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
 </LinearLayout>

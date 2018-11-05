@@ -43,6 +43,7 @@ public class MainReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private Context mContext;
     private ArrayList<MainReviewItem> mainReviewItems;
+    private int click_position;
 
     public MainReviewRVAdapter(Context context) {
         mContext = context;
@@ -55,9 +56,9 @@ public class MainReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         notifyDataSetChanged();
     }
 
-    public void changeData(int position, MainReviewItem data) {
-        mainReviewItems.set(position, data);
-        notifyItemChanged(position);
+    public void changeData(MainReviewItem data) {
+        mainReviewItems.set(click_position, data);
+        notifyItemChanged(click_position);
     }
 
     private class MainReviewVH extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -109,6 +110,7 @@ public class MainReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             switch (view.getId()) {
                 case R.id.tourDetailBtn :
                     Intent intent = DetailActivity.newIntent(mContext, mainReviewItems.get(getAdapterPosition()).content_id);
+                    click_position = getAdapterPosition();
                     mContext.startActivity(intent);
                     break;
                 case R.id.review_image :
@@ -121,13 +123,16 @@ public class MainReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     break;
                 case R.id.like_layout :
                     setReviewLike(like_btn, getAdapterPosition());
+                    click_position = getAdapterPosition();
                     break;
                 case R.id.review_btn :
-                    Intent intent3 = CommentActivity.newIntent(mContext, mainReviewItems.get(getAdapterPosition()).pk, getAdapterPosition(), mainReviewItems.get(getAdapterPosition()).comment);
+                    Intent intent3 = CommentActivity.newIntent(mContext, mainReviewItems.get(getAdapterPosition()).pk, mainReviewItems.get(getAdapterPosition()).comment);
+                    click_position = getAdapterPosition();
                     mContext.startActivity(intent3);
                     break;
                 case R.id.comment_cnt :
-                    Intent intent4 = CommentActivity.newIntent(mContext, mainReviewItems.get(getAdapterPosition()).pk, getAdapterPosition(), mainReviewItems.get(getAdapterPosition()).comment);
+                    Intent intent4 = CommentActivity.newIntent(mContext, mainReviewItems.get(getAdapterPosition()).pk, mainReviewItems.get(getAdapterPosition()).comment);
+                    click_position = getAdapterPosition();
                     mContext.startActivity(intent4);
                     break;
             }
@@ -195,11 +200,11 @@ public class MainReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (response.isSuccessful() && response.message().equals("Created")) {
                     if (!likeBtn.isChecked()) {
                         likeBtn.setChecked(true, true);
-                        MainTabFragment.loadSingleReviewData(email_id, mainReviewItems.get(position).pk, position);
+                        MainTabFragment.loadSingleReviewData(email_id, mainReviewItems.get(position).pk);
                         Toasty.success(mContext, "좋아요를 눌르셨습니다.", Toast.LENGTH_SHORT).show();
                     } else {
                         likeBtn.setChecked(false);
-                        MainTabFragment.loadSingleReviewData(email_id, mainReviewItems.get(position).pk, position);
+                        MainTabFragment.loadSingleReviewData(email_id, mainReviewItems.get(position).pk);
                         Toasty.success(mContext, "좋아요를 취소 하셨습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.common.GlideApp;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
+import com.example.rhkdd.yunal.fragment.MainTabFragment;
 import com.example.rhkdd.yunal.model.tourDetail.TourReviewItem;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
@@ -124,15 +125,17 @@ public class TotalReviewRVAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private void setReviewLike(final ShineButton likeBtn, final int position) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("TripTeller", mContext.MODE_PRIVATE);
-        String email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
+        final String email_id = sharedPreferences.getString("userId", "이메일 정보 없음");
         Call<ResponseBody> call = RetrofitServerClient.getInstance().getService().LikeResponseBody(mLists.get(position).pk, email_id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.message().equals("Created")) {
                     if (likeBtn.isChecked()) {
+                        MainTabFragment.loadSingleReviewData(email_id, mLists.get(position).pk);
                         Toasty.success(mContext, "좋아요", Toast.LENGTH_SHORT).show();
                     } else {
+                        MainTabFragment.loadSingleReviewData(email_id, mLists.get(position).pk);
                         Toasty.success(mContext, "좋아요 취소", Toast.LENGTH_SHORT).show();
                     }
                 }

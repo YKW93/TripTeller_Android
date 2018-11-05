@@ -18,7 +18,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:singleLine="true"
-                android:textColor="#3e3d3d"
+                android:fontFamily="@font/koreanah3_r"
+                android:textColor="@color/dark"
                 android:text="전체 사진"
                 android:textSize="20dp"/>
             <TextView
@@ -27,9 +28,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:singleLine="true"
-                android:textColor="#3e3d3d"
+                android:fontFamily="@font/koreanah1_r"
+                android:textColor="@color/dark"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="21dp"
                 android:textSize="15dp"/>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>

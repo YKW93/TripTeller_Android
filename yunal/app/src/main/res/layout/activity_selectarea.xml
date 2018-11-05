@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textColor="@color/green"
+                android:fontFamily="@font/koreanah2_r"
                 android:text="지역 검색"
                 android:textSize="20dp"
                 android:textStyle="bold" />

@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         //상태바 색상 변경
         StatusBarColorChange.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.status_color));
 

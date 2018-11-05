@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import com.example.rhkdd.yunal.CurrentLocationActivity;
 import com.example.rhkdd.yunal.R;
 import com.example.rhkdd.yunal.SelectAreaActivity;
+import com.example.rhkdd.yunal.TopTellerActivity;
 import com.example.rhkdd.yunal.TotalFestivalActivity;
 import com.example.rhkdd.yunal.adapter.AreaDataRankRVAdapter;
 import com.example.rhkdd.yunal.adapter.ThisMonthFestivalVPAdapter;
@@ -75,9 +76,11 @@ public class InfoTabFragment extends Fragment {
         areaSearch.setOnClickListener(onClickListener);
         LinearLayout currentLocation = view.findViewById(R.id.currentLocation);
         LinearLayout allDataView = view.findViewById(R.id.allDataView);
+        LinearLayout topTeller = view.findViewById(R.id.topTeller);
 
         currentLocation.setOnClickListener(onClickListener);
         allDataView.setOnClickListener(onClickListener);
+        topTeller.setOnClickListener(onClickListener);
 
         // recyclerview 셋팅
         recyclerView = view.findViewById(R.id.recyclerview);
@@ -150,6 +153,10 @@ public class InfoTabFragment extends Fragment {
                 case R.id.allDataView :
                     Intent intent1 = TotalFestivalActivity.newIntent(getActivity(), searchFestivalItems);
                     startActivity(intent1);
+                    break;
+                case R.id.topTeller :
+                    Intent intent2 = new Intent(getActivity(), TopTellerActivity.class);
+                    startActivity(intent2);
                     break;
             }
         }

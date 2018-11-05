@@ -25,6 +25,7 @@ import com.example.rhkdd.yunal.adapter.LocalPopularityTellerVPAdapter;
 import com.example.rhkdd.yunal.adapter.TourResultRVAdapter;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
+import com.example.rhkdd.yunal.common.StatusBarColorChange;
 import com.example.rhkdd.yunal.model.areaBase.AreaBase;
 import com.example.rhkdd.yunal.model.areaBase.AreaBaseItem;
 import com.example.rhkdd.yunal.dialog.SelectAreaMainBottomSheet;
@@ -99,6 +100,9 @@ public class SelectAreaResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selectareamain);
+
+        //상태바 색상 변경
+        StatusBarColorChange.setStatusBarColor(SelectAreaResultActivity.this, getResources().getColor(R.color.status_color));
 
         Initialize();
         loadAreaData(currentPage, arrange, contentTypeId); // 여행정보 가져오기
@@ -310,9 +314,11 @@ public class SelectAreaResultActivity extends AppCompatActivity {
                     AreaBase areaBaseData = response.body();
                     if (areaBaseData != null && areaBaseData.response.body.items != null) {
 
+                        int j = 0;
                         for (int i = 0; i < areaBaseData.response.body.items.item.size(); i++) {
-                            if (areaBaseData.response.body.items.item.get(i).contenttypeid == 25) { // 여행코스(관광 타입) 데이터 제외시킴
-                                areaBaseData.response.body.items.item.remove(i);
+                            if (areaBaseData.response.body.items.item.get(i-j).contenttypeid == 25) { // 여행코스(관광 타입) 데이터 제외시킴
+                                areaBaseData.response.body.items.item.remove(i-j);
+                                j++;
                             }
                         }
 
@@ -341,9 +347,6 @@ public class SelectAreaResultActivity extends AppCompatActivity {
                             }
                         });
 
-                    } else { // 관광지 데이터 없음
-                        Toasty.error(SelectAreaResultActivity.this, "데이터 없음", Toast.LENGTH_SHORT).show();
-                        // 데이터 없다는 다이얼로그 뿌려주기~!
                     }
                 }
 

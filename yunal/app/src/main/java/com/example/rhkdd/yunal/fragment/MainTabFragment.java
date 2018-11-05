@@ -91,7 +91,7 @@ public class MainTabFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
             @Override
             public void onFailure(Call<ArrayList<MainReviewItem>> call, Throwable t) {
-
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -102,7 +102,8 @@ public class MainTabFragment extends Fragment implements SwipeRefreshLayout.OnRe
         loadTotalReviewData();
     }
 
-    public static void loadSingleReviewData(String email_id, int pk, final int position) {
+
+    public static void loadSingleReviewData(String email_id, int pk) {
 
         Call<ArrayList<MainReviewItem>> call = RetrofitServerClient.getInstance().getService().ReviewResponseResult(email_id, pk);
         call.enqueue(new Callback<ArrayList<MainReviewItem>>() {
@@ -111,7 +112,7 @@ public class MainTabFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 if (response.isSuccessful()) {
                     ArrayList<MainReviewItem> lists = response.body();
                     if (lists.get(0) != null) {
-                        mainReviewRVAdapter.changeData(position, lists.get(0));
+                        mainReviewRVAdapter.changeData(lists.get(0));
                     }
                 }
             }

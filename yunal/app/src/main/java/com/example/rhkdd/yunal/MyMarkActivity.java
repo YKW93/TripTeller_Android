@@ -19,6 +19,7 @@ import com.example.rhkdd.yunal.adapter.MyMarkDataRVAdapter;
 import com.example.rhkdd.yunal.adapter.TotalReviewRVAdapter;
 import com.example.rhkdd.yunal.common.RetrofitServerClient;
 import com.example.rhkdd.yunal.common.RetrofitTourClient;
+import com.example.rhkdd.yunal.common.StatusBarColorChange;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommon;
 import com.example.rhkdd.yunal.model.detailCommon.DetailCommonItem;
 import com.example.rhkdd.yunal.model.userResponseResult.MyMarkResponseResult;
@@ -43,6 +44,10 @@ public class MyMarkActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_mark);
+
+        //상태바 색상 변경
+        StatusBarColorChange.setStatusBarColor(MyMarkActivity.this, getResources().getColor(R.color.status_color));
+
 
         // 휴대폰 내에 저장된 사용자 email 값 가져오기
         SharedPreferences sharedPreferences = getSharedPreferences("TripTeller", Context.MODE_PRIVATE);
