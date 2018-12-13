@@ -76,101 +76,113 @@
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
         android:background="#f1f1f1"
+        android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
-                    android:paddingTop="23.7dp"
+                    android:orientation="vertical"
                     android:paddingBottom="25dp"
-                    android:orientation="vertical">
+                    android:paddingTop="23.7dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:paddingLeft="25dp">
+
                         <ImageView
                             android:layout_width="14.3dp"
                             android:layout_height="19.3dp"
-                            android:layout_marginRight="11dp"
                             android:layout_gravity="center_vertical"
-                            android:background="@drawable/ic_location_icon"/>
+                            android:layout_marginRight="11dp"
+                            android:background="@drawable/ic_location_icon" />
+
                         <TextView
                             android:id="@+id/common_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="19.3sp"
-                            android:fontFamily="@font/koreanah3_r"
                             android:layout_marginRight="7dp"
+                            android:fontFamily="@font/koreanah3_r"
+                            android:text="제목"
                             android:textColor="@color/dark"
-                            android:text="제목"/>
+                            android:textSize="19.3sp" />
+
                         <TextView
                             android:id="@+id/common_contenttype"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
-                            android:textSize="11sp"
                             android:fontFamily="@font/koreanah1_r"
+                            android:text="정보"
                             android:textColor="#566563"
-                            android:text="정보"/>
+                            android:textSize="11sp" />
                     </LinearLayout>
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp">
+
                         <LinearLayout
                             android:id="@+id/layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="50.3dp"
                             android:orientation="vertical">
+
                             <TextView
                                 android:id="@+id/ratingValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="9.7sp"
-                                android:textColor="#8f9796"
                                 android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/koreanah2_r"
-                                android:text="평점 0.0" />
+                                android:text="평점 0.0"
+                                android:textColor="#8f9796"
+                                android:textSize="9.7sp" />
+
                             <TextView
                                 android:id="@+id/review_size"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="9.7sp"
+                                android:text="리뷰 0개"
                                 android:textColor="#5dc8cf"
-                                android:text="리뷰 0개" />
+                                android:textSize="9.7sp" />
                         </LinearLayout>
+
                         <me.zhanghai.android.materialratingbar.MaterialRatingBar
                             android:id="@+id/ratingbar"
                             android:layout_width="83dp"
                             android:layout_height="13.3dp"
-                            android:layout_toRightOf="@+id/layout"
-                            android:theme="@style/Theme.Rating"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="8.7dp"
-                            android:isIndicator="true" />
+                            android:layout_toRightOf="@+id/layout"
+                            android:isIndicator="true"
+                            android:theme="@style/Theme.Rating" />
+
                         <ToggleButton
                             android:id="@+id/markBtn"
                             android:layout_width="69.7dp"
                             android:layout_height="24dp"
-                            android:textOn="찜하기"
-                            android:textSize="9.7sp"
-                            android:fontFamily="@font/koreanah2_r"
                             android:layout_alignParentRight="true"
-                            android:background="@drawable/togglebtn_onoff"
                             android:layout_marginRight="23.3dp"
-                            android:textOff="찜하기" />
+                            android:background="@drawable/togglebtn_onoff"
+                            android:fontFamily="@font/koreanah2_r"
+                            android:textOff="찜하기"
+                            android:textOn="찜하기"
+                            android:textSize="9.7sp" />
                     </RelativeLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -179,52 +191,55 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="10.7dp"
-                android:background="@color/gray"/>
+                android:background="@color/gray" />
 
             <LinearLayout
                 android:id="@+id/introduceinfolayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
+                android:orientation="vertical"
                 android:paddingLeft="25dp"
-                android:paddingRight="28.7dp"
-                android:orientation="vertical">
+                android:paddingRight="28.7dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/koreanah3_r"
                     android:layout_marginTop="20.7dp"
+                    android:fontFamily="@font/koreanah3_r"
+                    android:text="정보 소개"
                     android:textColor="@color/dark"
-                    android:text="정보 소개"/>
+                    android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/summary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7.3dp"
-                    android:textColor="#8f9796"
-                    android:textSize="11sp"
-                    android:fontFamily="@font/koreanah2_r"
-                    android:lines="3"
                     android:ellipsize="end"
-                    android:lineSpacingExtra ="7dp" />
+                    android:fontFamily="@font/koreanah2_r"
+                    android:lineSpacingExtra="7dp"
+                    android:lines="3"
+                    android:textColor="#8f9796"
+                    android:textSize="11sp" />
+
                 <Button
                     android:id="@+id/introduceinfoDetailBtn"
                     android:layout_width="match_parent"
                     android:layout_height="24.7dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/button_green_background"
-                    android:layout_marginBottom="10dp"
-                    android:textColor="@color/white"
-                    android:textSize="11sp"
                     android:fontFamily="@font/koreanah2_r"
-                    android:text="더보기"/>
+                    android:text="더보기"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="10.7dp"
-                android:background="@color/gray"/>
+                android:background="@color/gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -235,138 +250,153 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingTop="20dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:paddingLeft="32.7dp">
+
                         <ImageView
                             android:id="@+id/common_homepage_image"
                             android:layout_width="17.7dp"
                             android:layout_height="14.3dp"
-                            android:src="@drawable/ic_homepage_icon"
-                            android:layout_marginRight="8.7dp"/>
+                            android:layout_marginRight="8.7dp"
+                            android:src="@drawable/ic_homepage_icon" />
+
                         <TextView
                             android:id="@+id/common_homepage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:autoLink="web"
-                            android:textSize="11sp"
                             android:fontFamily="@font/koreanah2_r"
+                            android:text="정보"
                             android:textColor="#566563"
-                            android:text="정보"/>
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="32.7dp"
+                        android:layout_marginTop="8.7dp"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="8.7dp">
+                        android:paddingLeft="32.7dp">
+
                         <ImageView
                             android:id="@+id/common_tel_image"
                             android:layout_width="17.7dp"
                             android:layout_height="14.3dp"
-                            android:src="@drawable/ic_phone_icon"
-                            android:layout_marginRight="8.7dp"/>
+                            android:layout_marginRight="8.7dp"
+                            android:src="@drawable/ic_phone_icon" />
+
                         <TextView
                             android:id="@+id/common_tel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/common_tel_image"
-                            android:textSize="11sp"
                             android:fontFamily="@font/koreanah2_r"
+                            android:text="정보"
                             android:textColor="#566563"
-                            android:text="정보"/>
+                            android:textSize="11sp" />
+
                         <Button
                             android:id="@+id/finding_way"
                             android:layout_width="69.7dp"
                             android:layout_height="23.3dp"
                             android:layout_alignParentRight="true"
-                            android:textSize="9.7sp"
-                            android:fontFamily="@font/koreanah2_r"
-                            android:layout_marginRight="23.3dp"
-                            android:textColor="@color/white"
-                            android:background="@drawable/mark_click_background"
                             android:layout_marginBottom="8dp"
-                            android:text="길찾기" />
+                            android:layout_marginRight="23.3dp"
+                            android:background="@drawable/mark_click_background"
+                            android:fontFamily="@font/koreanah2_r"
+                            android:text="길찾기"
+                            android:textColor="@color/white"
+                            android:textSize="9.7sp" />
                     </RelativeLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#ffffff"
                         android:orientation="vertical">
-                        <fragment
-                            android:name="com.google.android.gms.maps.SupportMapFragment"
-                            xmlns:map="http://schemas.android.com/apk/res-auto"
+
+                        <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/map"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
                             android:layout_width="match_parent"
                             android:layout_height="161.3dp"
-                            map:cameraZoom="15"/>
+                            map:cameraZoom="15" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="32.7dp"
+                            android:layout_marginTop="12dp"
                             android:gravity="center_vertical"
-                            android:layout_marginTop="12dp">
+                            android:paddingLeft="32.7dp">
+
                             <ImageView
                                 android:id="@+id/common_address_image"
                                 android:layout_width="17.7dp"
                                 android:layout_height="14.3dp"
-                                android:src="@drawable/ic_address_icon"
-                                android:layout_marginRight="8.7dp"/>
+                                android:layout_marginRight="8.7dp"
+                                android:src="@drawable/ic_address_icon" />
+
                             <TextView
                                 android:id="@+id/common_address"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="11sp"
                                 android:fontFamily="@font/koreanah2_r"
+                                android:text="정보"
                                 android:textColor="#566563"
-                                android:text="정보"/>
+                                android:textSize="11sp" />
                         </LinearLayout>
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:paddingTop="10.3dp"
+                        android:orientation="horizontal"
                         android:paddingBottom="16dp"
-                        android:orientation="horizontal">
+                        android:paddingTop="10.3dp">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11sp"
-                            android:textColor="#566563"
-                            android:fontFamily="@font/koreanah2_r"
                             android:layout_marginRight="15.7dp"
-                            android:text="등록 일자"/>
+                            android:fontFamily="@font/koreanah2_r"
+                            android:text="등록 일자"
+                            android:textColor="#566563"
+                            android:textSize="11sp" />
+
                         <TextView
                             android:id="@+id/common_createdtime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11sp"
-                            android:textColor="#566563"
-                            android:fontFamily="@font/koreanah1_r"
                             android:layout_marginRight="24.7dp"
-                            android:text="20XX-00-00"/>
+                            android:fontFamily="@font/koreanah1_r"
+                            android:text="20XX-00-00"
+                            android:textColor="#566563"
+                            android:textSize="11sp" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11sp"
-                            android:textColor="#566563"
-                            android:fontFamily="@font/koreanah2_r"
                             android:layout_marginRight="15.7dp"
-                            android:text="수정 일자"/>
+                            android:fontFamily="@font/koreanah2_r"
+                            android:text="수정 일자"
+                            android:textColor="#566563"
+                            android:textSize="11sp" />
+
                         <TextView
                             android:id="@+id/common_modifiedtime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11sp"
-                            android:textColor="#566563"
                             android:fontFamily="@font/koreanah1_r"
-                            android:text="20XX-00-00"/>
+                            android:text="20XX-00-00"
+                            android:textColor="#566563"
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -374,158 +404,167 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="10.7dp"
-                android:background="@color/gray"/>
+                android:background="@color/gray" />
 
             <LinearLayout
                 android:id="@+id/reviewLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
-                android:paddingTop="16.3dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="16.3dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:fontFamily="@font/koreanah3_r"
                     android:layout_marginBottom="11dp"
                     android:layout_marginLeft="28.3dp"
+                    android:fontFamily="@font/koreanah3_r"
+                    android:text="리뷰"
                     android:textColor="@color/dark"
-                    android:text="리뷰"/>
+                    android:textSize="14dp" />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content">
-                </android.support.v7.widget.RecyclerView>
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"></android.support.v7.widget.RecyclerView>
+
                 <TextView
                     android:id="@+id/reviewMessage"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:gravity="center"
                     android:layout_marginTop="10dp"
-                    android:textSize="16dp"
                     android:fontFamily="@font/koreanah2_r"
-                    android:text="해당 여행지 리뷰가 없습니다. "/>
+                    android:gravity="center"
+                    android:text="해당 여행지 리뷰가 없습니다. "
+                    android:textSize="16dp" />
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:paddingTop="10dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:orientation="vertical">
-            <Button
-                android:id="@+id/totalReview"
-                android:layout_width="match_parent"
-                android:layout_height="24.7dp"
-                android:background="@drawable/button_green_background"
-                android:textColor="@color/white"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="29dp"
-                android:textSize="11sp"
-                android:layout_marginBottom="25dp"
-                android:fontFamily="@font/koreanah2_r"
-                android:text="모든 리뷰"/>
-
-        </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="10.7dp"
-                android:background="@color/gray"/>
-
-        <LinearLayout
-            android:id="@+id/locationBasedParentLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="21.3dp"
-                android:layout_marginLeft="25.7dp">
-                <TextView
-                    android:id="@+id/placeName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:fontFamily="@font/koreanah3_r"
-                    android:textColor="@color/green"
-                    android:text="여행장소명"/>
+                android:background="#ffffff"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:paddingTop="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:fontFamily="@font/koreanah3_r"
-                    android:textColor="@color/dark"
-                    android:text=" 주변 장소"/>
+                <Button
+                    android:id="@+id/totalReview"
+                    android:layout_width="match_parent"
+                    android:layout_height="24.7dp"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="29dp"
+                    android:background="@drawable/button_green_background"
+                    android:fontFamily="@font/koreanah2_r"
+                    android:text="모든 리뷰"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="10.7dp"
+                android:background="@color/gray" />
+
+            <LinearLayout
+                android:id="@+id/locationBasedParentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12.3dp"
-                    android:layout_gravity="bottom">
+                    android:layout_marginLeft="25.7dp"
+                    android:layout_marginTop="21.3dp">
+
                     <TextView
-                        android:id="@+id/allDataView"
+                        android:id="@+id/placeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="전체보기"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:textSize="8.3sp"
-                        android:fontFamily="@font/koreanah2_r"
-                        android:textColor="#4e7c72"/>
-                    <ImageView
-                        android:layout_width="4dp"
-                        android:layout_height="7.3dp"
-                        android:layout_marginTop="1.2dp"
-                        android:layout_marginLeft="2.3dp"
-                        android:background="@drawable/ic_arrow_right" />
-                </LinearLayout>
-            </LinearLayout>
-            <GridLayout
-                android:id="@+id/locationBasedLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:paddingLeft="15dp"
-                android:orientation="horizontal"
-                android:columnCount="2"
-                android:rowCount="2">
-            </GridLayout>
-            <Button
-                android:id="@+id/tourReportBtn"
-                android:layout_width="match_parent"
-                android:layout_height="24.7dp"
-                android:layout_marginTop="27.7dp"
-                android:layout_marginRight="29dp"
-                android:textColor="@color/white"
-                android:text="잘못된 정보 신고하기"
-                android:background="@drawable/button_black_background"
-                android:layout_marginLeft="25.3dp"
-                android:layout_marginBottom="22.3dp"
-                android:fontFamily="@font/koreanah2_r"
-                android:textSize="11sp" />
+                        android:fontFamily="@font/koreanah3_r"
+                        android:text="여행장소명"
+                        android:textColor="@color/green"
+                        android:textSize="14dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="10.7dp"
-                android:background="@color/gray"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/koreanah3_r"
+                        android:text=" 주변 장소"
+                        android:textColor="@color/dark"
+                        android:textSize="14dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="12.3dp">
+
+                        <TextView
+                            android:id="@+id/allDataView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:fontFamily="@font/koreanah2_r"
+                            android:text="전체보기"
+                            android:textColor="#4e7c72"
+                            android:textSize="8.3sp" />
+
+                        <ImageView
+                            android:layout_width="4dp"
+                            android:layout_height="7.3dp"
+                            android:layout_marginLeft="2.3dp"
+                            android:layout_marginTop="1.2dp"
+                            android:background="@drawable/ic_arrow_right" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <GridLayout
+                    android:id="@+id/locationBasedLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:columnCount="2"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:rowCount="2"></GridLayout>
+
+                <Button
+                    android:id="@+id/tourReportBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="24.7dp"
+                    android:layout_marginBottom="22.3dp"
+                    android:layout_marginLeft="25.3dp"
+                    android:layout_marginRight="29dp"
+                    android:layout_marginTop="27.7dp"
+                    android:background="@drawable/button_black_background"
+                    android:fontFamily="@font/koreanah2_r"
+                    android:text="잘못된 정보 신고하기"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10.7dp"
+                    android:background="@color/gray" />
             </LinearLayout>
 
             <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="18dp"-->
-                <!--android:background="@color/gray">-->
-                <!--<TextView-->
-                    <!--android:id="@+id/falseInfoBtn"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="잘못된 정보 신고하기 ▶"-->
-                    <!--android:textSize="17sp" />-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="18dp"-->
+            <!--android:background="@color/gray">-->
+            <!--<TextView-->
+            <!--android:id="@+id/falseInfoBtn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="잘못된 정보 신고하기 ▶"-->
+            <!--android:textSize="17sp" />-->
             <!--</LinearLayout>-->
 
         </LinearLayout>

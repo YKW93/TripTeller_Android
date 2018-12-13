@@ -354,7 +354,7 @@ public class SelectAreaResultActivity extends AppCompatActivity {
 
                     }
                 }
-
+                LoadingScreenHelper.getInstance().progressOFF();
             }
 
             @Override
