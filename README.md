@@ -15,7 +15,7 @@
 6. photoview
 7. google map service
 8. google location service
-9. kakao navi
+9. kakao navi, kakao map
 10. Tedpermission
 11. Viewpager indicator
 12. FishBun
